@@ -30,16 +30,17 @@ COPY . /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Configure environment and database
-RUN cp .env.example .env \
-    && php artisan key:generate \
-    && touch /var/www/html/database/database.sqlite \
-    && php artisan migrate:fresh --seed --force
-
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+# Create start script entrypoint
+RUN printf '#!/bin/bash\n\
+cp -n .env.example .env || true\n\
+php artisan key:generate --force\n\
+touch /var/www/html/database/database.sqlite\n\
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database\n\
+chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database\n\
+php artisan migrate:fresh --seed --force\n\
+apache2-foreground\n' > /usr/local/bin/entrypoint.sh \
+    && chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["/usr/local/bin/entrypoint.sh"]
