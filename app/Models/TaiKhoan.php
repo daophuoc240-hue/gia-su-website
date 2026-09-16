@@ -50,6 +50,11 @@ class TaiKhoan extends Authenticatable
         return $this->hasMany(DangKyNhanLop::class, 'gia_su_id');
     }
 
+    public function danhGias()
+    {
+        return $this->hasMany(DanhGia::class, 'gia_su_id');
+    }
+
     // Helper methods
     public function isAdmin(): bool
     {
