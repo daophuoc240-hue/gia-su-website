@@ -9,61 +9,53 @@
     <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        .edu-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            min-height: 100vh;
+        }
+        .split-auth-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+        .split-hero {
+            flex: 1.1;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #1e3a8a 100%);
+            color: #ffffff;
+            padding: 4rem 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #eef2ff 0%, #ffffff 50%, #f0f9ff 100%) !important;
         }
-        .edu-shape {
+        .split-hero::before {
+            content: '';
             position: absolute;
+            top: -20%; right: -20%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
-            filter: blur(70px);
-            opacity: 0.5;
         }
-        .edu-shape-1 {
-            top: -10%; left: -5%; width: 480px; height: 480px;
-            background: #3b82f6;
+        .split-form {
+            flex: 0.9;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2.5rem;
         }
-        .edu-shape-2 {
-            bottom: -10%; right: -5%; width: 520px; height: 520px;
-            background: #8b5cf6;
-        }
-        .edu-shape-3 {
-            top: 40%; left: 70%; width: 320px; height: 320px;
-            background: #06b6d4;
-        }
-        .floating-icon {
-            position: absolute;
-            font-size: 2.2rem;
-            opacity: 0.35;
-            user-select: none;
-            animation: float 6s ease-in-out infinite alternate;
-        }
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-22px) rotate(12deg); }
+        @media (max-width: 992px) {
+            .split-auth-container { flex-direction: column; }
+            .split-hero { padding: 2.5rem 1.5rem; }
+            .split-form { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
-<body style="background-color: #f8fafc !important; color: #0f172a !important; margin:0; padding:0; font-family: 'Inter', sans-serif;">
-<div class="edu-bg">
-    <div class="edu-shape edu-shape-1"></div>
-    <div class="edu-shape edu-shape-2"></div>
-    <div class="edu-shape edu-shape-3"></div>
-    
-    <!-- Floating Education Icons -->
-    <div class="floating-icon" style="top: 10%; left: 8%; animation-delay: 0s;">📚</div>
-    <div class="floating-icon" style="top: 75%; left: 10%; animation-delay: 1.5s;">✏️</div>
-    <div class="floating-icon" style="top: 18%; right: 12%; animation-delay: 1s;">🎓</div>
-    <div class="floating-icon" style="top: 78%; right: 14%; animation-delay: 2.5s;">📐</div>
-    <div class="floating-icon" style="top: 45%; left: 6%; animation-delay: 2s;">⚛️</div>
-    <div class="floating-icon" style="top: 48%; right: 7%; animation-delay: 0.5s;">💡</div>
-</div>
-
-<div class="auth-wrapper" style="position: relative; z-index: 1; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2.5rem 1rem;">
+<body>
     @yield('content')
-</div>
 </body>
 </html>
