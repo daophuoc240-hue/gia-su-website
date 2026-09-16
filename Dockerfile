@@ -32,6 +32,12 @@ RUN composer install --no-dev --optimize-autoloader
 RUN printf '#!/bin/bash\n\
 cp -n .env.example .env || true\n\
 php artisan key:generate --force\n\
+mkdir -p /var/www/html/storage/app/public\n\
+mkdir -p /var/www/html/storage/framework/cache/data\n\
+mkdir -p /var/www/html/storage/framework/sessions\n\
+mkdir -p /var/www/html/storage/framework/views\n\
+mkdir -p /var/www/html/storage/logs\n\
+mkdir -p /var/www/html/bootstrap/cache\n\
 mkdir -p /var/www/html/database\n\
 touch /var/www/html/database/database.sqlite\n\
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database\n\
