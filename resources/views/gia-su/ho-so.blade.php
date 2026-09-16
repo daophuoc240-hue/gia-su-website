@@ -54,40 +54,37 @@
         <form method="POST" action="{{ route('giasu.ho-so.cap-nhat') }}" enctype="multipart/form-data">
             @csrf
 
-            <!-- Form Row 1 -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-bottom: 1.4rem;">
-                <div style="display: flex; flex-direction: column;">
-                    <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-bottom: 0.5rem;">
+                <div class="form-group">
+                    <label class="form-label">
                         🎓 Trường Học Đang Theo Học / Đã Tốt Nghiệp
                     </label>
-                    <input type="text" name="truong_hoc" class="form-control" value="{{ old('truong_hoc', $ho_so->truong_hoc ?? '') }}" required placeholder="Ví dụ: ĐH Sư Phạm, ĐH KHTN..." style="width: 100%; padding: 0.85rem 1.1rem; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; color: #0f172a;">
+                    <input type="text" name="truong_hoc" class="form-control" value="{{ old('truong_hoc', $ho_so->truong_hoc ?? '') }}" required placeholder="Ví dụ: ĐH Sư Phạm, ĐH KHTN...">
                 </div>
 
-                <div style="display: flex; flex-direction: column;">
-                    <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">
+                <div class="form-group">
+                    <label class="form-label">
                         📖 Chuyên Ngành Đào Tạo
                     </label>
-                    <input type="text" name="chuyen_nganh" class="form-control" value="{{ old('chuyen_nganh', $ho_so->chuyen_nganh ?? '') }}" required placeholder="Ví dụ: Sư phạm Toán, Tiếng Anh..." style="width: 100%; padding: 0.85rem 1.1rem; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; color: #0f172a;">
+                    <input type="text" name="chuyen_nganh" class="form-control" value="{{ old('chuyen_nganh', $ho_so->chuyen_nganh ?? '') }}" required placeholder="Ví dụ: Sư phạm Toán, Tiếng Anh...">
                 </div>
             </div>
 
-            <!-- Form Row 2 -->
-            <div style="display: flex; flex-direction: column; margin-bottom: 1.4rem;">
-                <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">
+            <div class="form-group">
+                <label class="form-label">
                     📍 Khu Vực Nhận Dạy Kèm (Quận / Huyện)
                 </label>
-                <input type="text" name="khu_vuc_nhan_day" class="form-control" value="{{ old('khu_vuc_nhan_day', $ho_so->khu_vuc_nhan_day ?? '') }}" required placeholder="Ví dụ: Quận 1, Quận 3, Thủ Đức, Bình Thạnh..." style="width: 100%; padding: 0.85rem 1.1rem; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; color: #0f172a;">
+                <input type="text" name="khu_vuc_nhan_day" class="form-control" value="{{ old('khu_vuc_nhan_day', $ho_so->khu_vuc_nhan_day ?? '') }}" required placeholder="Ví dụ: Quận 1, Quận 3, Thủ Đức, Bình Thạnh...">
             </div>
 
-            <!-- Form Row 3 -->
-            <div style="display: flex; flex-direction: column; margin-bottom: 1.8rem;">
-                <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">
+            <div class="form-group" style="margin-bottom: 1.8rem;">
+                <label class="form-label">
                     💡 Kinh Nghiệm Giảng Dạy & Thành Tích Dạy Kèm
                 </label>
-                <textarea name="kinh_nghiem" class="form-control" rows="5" required placeholder="Mô tả chi tiết các thành tích học tập, giải thưởng, kinh nghiệm dạy kèm trước đây và phương pháp truyền đạt kiến thức..." style="width: 100%; padding: 0.85rem 1.1rem; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; color: #0f172a; font-family: inherit;">{{ old('kinh_nghiem', $ho_so->kinh_nghiem ?? '') }}</textarea>
+                <textarea name="kinh_nghiem" class="form-control" rows="5" required placeholder="Mô tả chi tiết các thành tích học tập, giải thưởng, kinh nghiệm dạy kèm trước đây và phương pháp truyền đạt kiến thức...">{{ old('kinh_nghiem', $ho_so->kinh_nghiem ?? '') }}</textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg btn-block" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important; color: #ffffff !important; font-weight: 800; font-size: 1.05rem; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 20px rgba(37,99,235,0.35);">
+            <button type="submit" class="btn btn-primary btn-block" style="padding: 0.95rem; font-size: 1rem; border-radius: 12px;">
                 <i class="fas fa-save" style="margin-right: 0.5rem;"></i> Lưu Thông Tin & Gửi Phê Duyệt
             </button>
         </form>

@@ -7,6 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="Website Kết Nối Trung Tâm Gia Sư - Hệ thống quản lý và kết nối gia sư chuyên nghiệp">
     <title>@yield('title', 'Hệ Thống Gia Sư') | Gia Sư Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @stack('styles')
@@ -76,6 +79,12 @@
                 <div class="alert alert-success">
                     <i class="fas fa-check-circle"></i>
                     <span>{{ session('success') }}</span>
+                </div>
+            @endif
+            @if(session('warning'))
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>{{ session('warning') }}</span>
                 </div>
             @endif
             @if(session('error'))
