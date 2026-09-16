@@ -60,4 +60,11 @@ class LopHoc extends Model
             default         => 'badge-secondary',
         };
     }
+
+    // Compatibility Accessors for Public Portal
+    public function getHocPhiAttribute() { return $this->muc_hoc_phi; }
+    public function getSoBuoiTrungBinhAttribute() { return $this->so_buoi_tuan; }
+    public function getYeuCauGiaSuAttribute() { return $this->yeu_cau_them; }
+    public function getThoiGianDayAttribute() { return 'Lịch thỏa thuận với phụ huynh'; }
+    public function getMoTaAttribute() { return $this->yeu_cau_them; }
 }

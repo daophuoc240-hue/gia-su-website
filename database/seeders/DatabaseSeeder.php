@@ -78,41 +78,37 @@ class DatabaseSeeder extends Seeder
 
         // Lớp học mẫu
         $lop1 = LopHoc::create([
-            'hoc_vien_id'      => $hv1->id,
-            'mon_hoc'          => 'Toán Đại Số & Hình Học',
-            'khoi_lop'         => 'Lớp 12',
-            'so_buoi_trung_binh'=> 3,
-            'thoi_gian_day'    => 'Tối thứ 2, 4, 6 (18h-20h)',
-            'dia_chi_day'      => '123 Nguyễn Thị Minh Khai, Quận 1, TP.HCM',
-            'hoc_phi'          => 1500000,
-            'yeu_cau_gia_su'   => 'Ưu tiên gia sư sư phạm Toán kinh nghiệm luyện thi đại học.',
-            'mo_ta'            => 'Học sinh đang học lớp 12, cần lấy lại gốc Toán để thi tốt nghiệp.',
-            'trang_thai'       => 'dang_tim',
+            'hoc_vien_id'  => $hv1->id,
+            'mon_hoc'      => 'Toán Đại Số & Hình Học',
+            'khoi_lop'     => 'Lớp 12',
+            'so_buoi_tuan' => 3,
+            'dia_chi_day'  => '123 Nguyễn Thị Minh Khai, Quận 1, TP.HCM',
+            'muc_hoc_phi'  => 1500000,
+            'yeu_cau_them' => 'Ưu tiên gia sư sư phạm Toán kinh nghiệm luyện thi đại học.',
+            'trang_thai'   => 'dang_tim',
         ]);
 
         $lop2 = LopHoc::create([
-            'hoc_vien_id'      => $hv2->id,
-            'mon_hoc'          => 'Tiếng Anh Giao Tiếp',
-            'khoi_lop'         => 'Lớp 9',
-            'so_buoi_trung_binh'=> 2,
-            'thoi_gian_day'    => 'Sáng thứ 7, Chủ nhật (9h-11h)',
-            'dia_chi_day'      => '456 Lê Văn Sỹ, Quận 3, TP.HCM',
-            'hoc_phi'          => 1200000,
-            'yeu_cau_gia_su'   => 'Gia sư phát âm chuẩn, có bằng IELTS 6.5 trở lên.',
-            'trang_thai'       => 'da_co_gia_su',
-            'gia_su_id'        => $gs1->id,
+            'hoc_vien_id'  => $hv2->id,
+            'mon_hoc'      => 'Tiếng Anh Giao Tiếp',
+            'khoi_lop'     => 'Lớp 9',
+            'so_buoi_tuan' => 2,
+            'dia_chi_day'  => '456 Lê Văn Sỹ, Quận 3, TP.HCM',
+            'muc_hoc_phi'  => 1200000,
+            'yeu_cau_them' => 'Gia sư phát âm chuẩn, có bằng IELTS 6.5 trở lên.',
+            'trang_thai'   => 'da_co_gia_su',
+            'gia_su_id'    => $gs1->id,
         ]);
 
         LopHoc::create([
-            'hoc_vien_id'      => $hv1->id,
-            'mon_hoc'          => 'Vật Lý THPT',
-            'khoi_lop'         => 'Lớp 11',
-            'so_buoi_trung_binh'=> 2,
-            'thoi_gian_day'    => 'Tối thứ 3, 5 (19h-21h)',
-            'dia_chi_day'      => '789 Trần Hưng Đạo, Quận 5, TP.HCM',
-            'hoc_phi'          => 1300000,
-            'yeu_cau_gia_su'   => 'Gia sư kiên nhẫn, giảng bài nhiệt tình dễ hiểu.',
-            'trang_thai'       => 'dang_tim',
+            'hoc_vien_id'  => $hv1->id,
+            'mon_hoc'      => 'Vật Lý THPT',
+            'khoi_lop'     => 'Lớp 11',
+            'so_buoi_tuan' => 2,
+            'dia_chi_day'  => '789 Trần Hưng Đạo, Quận 5, TP.HCM',
+            'muc_hoc_phi'  => 1300000,
+            'yeu_cau_them' => 'Gia sư kiên nhẫn, giảng bài nhiệt tình dễ hiểu.',
+            'trang_thai'   => 'dang_tim',
         ]);
 
         // Đăng ký nhận lớp
