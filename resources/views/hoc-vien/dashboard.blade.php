@@ -36,7 +36,7 @@
     <div class="stat-card">
         <div class="stat-card-icon purple"><i class="fas fa-book-open"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['tong_lop'] }}</div>
+            <div class="stat-card-value">{{ $stats['tong_lop'] ?? 0 }}</div>
             <div class="stat-card-label">Tổng lớp đã tạo</div>
         </div>
     </div>
@@ -44,7 +44,7 @@
     <div class="stat-card">
         <div class="stat-card-icon orange"><i class="fas fa-search"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['dang_tim'] }}</div>
+            <div class="stat-card-value">{{ $stats['dang_tim'] ?? 0 }}</div>
             <div class="stat-card-label">Đang tìm gia sư</div>
         </div>
     </div>
@@ -52,7 +52,7 @@
     <div class="stat-card">
         <div class="stat-card-icon blue"><i class="fas fa-check-circle"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['da_co_gia_su'] }}</div>
+            <div class="stat-card-value">{{ $stats['da_co_gia_su'] ?? 0 }}</div>
             <div class="stat-card-label">Đã ghép gia sư</div>
         </div>
     </div>
@@ -60,7 +60,7 @@
     <div class="stat-card">
         <div class="stat-card-icon green"><i class="fas fa-flag-checkered"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['hoan_thanh'] }}</div>
+            <div class="stat-card-value">{{ $stats['hoan_thanh'] ?? 0 }}</div>
             <div class="stat-card-label">Lớp hoàn thành</div>
         </div>
     </div>
@@ -76,22 +76,22 @@
         <a href="{{ route('hocvien.tao-yeu-cau') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tạo Yêu Cầu Mới</a>
     </div>
 
-    @forelse( as )
-    <a href="{{ route('hocvien.chi-tiet-lop', ->id) }}" style="text-decoration:none;">
+    @forelse($lop_hocs as $lop)
+    <a href="{{ route('hocvien.chi-tiet-lop', $lop->id) }}" style="text-decoration:none;">
         <div style="padding: 1.1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 0.9rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s;" onmouseover="this.style.borderColor='#2563eb'" onmouseout="this.style.borderColor='#e2e8f0'">
             <div>
                 <div style="font-weight: 800; font-size: 1.02rem; color: #0f172a; margin-bottom: 0.3rem;">
-                    📚 {{ ->mon_hoc }} - {{ ->khoi_lop }}
+                    📚 {{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}
                 </div>
                 <div style="font-size: 0.85rem; color: #475569; display: flex; gap: 1.2rem; flex-wrap: wrap;">
-                    <span>📍 <strong>Địa chỉ:</strong> {{ ->dia_chi_day }}</span>
-                    <span>💰 <strong>Học phí:</strong> {{ number_format(->muc_hoc_phi) }} đ/buổi</span>
-                    <span>⏱️ <strong>Số buổi:</strong> {{ ->so_buoi_tuan }} buổi/tuần</span>
+                    <span>📍 <strong>Địa chỉ:</strong> {{ $lop->dia_chi_day }}</span>
+                    <span>💰 <strong>Học phí:</strong> {{ number_format($lop->muc_hoc_phi) }} đ/buổi</span>
+                    <span>⏱️ <strong>Số buổi:</strong> {{ $lop->so_buoi_tuan }} buổi/tuần</span>
                 </div>
             </div>
             <div>
-                <span class="badge badge-{{ ->trang_thai_class }}" style="font-size: 0.85rem; padding: 0.4rem 0.9rem;">
-                    {{ ->trang_thai_label }}
+                <span class="badge badge-{{ $lop->trang_thai === 'dang_tim' ? 'warning' : 'success' }}" style="font-size: 0.85rem; padding: 0.4rem 0.9rem;">
+                    {{ $lop->trang_thai_label }}
                 </span>
             </div>
         </div>

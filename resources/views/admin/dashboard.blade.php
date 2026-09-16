@@ -18,8 +18,8 @@
 <div class="nav-item">
     <a href="{{ route('admin.ho-so.index') }}" class="nav-link {{ request()->routeIs('admin.ho-so*') ? 'active' : '' }}">
         <span class="nav-icon"><i class="fas fa-id-card"></i></span> Hồ Sơ Gia Sư
-        @if(isset() && ['ho_so_cho_duyet'] > 0)
-            <span class="nav-badge">{{ ['ho_so_cho_duyet'] }}</span>
+        @if(isset($stats) && ($stats['ho_so_cho_duyet'] ?? 0) > 0)
+            <span class="nav-badge">{{ $stats['ho_so_cho_duyet'] }}</span>
         @endif
     </a>
 </div>
@@ -45,7 +45,7 @@
         </div>
         <div style="display: flex; gap: 0.8rem;">
             <a href="{{ route('admin.ho-so.index') }}" class="btn" style="background: #2563eb !important; color: #ffffff !important; font-weight: 800; padding: 0.85rem 1.4rem; border-radius: 12px;">
-                <i class="fas fa-user-check" style="margin-right: 0.4rem;"></i> Duyệt Hồ Sơ ({{ ['ho_so_cho_duyet'] }})
+                <i class="fas fa-user-check" style="margin-right: 0.4rem;"></i> Duyệt Hồ Sơ ({{ $stats['ho_so_cho_duyet'] ?? 0 }})
             </a>
         </div>
     </div>
@@ -56,7 +56,7 @@
     <div class="stat-card">
         <div class="stat-card-icon purple"><i class="fas fa-users"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['tong_tai_khoan'] }}</div>
+            <div class="stat-card-value">{{ $stats['tong_tai_khoan'] ?? 0 }}</div>
             <div class="stat-card-label">Tổng tài khoản</div>
         </div>
     </div>
@@ -64,7 +64,7 @@
     <div class="stat-card">
         <div class="stat-card-icon blue"><i class="fas fa-chalkboard-teacher"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['tong_gia_su'] }}</div>
+            <div class="stat-card-value">{{ $stats['tong_gia_su'] ?? 0 }}</div>
             <div class="stat-card-label">Gia sư đã đăng ký</div>
         </div>
     </div>
@@ -72,7 +72,7 @@
     <div class="stat-card">
         <div class="stat-card-icon orange"><i class="fas fa-user-graduate"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['tong_hoc_vien'] }}</div>
+            <div class="stat-card-value">{{ $stats['tong_hoc_vien'] ?? 0 }}</div>
             <div class="stat-card-label">Học viên / Phụ huynh</div>
         </div>
     </div>
@@ -80,7 +80,7 @@
     <div class="stat-card">
         <div class="stat-card-icon red"><i class="fas fa-clock"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['ho_so_cho_duyet'] }}</div>
+            <div class="stat-card-value">{{ $stats['ho_so_cho_duyet'] ?? 0 }}</div>
             <div class="stat-card-label">Hồ sơ chờ duyệt</div>
         </div>
     </div>
@@ -88,7 +88,7 @@
     <div class="stat-card">
         <div class="stat-card-icon orange"><i class="fas fa-search"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['lop_dang_tim'] }}</div>
+            <div class="stat-card-value">{{ $stats['lop_dang_tim'] ?? 0 }}</div>
             <div class="stat-card-label">Lớp đang tìm gia sư</div>
         </div>
     </div>
@@ -96,7 +96,7 @@
     <div class="stat-card">
         <div class="stat-card-icon green"><i class="fas fa-check-circle"></i></div>
         <div>
-            <div class="stat-card-value">{{ ['lop_da_co_gia_su'] }}</div>
+            <div class="stat-card-value">{{ $stats['lop_da_co_gia_su'] ?? 0 }}</div>
             <div class="stat-card-label">Lớp đã ghép thành công</div>
         </div>
     </div>
@@ -112,14 +112,14 @@
             </div>
             <a href="{{ route('admin.lop-hoc.index') }}" class="btn btn-outline btn-sm">Xem tất cả</a>
         </div>
-        @forelse( as )
+        @forelse($lop_moi_nhat as $lop)
         <div style="padding: 0.9rem 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a;">{{ ->mon_hoc }} - {{ ->khoi_lop }}</div>
-                <div style="font-size: 0.82rem; color: #64748b;">Học viên: {{ ->hocVien->ho_ten }} • {{ number_format(->muc_hoc_phi) }} đ/buổi</div>
+                <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a;">{{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}</div>
+                <div style="font-size: 0.82rem; color: #64748b;">Học viên: {{ $lop->hocVien->ho_ten ?? '' }} • {{ number_format($lop->muc_hoc_phi) }} đ/buổi</div>
             </div>
-            <span class="badge badge-{{ ->trang_thai === 'dang_tim' ? 'warning' : 'success' }}">
-                {{ ->trang_thai_label }}
+            <span class="badge badge-{{ $lop->trang_thai === 'dang_tim' ? 'warning' : 'success' }}">
+                {{ $lop->trang_thai_label }}
             </span>
         </div>
         @empty
@@ -139,13 +139,13 @@
             </div>
             <a href="{{ route('admin.ho-so.index') }}" class="btn btn-outline btn-sm">Xem tất cả</a>
         </div>
-        @forelse( as )
+        @forelse($ho_so_moi as $hs)
         <div style="padding: 0.9rem 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a;">{{ ->taiKhoan->ho_ten }}</div>
-                <div style="font-size: 0.82rem; color: #64748b;">{{ ->chuyen_nganh }} • {{ ->truong_hoc }}</div>
+                <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a;">{{ $hs->taiKhoan->ho_ten ?? '' }}</div>
+                <div style="font-size: 0.82rem; color: #64748b;">{{ $hs->chuyen_nganh }} • {{ $hs->truong_hoc }}</div>
             </div>
-            <a href="{{ route('admin.ho-so.chi-tiet', ->id) }}" class="btn btn-primary btn-sm">Duyệt ngay</a>
+            <a href="{{ route('admin.ho-so.chi-tiet', $hs->id) }}" class="btn btn-primary btn-sm">Duyệt ngay</a>
         </div>
         @empty
         <div class="empty-state" style="padding: 2rem;">
