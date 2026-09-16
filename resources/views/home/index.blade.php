@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Gia Sư Connect - Nền Tảng Kết Nối Gia Sư & Lớp Học Hàng Đầu')
+@section('title', 'Gia Sư Tri Thức - Nền Tảng Kết Nối Gia Sư & Lớp Học Hàng Đầu')
 
 @section('content')
 
@@ -217,7 +217,7 @@
     <div class="container" style="max-width: 800px;">
         <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; color: #ffffff;">Sẵn Sàng Nâng Cao Kết Quả Học Tập Ngay Hôm Nay?</h2>
         <p style="font-size: 1.05rem; color: #bfdbfe; margin-bottom: 2rem; line-height: 1.7;">
-            Gia nhập cộng đồng hơn 1,000+ gia sư và phụ huynh tin dùng hệ thống Gia Sư Connect.
+            Gia nhập cộng đồng hơn 1,000+ gia sư và phụ huynh tin dùng hệ thống Gia Sư Tri Thức.
         </p>
         <div style="display: flex; justify-content: center; gap: 1.2rem;">
             <a href="{{ route('register') }}" class="btn" style="background: #ffffff; color: #1e3a8a; padding: 0.9rem 2rem; font-weight: 800; font-size: 1rem; border-radius: 12px;">

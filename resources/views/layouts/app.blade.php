@@ -6,7 +6,7 @@
     <meta name="color-scheme" content="light">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="Website Kết Nối Trung Tâm Gia Sư - Hệ thống quản lý và kết nối gia sư chuyên nghiệp">
-    <title>@yield('title', 'Hệ Thống Gia Sư') | Gia Sư Connect</title>
+    <title>@yield('title', 'Hệ Thống Gia Sư') | Gia Sư Tri Thức</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <div class="brand-logo">🎓</div>
-            <div class="brand-name">Gia Sư Connect</div>
+            <div class="brand-name">Gia Sư Tri Thức</div>
             <div class="brand-role">
                 @auth
                     @if(auth()->user()->vai_tro === 'admin') Quản Trị Viên

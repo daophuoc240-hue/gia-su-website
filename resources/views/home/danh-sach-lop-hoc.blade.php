@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Danh Sách Lớp Học Mới - Gia Sư Connect')
+@section('title', 'Danh Sách Lớp Học Mới - Gia Sư Tri Thức')
 
 @section('content')
 

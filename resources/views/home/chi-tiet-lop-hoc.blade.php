@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Tuyển Gia Sư ' . $lop->mon_hoc . ' ' . $lop->khoi_lop . ' - Gia Sư Connect')
+@section('title', 'Tuyển Gia Sư ' . $lop->mon_hoc . ' ' . $lop->khoi_lop . ' - Gia Sư Tri Thức')
 
 @section('content')
 

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="Gia Sư Connect - Nền Tảng Kết Nối Gia Sư Chất Lượng Cao & Tìm Lớp Học Uy Tín Toàn Quốc">
-    <title>@yield('title', 'Gia Sư Connect - Kết Nối Gia Sư Uy Tín')</title>
+    <meta name="description" content="Gia Sư Tri Thức - Nền Tảng Kết Nối Gia Sư Chất Lượng Cao & Tìm Lớp Học Uy Tín Toàn Quốc">
+    <title>@yield('title', 'Gia Sư Tri Thức - Kết Nối Gia Sư Uy Tín')</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,7 +110,7 @@
             <div>
                 <span>📞 Hotline tư vấn: <strong>0394.688.031</strong></span>
                 <span style="margin: 0 1rem; opacity: 0.4;">|</span>
-                <span>📧 Email hỗ trợ: <strong>support@giasuconnect.com</strong></span>
+                <span>📧 Email hỗ trợ: <strong>support@giasutrithuc.vn</strong></span>
             </div>
             <div>
                 <span>⏰ Giờ làm việc: 8:00 - 21:00 (T2 - CN)</span>
@@ -124,7 +124,7 @@
             <a href="{{ route('home') }}" class="pub-logo">
                 <div class="pub-logo-icon"><i class="fas fa-graduation-cap"></i></div>
                 <div>
-                    <div>Gia Sư Connect</div>
+                    <div>Gia Sư Tri Thức</div>
                     <div style="font-size: 0.68rem; font-weight: 600; color: #64748b; letter-spacing: 0.5px;">Hệ Thống Kết Nối Uy Tín</div>
                 </div>
             </a>
@@ -165,7 +165,7 @@
             <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 2.5rem; margin-bottom: 3rem;">
                 <div>
                     <div style="display: flex; align-items: center; gap: 0.6rem; font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 1rem;">
-                        <i class="fas fa-graduation-cap" style="color: #3b82f6;"></i> Gia Sư Connect
+                        <i class="fas fa-graduation-cap" style="color: #3b82f6;"></i> Gia Sư Tri Thức
                     </div>
                     <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.7; margin-bottom: 1.2rem;">
                         Nền tảng kết nối trung tâm gia sư chuyên nghiệp hàng đầu. Mang đến giải pháp tìm gia sư giỏi, bài bản và hỗ trợ sinh viên, giáo viên nhận lớp dạy kèm uy tín toàn quốc.
@@ -209,7 +209,7 @@
             </div>
 
             <div style="border-top: 1px solid #1e293b; padding-top: 1.8rem; text-align: center; font-size: 0.85rem; color: #64748b;">
-                © 2026 Gia Sư Connect - Hệ Thống Kết Nối & Quản Lý Gia Sư Chuyên Nghiệp. Tất cả các quyền được bảo lưu.
+                © 2026 Gia Sư Tri Thức - Hệ Thống Kết Nối & Quản Lý Gia Sư Chuyên Nghiệp. Tất cả các quyền được bảo lưu.
             </div>
         </div>
     </footer>

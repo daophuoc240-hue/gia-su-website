@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light">
     <meta name="description" content="Trung Tâm Kết Nối Gia Sư - Hệ Thống Dạy Kèm Chuyên Nghiệp">
-    <title>@yield('title', 'Xác Thực') | Gia Sư Connect</title>
+    <title>@yield('title', 'Xác Thực') | Gia Sư Tri Thức</title>
     <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>

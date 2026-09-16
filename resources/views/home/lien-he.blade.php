@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Liên Hệ Hỗ Trợ - Gia Sư Connect')
+@section('title', 'Liên Hệ Hỗ Trợ - Gia Sư Tri Thức')
 
 @section('content')
 
@@ -40,10 +40,10 @@
             <div class="glass-card" style="padding: 2.2rem; border-radius: 20px; background: #ffffff; height: 100%;">
                 <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 1.5rem;">📍 Văn Phòng Trung Tâm</h3>
                 <div style="font-size: 0.95rem; color: #334155; line-height: 2.2; margin-bottom: 2rem;">
-                    <div>🏢 <strong>Tên hệ thống:</strong> Gia Sư Connect Portal</div>
+                    <div>🏢 <strong>Tên hệ thống:</strong> Trung Tâm Gia Sư Tri Thức</div>
                     <div>📍 <strong>Địa chỉ trụ sở:</strong> Khu Đô Thị Đại Học, TP. Huế</div>
                     <div>📞 <strong>Hotline tư vấn:</strong> <strong style="color: #2563eb;">0394.688.031</strong></div>
-                    <div>📧 <strong>Email hỗ trợ:</strong> support@giasuconnect.com</div>
+                    <div>📧 <strong>Email hỗ trợ:</strong> support@giasutrithuc.vn</div>
                     <div>⏰ <strong>Thời gian hoạt động:</strong> 08:00 - 21:00 hàng ngày</div>
                 </div>
 
