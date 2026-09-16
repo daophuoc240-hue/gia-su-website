@@ -13,43 +13,43 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
-        $admin = TaiKhoan::create([
-            'ho_ten'        => 'Quản Trị Viên',
+        // 1. Quản Trị Viên (Admin)
+         = TaiKhoan::create([
+            'ho_ten'        => 'Quản Trị Viên Hệ Thống',
             'email'         => 'admin@giasu.com',
             'password'      => Hash::make('password'),
             'so_dien_thoai' => '0901000001',
             'vai_tro'       => 'admin',
         ]);
 
-        // Gia sư mẫu
-        $gs1 = TaiKhoan::create([
-            'ho_ten'        => 'Nguyễn Văn An',
-            'email'         => 'giasu1@giasu.com',
+        // 2. Gia Sư mẫu (Tutor)
+         = TaiKhoan::create([
+            'ho_ten'        => 'Nguyễn Văn An (Gia Sư Toán)',
+            'email'         => 'giasu@giasu.com',
             'password'      => Hash::make('password'),
             'so_dien_thoai' => '0901000002',
             'vai_tro'       => 'giasu',
         ]);
 
-        $gs2 = TaiKhoan::create([
-            'ho_ten'        => 'Trần Thị Bích',
+         = TaiKhoan::create([
+            'ho_ten'        => 'Trần Thị Bích (Gia Sư Tiếng Anh)',
             'email'         => 'giasu2@giasu.com',
             'password'      => Hash::make('password'),
             'so_dien_thoai' => '0901000003',
             'vai_tro'       => 'giasu',
         ]);
 
-        // Học viên mẫu
-        $hv1 = TaiKhoan::create([
-            'ho_ten'        => 'Lê Văn Cường',
-            'email'         => 'hocvien1@giasu.com',
+        // 3. Học Viên / Phụ Huynh mẫu (Student/Parent)
+         = TaiKhoan::create([
+            'ho_ten'        => 'Lê Văn Cường (Phụ Huynh)',
+            'email'         => 'hocvien@giasu.com',
             'password'      => Hash::make('password'),
             'so_dien_thoai' => '0901000004',
             'vai_tro'       => 'hocvien',
         ]);
 
-        $hv2 = TaiKhoan::create([
-            'ho_ten'        => 'Phạm Thị Dung',
+         = TaiKhoan::create([
+            'ho_ten'        => 'Phạm Thị Dung (Học Viên)',
             'email'         => 'hocvien2@giasu.com',
             'password'      => Hash::make('password'),
             'so_dien_thoai' => '0901000005',
@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
 
         // Hồ sơ gia sư
         HoSoGiaSu::create([
-            'tai_khoan_id'      => $gs1->id,
+            'tai_khoan_id'      => ->id,
             'truong_hoc'        => 'Đại học Khoa học Tự nhiên TP.HCM',
             'chuyen_nganh'      => 'Toán - Tin học',
             'kinh_nghiem'       => 'Có 2 năm kinh nghiệm dạy kèm Toán và Lý cho học sinh THPT. Từng ôn thi đại học cho nhiều em đạt điểm cao.',
@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         HoSoGiaSu::create([
-            'tai_khoan_id'      => $gs2->id,
+            'tai_khoan_id'      => ->id,
             'truong_hoc'        => 'Đại học Sư phạm TP.HCM',
             'chuyen_nganh'      => 'Sư phạm Tiếng Anh',
             'kinh_nghiem'       => 'Giáo viên Tiếng Anh với 3 năm kinh nghiệm. Chuyên luyện thi IELTS, TOEIC và Tiếng Anh giao tiếp.',
@@ -76,9 +76,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Lớp học mẫu
-        $lop1 = LopHoc::create([
-            'hoc_vien_id'  => $hv1->id,
-            'mon_hoc'      => 'Toán',
+         = LopHoc::create([
+            'hoc_vien_id'  => ->id,
+            'mon_hoc'      => 'Toán Họa',
             'khoi_lop'     => 'Lớp 12',
             'so_buoi_tuan' => 3,
             'dia_chi_day'  => '123 Nguyễn Thị Minh Khai, Quận 1, TP.HCM',
@@ -87,19 +87,19 @@ class DatabaseSeeder extends Seeder
             'trang_thai'   => 'dang_tim',
         ]);
 
-        $lop2 = LopHoc::create([
-            'hoc_vien_id'  => $hv2->id,
-            'mon_hoc'      => 'Tiếng Anh',
+         = LopHoc::create([
+            'hoc_vien_id'  => ->id,
+            'mon_hoc'      => 'Tiếng Anh Giao Tiếp',
             'khoi_lop'     => 'Lớp 9',
             'so_buoi_tuan' => 2,
             'dia_chi_day'  => '456 Lê Văn Sỹ, Quận 3, TP.HCM',
             'muc_hoc_phi'  => 120000,
             'trang_thai'   => 'da_co_gia_su',
-            'gia_su_id'    => $gs1->id,
+            'gia_su_id'    => ->id,
         ]);
 
         LopHoc::create([
-            'hoc_vien_id'  => $hv1->id,
+            'hoc_vien_id'  => ->id,
             'mon_hoc'      => 'Vật Lý',
             'khoi_lop'     => 'Lớp 11',
             'so_buoi_tuan' => 2,
@@ -110,8 +110,8 @@ class DatabaseSeeder extends Seeder
 
         // Đăng ký nhận lớp
         DangKyNhanLop::create([
-            'lop_hoc_id'          => $lop1->id,
-            'gia_su_id'           => $gs1->id,
+            'lop_hoc_id'          => ->id,
+            'gia_su_id'           => ->id,
             'gioi_thieu_ban_than' => 'Tôi có nhiều kinh nghiệm dạy Toán 12 và đã giúp nhiều học sinh đạt điểm 8-9 trong kỳ thi đại học.',
             'trang_thai'          => 'cho_duyet',
         ]);
