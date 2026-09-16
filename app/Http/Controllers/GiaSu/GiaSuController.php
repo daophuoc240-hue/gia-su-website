@@ -23,9 +23,10 @@ class GiaSuController extends Controller
                     ->get();
 
         $stats = [
-            'cho_duyet' => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'cho_duyet')->count(),
-            'da_duyet'  => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'da_duyet')->count(),
-            'tu_choi'   => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'tu_choi')->count(),
+            'cho_duyet'    => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'cho_duyet')->count(),
+            'da_duyet'     => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'da_duyet')->count(),
+            'tu_choi'      => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'tu_choi')->count(),
+            'lop_dang_tim' => LopHoc::where('trang_thai', 'dang_tim')->count(),
         ];
 
         return view('gia-su.dashboard', compact('user', 'ho_so', 'dang_ky', 'stats'));
@@ -48,15 +49,15 @@ class GiaSuController extends Controller
             'bang_cap'        => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'the_sinh_vien'   => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ], [
-            'truong_hoc.required'       => 'Vui lĂ²ng nháº­p tĂªn trÆ°á»ng há»c.',
-            'chuyen_nganh.required'     => 'Vui lĂ²ng nháº­p chuyĂªn ngĂ nh.',
-            'kinh_nghiem.required'      => 'Vui lĂ²ng nháº­p kinh nghiá»‡m giáº£ng dáº¡y.',
-            'khu_vuc_nhan_day.required' => 'Vui lĂ²ng nháº­p khu vá»±c cĂ³ thá»ƒ nháº­n dáº¡y.',
+            'truong_hoc.required'       => 'Vui lòng nhập tên trường học.',
+            'chuyen_nganh.required'     => 'Vui lòng nhập chuyên ngành.',
+            'kinh_nghiem.required'      => 'Vui lòng nhập kinh nghiệm giảng dạy.',
+            'khu_vuc_nhan_day.required' => 'Vui lòng nhập khu vực có thể nhận dạy.',
         ]);
 
         $user = Auth::user();
         $data = $request->only(['truong_hoc', 'chuyen_nganh', 'kinh_nghiem', 'khu_vuc_nhan_day']);
-        $data['trang_thai_duyet'] = 'cho_duyet'; // Reset to pending on update
+        $data['trang_thai_duyet'] = 'cho_duyet';
 
         if ($request->hasFile('bang_cap')) {
             $data['bang_cap'] = $request->file('bang_cap')->store('ho-so', 'public');
@@ -70,7 +71,7 @@ class GiaSuController extends Controller
             array_merge($data, ['tai_khoan_id' => $user->id])
         );
 
-        return redirect()->route('giasu.ho-so')->with('success', 'ÄĂ£ cáº­p nháº­t há»“ sÆ¡. Vui lĂ²ng chá» kiá»ƒm duyá»‡t tá»« trung tĂ¢m.');
+        return redirect()->route('giasu.ho-so')->with('success', 'Đã cập nhật hồ sơ. Vui lòng chờ kiểm duyệt từ trung tâm.');
     }
 
     public function timKiemLop(Request $request)
@@ -78,10 +79,9 @@ class GiaSuController extends Controller
         $user  = Auth::user();
         $ho_so = $user->hoSoGiaSu;
 
-        // Must have approved profile to browse classes
         if (!$ho_so || $ho_so->trang_thai_duyet !== 'da_duyet') {
             return redirect()->route('giasu.ho-so')
-                ->with('error', 'Há»“ sÆ¡ cá»§a báº¡n chÆ°a Ä‘Æ°á»£c duyá»‡t. Vui lĂ²ng cáº­p nháº­t vĂ  chá» kiá»ƒm duyá»‡t.');
+                ->with('error', 'Hồ sơ của bạn chưa được duyệt. Vui lòng cập nhật đầy đủ thông tin và chờ trung tâm phê duyệt.');
         }
 
         $query = LopHoc::with('hocVien')->where('trang_thai', 'dang_tim');
@@ -96,7 +96,6 @@ class GiaSuController extends Controller
             $query->where('dia_chi_day', 'like', '%'.$request->dia_chi.'%');
         }
 
-        // Get IDs the user already applied to
         $da_dang_ky_ids = DangKyNhanLop::where('gia_su_id', $user->id)->pluck('lop_hoc_id')->toArray();
 
         $lop_hocs = $query->latest()->paginate(12);
@@ -114,14 +113,14 @@ class GiaSuController extends Controller
         $lop   = LopHoc::findOrFail($lop_id);
 
         if ($lop->trang_thai !== 'dang_tim') {
-            return back()->with('error', 'Lá»›p há»c nĂ y khĂ´ng cĂ²n nháº­n Ä‘Äƒng kĂ½.');
+            return back()->with('error', 'Lớp học này không còn nhận đăng ký.');
         }
 
         $da_dang_ky = DangKyNhanLop::where('lop_hoc_id', $lop_id)
             ->where('gia_su_id', $user->id)->exists();
 
         if ($da_dang_ky) {
-            return back()->with('error', 'Báº¡n Ä‘Ă£ Ä‘Äƒng kĂ½ nháº­n lá»›p nĂ y rá»“i.');
+            return back()->with('error', 'Bạn đã đăng ký nhận lớp này rồi.');
         }
 
         DangKyNhanLop::create([
@@ -130,7 +129,7 @@ class GiaSuController extends Controller
             'gioi_thieu_ban_than' => $request->gioi_thieu_ban_than,
         ]);
 
-        return back()->with('success', 'ÄĂ£ Ä‘Äƒng kĂ½ nháº­n lá»›p thĂ nh cĂ´ng! Vui lĂ²ng chá» trung tĂ¢m xĂ©t duyá»‡t.');
+        return back()->with('success', 'Đã đăng ký nhận lớp thành công! Vui lòng chờ trung tâm xét duyệt.');
     }
 
     public function ketQuaDangKy()
