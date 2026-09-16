@@ -1,13 +1,13 @@
-@extends('layouts.auth')
+﻿@extends('layouts.auth')
 
-@section('title', '��ng Nh?p')
+@section('title', 'Đăng Nhập')
 
 @section('content')
 <div class="auth-card glass-card">
     <div class="auth-brand">
-        <div class="brand-icon">??</div>
-        <h1>TRUNG T�M K?T N?I GIA S�</h1>
-        <p>C?ng Th�ng Tin & Qu?n L? D?y K�m Chuy�n Nghi?p</p>
+        <div class="brand-icon">🎓</div>
+        <h1>TRUNG TÂM KẾT NỐI GIA SƯ</h1>
+        <p>Cổng Thông Tin & Quản Lý Dạy Kèm Chuyên Nghiệp</p>
     </div>
 
     @if($errors->any())
@@ -35,21 +35,21 @@
                    id="email"
                    name="email"
                    class="form-control"
-                   placeholder="Nh?p �?a ch? email..."
+                   placeholder="Nhập địa chỉ email..."
                    value="{{ old('email') }}"
                    required>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="password">
-                <i class="fas fa-lock" style="margin-right:0.4rem;"></i>M?t Kh?u
+                <i class="fas fa-lock" style="margin-right:0.4rem;"></i>Mật Khẩu
             </label>
             <div style="position:relative;">
                 <input type="password"
                        id="password"
                        name="password"
                        class="form-control"
-                       placeholder="Nh?p m?t kh?u..."
+                       placeholder="Nhập mật khẩu..."
                        required
                        style="padding-right: 3rem;">
                 <button type="button"
@@ -63,21 +63,21 @@
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem;">
             <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; font-size:0.85rem; color:var(--text-secondary);">
                 <input type="checkbox" name="remember" id="remember" class="form-check-input">
-                Ghi nh? ��ng nh?p
+                Ghi nhớ đăng nhập
             </label>
         </div>
 
         <button type="submit" class="btn btn-primary btn-block btn-lg">
-            <i class="fas fa-sign-in-alt"></i> ��ng Nh?p
+            <i class="fas fa-sign-in-alt"></i> Đăng Nhập
         </button>
     </form>
 
     <div class="divider"></div>
 
     <p style="text-align:center; font-size:0.88rem; color:var(--text-secondary);">
-        Ch�a c� t�i kho?n?
+        Chưa có tài khoản?
         <a href="{{ route('register') }}" style="color:var(--primary-start); font-weight:600; text-decoration:none;">
-            ��ng k? ngay
+            Đăng ký ngay
         </a>
     </p>
 </div>
