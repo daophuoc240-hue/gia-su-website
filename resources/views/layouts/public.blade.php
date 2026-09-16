@@ -198,18 +198,18 @@
                 </div>
 
                 <div>
-                    <h4>Liên Hệ & Đồ Án</h4>
+                    <h4>Thông Tin Liên Hệ</h4>
                     <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.8;">
+                        👨‍💼 <strong>Quản lý:</strong> Đào Bình Phước<br>
                         📍 <strong>Địa chỉ:</strong> Khu Đô Thị Đại Học, TP. Huế<br>
                         📞 <strong>Hotline:</strong> 0394.688.031<br>
-                        📧 <strong>Email:</strong> daophuoc240@gmail.com<br>
-                        🎓 <strong>Đồ án tốt nghiệp:</strong> Hệ Thống Kết Nối Gia Sư Laravel 11
+                        📧 <strong>Email:</strong> daophuoc240@gmail.com
                     </p>
                 </div>
             </div>
 
             <div style="border-top: 1px solid #1e293b; padding-top: 1.8rem; text-align: center; font-size: 0.85rem; color: #64748b;">
-                © 2026 Gia Sư Connect. Tất cả các quyền được bảo lưu. Đồ án Tốt Nghiệp Chuyên Ngành Công Nghệ Thông Tin.
+                © 2026 Gia Sư Connect - Hệ Thống Kết Nối & Quản Lý Gia Sư Chuyên Nghiệp. Tất cả các quyền được bảo lưu.
             </div>
         </div>
     </footer>

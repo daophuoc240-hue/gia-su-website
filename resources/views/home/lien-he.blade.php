@@ -47,9 +47,10 @@
                     <div>⏰ <strong>Thời gian hoạt động:</strong> 08:00 - 21:00 hàng ngày</div>
                 </div>
 
-                <div style="background: #f8fafc; padding: 1.2rem; border-radius: 14px; border: 1px solid #e2e8f0;">
-                    <div style="font-weight: 700; color: #0f172a; margin-bottom: 0.3rem;">🎓 Thông Tin Đồ Án Tốt Nghiệp</div>
-                    <div style="font-size: 0.85rem; color: #64748b;">Hệ thống Kết nối & Quản lý Trung tâm Gia sư Chuyên nghiệp chuẩn Laravel 11.</div>
+                <div style="background: #eff6ff; padding: 1.2rem; border-radius: 14px; border: 1px solid #bfdbfe;">
+                    <div style="font-weight: 800; color: #1e40af; margin-bottom: 0.3rem;">👨‍💼 Quản Lý & Điều Phối Trung Tâm</div>
+                    <div style="font-size: 1rem; font-weight: 800; color: #0f172a;">Đào Bình Phước</div>
+                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 0.2rem;">Trực tiếp tư vấn, kiểm duyệt gia sư và điều phối ghép lớp học.</div>
                 </div>
             </div>
         </div>
