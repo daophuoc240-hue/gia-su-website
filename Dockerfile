@@ -13,23 +13,17 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     && docker-php-ext-install pdo pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd
 
-# Enable Apache modules needed for Laravel routing
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite headers
-
-# === FIX QUAN TRỌNG: Đặt DocumentRoot đúng vào /public ===
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-
-# php:apache image hỗ trợ biến này để tự động thay thế DocumentRoot
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 WORKDIR /var/www/html
 
 # Copy application files
 COPY . /var/www/html
 
-# Copy custom Apache site config
+# Copy custom Apache site config vào ĐÚNG nơi Apache đọc
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
+COPY docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Install Composer dependencies
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
