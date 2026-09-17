@@ -13,8 +13,9 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     && docker-php-ext-install pdo pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable Apache modules needed for Laravel routing
+RUN a2enmod rewrite headers ssl
+
 
 WORKDIR /var/www/html
 
