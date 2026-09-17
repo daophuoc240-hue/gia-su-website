@@ -43,8 +43,11 @@ touch /var/www/html/database/database.sqlite\n\
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database\n\
 chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database\n\
 php artisan migrate:fresh --seed --force\n\
+php artisan storage:link --force || true\n\
+php artisan view:cache\n\
 exec apache2-foreground\n' > /usr/local/bin/entrypoint.sh \
     && chmod +x /usr/local/bin/entrypoint.sh
+
 
 EXPOSE 80
 
