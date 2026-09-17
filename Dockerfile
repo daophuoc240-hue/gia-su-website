@@ -14,15 +14,21 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd
 
 # Enable Apache modules needed for Laravel routing
-RUN a2enmod rewrite headers ssl
+RUN a2enmod rewrite headers
 
+# === FIX QUAN TRỌNG: Đặt DocumentRoot đúng vào /public ===
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+# php:apache image hỗ trợ biến này để tự động thay thế DocumentRoot
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 WORKDIR /var/www/html
 
 # Copy application files
 COPY . /var/www/html
 
-# Copy clean Apache site config
+# Copy custom Apache site config
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 # Install Composer dependencies
@@ -48,7 +54,6 @@ php artisan storage:link --force || true\n\
 php artisan view:cache\n\
 exec apache2-foreground\n' > /usr/local/bin/entrypoint.sh \
     && chmod +x /usr/local/bin/entrypoint.sh
-
 
 EXPOSE 80
 
