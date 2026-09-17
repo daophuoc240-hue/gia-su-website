@@ -72,8 +72,9 @@ class DatabaseSeeder extends Seeder
             $giaSuAccounts[] = ['acc' => $acc, 'ho_so' => $hoSo];
         }
 
-        // ==================== HỌC VIÊN / PHỤ HUYNH (10 người) ====================
+        // ==================== HỌC VIÊN / PHỤ HUYNH (11 người) ====================
         $danhSachHocVien = [
+            ['ho_ten' => 'Đào Bình Phước',      'email' => 'daophuoc20@gmail.com', 'sdt' => '0394688031'],
             ['ho_ten' => 'Lê Văn Cường',        'email' => 'hocvien@giasu.com',    'sdt' => '0901000022'],
             ['ho_ten' => 'Phạm Thị Dung',        'email' => 'hocvien2@giasu.com',   'sdt' => '0901000023'],
             ['ho_ten' => 'Vũ Thị Thanh Hà',      'email' => 'hocvien3@giasu.com',   'sdt' => '0901000024'],
