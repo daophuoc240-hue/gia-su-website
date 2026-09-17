@@ -17,6 +17,15 @@ class DatabaseSeeder extends Seeder
         // ==================== ADMIN ====================
         $admin = TaiKhoan::create([
             'ho_ten'        => 'Đào Bình Phước (Quản Trị)',
+            'email'         => 'phuocadmin@gmail.com',
+            'password'      => Hash::make('123456'),
+            'so_dien_thoai' => '0394688031',
+            'vai_tro'       => 'admin',
+        ]);
+
+        // Giữ tài khoản phụ admin@giasu.com để tương thích
+        TaiKhoan::create([
+            'ho_ten'        => 'Ban Quản Trị Hệ Thống',
             'email'         => 'admin@giasu.com',
             'password'      => Hash::make('password'),
             'so_dien_thoai' => '0394688031',
