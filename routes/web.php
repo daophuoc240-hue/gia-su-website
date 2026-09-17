@@ -16,9 +16,9 @@ use App\Http\Controllers\HocVien\HocVienController;
 // ==================== PUBLIC PORTAL ROUTES ====================
 Route::get('/',                 [HomeController::class, 'index'])->name('home');
 Route::get('/danh-sach-gia-su',  [HomeController::class, 'danhSachGiaSu'])->name('danh-sach-gia-su');
-Route::get('/gia-su/{id}',      [HomeController::class, 'chiTietGiaSu'])->name('chi-tiet-gia-su');
+Route::get('/gia-su/{id}',      [HomeController::class, 'chiTietGiaSu'])->whereNumber('id')->name('chi-tiet-gia-su');
 Route::get('/danh-sach-lop-hoc',[HomeController::class, 'danhSachLopHoc'])->name('danh-sach-lop-hoc');
-Route::get('/lop-hoc/{id}',     [HomeController::class, 'chiTietLopHoc'])->name('chi-tiet-lop-hoc');
+Route::get('/lop-hoc/{id}',     [HomeController::class, 'chiTietLopHoc'])->whereNumber('id')->name('chi-tiet-lop-hoc');
 Route::get('/gioi-thieu',       [HomeController::class, 'gioiThieu'])->name('gioi-thieu');
 Route::get('/lien-he',          [HomeController::class, 'lienHe'])->name('lien-he');
 
