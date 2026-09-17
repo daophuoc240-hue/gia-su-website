@@ -43,12 +43,17 @@
                     <div style="font-size:0.72rem; color:#64748b;">{{ auth()->user()->email ?? '' }}</div>
                 </div>
             </div>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-outline btn-block btn-sm" style="color:#ef4444; border-color:#fca5a5; background:#fff;">
-                    <i class="fas fa-sign-out-alt"></i> Đăng Xuất
-                </button>
-            </form>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+                <a href="{{ route('tai-khoan.cai-dat') }}" class="btn btn-outline btn-sm" style="background:#fff; color:#2563eb; border-color:#bfdbfe; text-align:center; font-size:0.8rem; padding:0.45rem 0.2rem;">
+                    <i class="fas fa-cog"></i> Cài Đặt
+                </a>
+                <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                    @csrf
+                    <button type="submit" class="btn btn-outline btn-block btn-sm" style="color:#ef4444; border-color:#fca5a5; background:#fff; font-size:0.8rem; padding:0.45rem 0.2rem;">
+                        <i class="fas fa-sign-out-alt"></i> Thoát
+                    </button>
+                </form>
+            </div>
         </div>
     </aside>
 

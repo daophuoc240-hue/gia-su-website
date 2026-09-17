@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\GiaSu\GiaSuController;
 use App\Http\Controllers\HocVien\HocVienController;
+use App\Http\Controllers\TaiKhoanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,13 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// ==================== CÀI ĐẶT TÀI KHOẢN (CHUNG) ====================
+Route::middleware('auth')->group(function () {
+    Route::get('/cai-dat-tai-khoan',               [TaiKhoanController::class, 'caiDat'])->name('tai-khoan.cai-dat');
+    Route::post('/cai-dat-tai-khoan/thong-tin',    [TaiKhoanController::class, 'capNhatThongTin'])->name('tai-khoan.thong-tin');
+    Route::post('/cai-dat-tai-khoan/doi-mat-khau', [TaiKhoanController::class, 'doiMatKhau'])->name('tai-khoan.doi-mat-khau');
+});
 
 // ==================== ADMIN ROUTES ====================
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
@@ -76,5 +84,6 @@ Route::prefix('hoc-vien')->name('hocvien.')->middleware(['auth', 'role:hocvien']
     Route::post('/tao-yeu-cau',    [HocVienController::class, 'guiYeuCau'])->name('gui-yeu-cau');
     Route::get('/danh-sach-lop',   [HocVienController::class, 'danhSachLop'])->name('danh-sach-lop');
     Route::get('/lop/{id}',        [HocVienController::class, 'chiTietLop'])->name('chi-tiet-lop');
+    Route::post('/lop/{id}/danh-gia', [HocVienController::class, 'danhGiaGiaSu'])->name('danh-gia');
     Route::post('/lop/{id}/huy',   [HocVienController::class, 'huyLop'])->name('huy-lop');
 });

@@ -21,14 +21,40 @@ class AdminController extends Controller
             'ho_so_cho_duyet'    => HoSoGiaSu::where('trang_thai_duyet', 'cho_duyet')->count(),
             'lop_dang_tim'       => LopHoc::where('trang_thai', 'dang_tim')->count(),
             'lop_da_co_gia_su'   => LopHoc::where('trang_thai', 'da_co_gia_su')->count(),
+            'lop_hoan_thanh'     => LopHoc::where('trang_thai', 'hoan_thanh')->count(),
             'tong_lop'           => LopHoc::count(),
             'dang_ky_cho_duyet'  => DangKyNhanLop::where('trang_thai', 'cho_duyet')->count(),
+        ];
+
+        // Thống kê môn học cho biểu đồ tròn
+        $chartMonHoc = [
+            'Toán'      => LopHoc::where('mon_hoc', 'like', '%Toán%')->count(),
+            'Tiếng Anh' => LopHoc::where('mon_hoc', 'like', '%Anh%')->count(),
+            'Vật Lý'    => LopHoc::where('mon_hoc', 'like', '%Lý%')->count(),
+            'Hóa Học'   => LopHoc::where('mon_hoc', 'like', '%Hóa%')->count(),
+            'Ngữ Văn'   => LopHoc::where('mon_hoc', 'like', '%Văn%')->count(),
+            'Ngoại ngữ khác' => LopHoc::where('mon_hoc', 'like', '%Nhật%')->orWhere('mon_hoc', 'like', '%Trung%')->count(),
+            'Môn khác'  => LopHoc::where('mon_hoc', 'not like', '%Toán%')
+                                  ->where('mon_hoc', 'not like', '%Anh%')
+                                  ->where('mon_hoc', 'not like', '%Lý%')
+                                  ->where('mon_hoc', 'not like', '%Hóa%')
+                                  ->where('mon_hoc', 'not like', '%Văn%')
+                                  ->where('mon_hoc', 'not like', '%Nhật%')
+                                  ->where('mon_hoc', 'not like', '%Trung%')
+                                  ->count(),
+        ];
+
+        // Thống kê trạng thái lớp học cho biểu đồ cột
+        $chartTrangThai = [
+            'Đang tìm gia sư' => $stats['lop_dang_tim'],
+            'Đã có gia sư'   => $stats['lop_da_co_gia_su'],
+            'Đã hoàn thành'  => $stats['lop_hoan_thanh'],
         ];
 
         $lop_moi_nhat = LopHoc::with('hocVien')->latest()->take(5)->get();
         $ho_so_moi    = HoSoGiaSu::with('taiKhoan')->where('trang_thai_duyet', 'cho_duyet')->latest()->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'lop_moi_nhat', 'ho_so_moi'));
+        return view('admin.dashboard', compact('stats', 'lop_moi_nhat', 'ho_so_moi', 'chartMonHoc', 'chartTrangThai'));
     }
 
     // ===== QUẢN LÝ TÀI KHOẢN =====

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\HocVien;
 
 use App\Http\Controllers\Controller;
 use App\Models\LopHoc;
+use App\Models\DanhGia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,7 +81,42 @@ class HocVienController extends Controller
         $lop  = LopHoc::with(['giaSu.hoSoGiaSu', 'dangKyNhanLops.giaSu'])
             ->where('hoc_vien_id', $user->id)
             ->findOrFail($id);
-        return view('hoc-vien.chi-tiet-lop', compact('lop'));
+
+        $danhGia = DanhGia::where('lop_hoc_id', $id)
+            ->where('hoc_vien_id', $user->id)
+            ->first();
+
+        return view('hoc-vien.chi-tiet-lop', compact('lop', 'danhGia'));
+    }
+
+    public function danhGiaGiaSu(Request $request, $id)
+    {
+        $request->validate([
+            'so_sao'   => 'required|integer|min:1|max:5',
+            'nhan_xet' => 'required|string|max:1000',
+        ], [
+            'so_sao.required'   => 'Vui lòng chọn số sao đánh giá.',
+            'nhan_xet.required' => 'Vui lòng nhập nhận xét của bạn.',
+        ]);
+
+        $user = Auth::user();
+        $lop  = LopHoc::where('hoc_vien_id', $user->id)
+                      ->whereNotNull('gia_su_id')
+                      ->findOrFail($id);
+
+        DanhGia::updateOrCreate(
+            [
+                'lop_hoc_id'  => $lop->id,
+                'hoc_vien_id' => $user->id,
+            ],
+            [
+                'gia_su_id' => $lop->gia_su_id,
+                'so_sao'    => $request->so_sao,
+                'nhan_xet'  => $request->nhan_xet,
+            ]
+        );
+
+        return back()->with('success', 'Cảm ơn bạn! Đánh giá và nhận xét gia sư đã được ghi nhận thành công.');
     }
 
     public function huyLop($id)

@@ -102,6 +102,35 @@
     </div>
 </div>
 
+{{-- Interactive Charts Section --}}
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+    {{-- Biểu đồ phân bố môn học --}}
+    <div class="glass-card" style="padding: 1.8rem;">
+        <div style="margin-bottom: 1.2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.2rem;">
+                <i class="fas fa-chart-pie" style="color: #2563eb; margin-right: 0.5rem;"></i> Phân Bố Nhu Cầu Môn Học
+            </h3>
+            <p style="font-size: 0.82rem; color: #64748b; margin: 0;">Thống kê tỷ lệ các môn học được phụ huynh đăng ký nhiều nhất</p>
+        </div>
+        <div style="position: relative; height: 260px; display: flex; justify-content: center;">
+            <canvas id="subjectChart"></canvas>
+        </div>
+    </div>
+
+    {{-- Biểu đồ tình trạng ghép lớp --}}
+    <div class="glass-card" style="padding: 1.8rem;">
+        <div style="margin-bottom: 1.2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.2rem;">
+                <i class="fas fa-chart-bar" style="color: #10b981; margin-right: 0.5rem;"></i> Tiến Độ Ghép Lớp Học
+            </h3>
+            <p style="font-size: 0.82rem; color: #64748b; margin: 0;">Trạng thái xử lý và điều phối gia sư trên toàn hệ thống</p>
+        </div>
+        <div style="position: relative; height: 260px;">
+            <canvas id="statusChart"></canvas>
+        </div>
+    </div>
+</div>
+
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
     {{-- Lớp mới nhất --}}
     <div class="glass-card" style="padding: 1.8rem;">
@@ -157,3 +186,91 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Biểu đồ tròn: Phân bố môn học
+    const subjectData = @json($chartMonHoc);
+    const ctxSubject = document.getElementById('subjectChart').getContext('2d');
+    new Chart(ctxSubject, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(subjectData),
+            datasets: [{
+                data: Object.values(subjectData),
+                backgroundColor: [
+                    '#2563eb', // Xanh dương
+                    '#10b981', // Xanh lá
+                    '#f59e0b', // Cam vàng
+                    '#ec4899', // Hồng
+                    '#8b5cf6', // Tím
+                    '#06b6d4', // Cyan
+                    '#94a3b8'  // Xám
+                ],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12,
+                        padding: 14,
+                        font: { size: 11, weight: '600' }
+                    }
+                }
+            },
+            cutout: '65%'
+        }
+    });
+
+    // 2. Biểu đồ cột: Tình trạng lớp học
+    const statusData = @json($chartTrangThai);
+    const ctxStatus = document.getElementById('statusChart').getContext('2d');
+    new Chart(ctxStatus, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(statusData),
+            datasets: [{
+                label: 'Số lượng lớp học',
+                data: Object.values(statusData),
+                backgroundColor: [
+                    'rgba(245, 158, 11, 0.85)', // Vàng cam - Đang tìm
+                    'rgba(37, 99, 235, 0.85)',   // Xanh dương - Đã có gia sư
+                    'rgba(16, 185, 129, 0.85)'   // Xanh lá - Hoàn thành
+                ],
+                borderRadius: 8,
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        font: { size: 11 }
+                    },
+                    grid: { color: 'rgba(226, 232, 240, 0.6)' }
+                },
+                x: {
+                    ticks: { font: { size: 11, weight: '600' } },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+});
+</script>
+@endpush
