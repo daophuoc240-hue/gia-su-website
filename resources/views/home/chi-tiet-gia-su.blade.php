@@ -12,8 +12,15 @@
     <div style="display: grid; grid-template-columns: 340px 1fr; gap: 2rem; align-items: start;">
         <!-- Left Profile Card -->
         <div class="glass-card" style="padding: 2.2rem; text-align: center; border-radius: 20px; background: #ffffff;">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Avatar" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #2563eb; margin-bottom: 1.2rem; box-shadow: 0 8px 25px rgba(37,99,235,0.25);">
+            <div style="position:relative; display:inline-block; margin-bottom:1.2rem;">
+                <img src="{{ $ho_so->avatar_url }}" alt="{{ $ho_so->taiKhoan->ho_ten }}"
+                     style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #2563eb; box-shadow: 0 8px 25px rgba(37,99,235,0.25);">
+                <span style="position:absolute;bottom:5px;right:5px;width:20px;height:20px;background:#10b981;border:3px solid #fff;border-radius:50%;"></span>
+            </div>
             <h2 style="font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.3rem;">{{ $ho_so->taiKhoan->ho_ten }}</h2>
+            @if($ho_so->mon_day)
+            <span style="background:#eff6ff;color:#2563eb;font-size:0.82rem;font-weight:700;padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:0.7rem;">📚 Dạy môn: {{ $ho_so->mon_day }}</span>
+            @endif
             <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 1.2rem;">📧 {{ $ho_so->taiKhoan->email }}</p>
 
             <span class="badge badge-success" style="font-size: 0.88rem; padding: 0.5rem 1.2rem; border-radius: 20px; margin-bottom: 1.5rem;">
@@ -24,6 +31,12 @@
                 <div>🎓 <strong>Trường học:</strong> <br><span style="font-weight: 700; color: #0f172a;">{{ $ho_so->truong_hoc }}</span></div>
                 <div>📖 <strong>Chuyên ngành:</strong> <br><span style="font-weight: 700; color: #0f172a;">{{ $ho_so->chuyen_nganh }}</span></div>
                 <div>📍 <strong>Khu vực nhận dạy:</strong> <br><span style="font-weight: 700; color: #0f172a;">{{ $ho_so->khu_vuc_nhan_day }}</span></div>
+                @if($ho_so->hoc_phi_theo_gio)
+                <div>💰 <strong>Học phí/buổi:</strong> <br><span style="font-weight: 700; color: #2563eb; font-size:1.05rem;">{{ number_format($ho_so->hoc_phi_theo_gio) }}đ</span></div>
+                @endif
+                @if($ho_so->so_lop_da_day)
+                <div>🏫 <strong>Lớp đã dạy:</strong> <span style="font-weight: 700; color: #0f172a;">{{ $ho_so->so_lop_da_day }} lớp</span></div>
+                @endif
                 <div>📞 <strong>Điện thoại liên hệ:</strong> <br><span style="font-weight: 700; color: #0f172a;">{{ $ho_so->taiKhoan->so_dien_thoai ?? 'Liên hệ trung tâm' }}</span></div>
             </div>
         </div>

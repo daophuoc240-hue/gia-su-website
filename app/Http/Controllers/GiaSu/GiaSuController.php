@@ -42,21 +42,26 @@ class GiaSuController extends Controller
     public function capNhatHoSo(Request $request)
     {
         $request->validate([
-            'truong_hoc'      => 'required|string|max:255',
-            'chuyen_nganh'    => 'required|string|max:255',
-            'kinh_nghiem'     => 'required|string',
+            'truong_hoc'       => 'required|string|max:255',
+            'chuyen_nganh'     => 'required|string|max:255',
+            'mon_day'          => 'nullable|string|max:100',
+            'kinh_nghiem'      => 'required|string',
             'khu_vuc_nhan_day' => 'required|string|max:255',
-            'bang_cap'        => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'the_sinh_vien'   => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'hoc_phi_theo_gio' => 'nullable|numeric|min:0',
+            'bang_cap'         => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'the_sinh_vien'    => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'avatar'           => 'nullable|file|mimes:jpg,jpeg,png,gif,webp|max:5120',
         ], [
             'truong_hoc.required'       => 'Vui lòng nhập tên trường học.',
             'chuyen_nganh.required'     => 'Vui lòng nhập chuyên ngành.',
             'kinh_nghiem.required'      => 'Vui lòng nhập kinh nghiệm giảng dạy.',
             'khu_vuc_nhan_day.required' => 'Vui lòng nhập khu vực có thể nhận dạy.',
+            'avatar.mimes'              => 'Ảnh đại diện phải là định dạng jpg, jpeg, png, gif hoặc webp.',
+            'avatar.max'                => 'Ảnh đại diện không được vượt quá 5MB.',
         ]);
 
         $user = Auth::user();
-        $data = $request->only(['truong_hoc', 'chuyen_nganh', 'kinh_nghiem', 'khu_vuc_nhan_day']);
+        $data = $request->only(['truong_hoc', 'chuyen_nganh', 'mon_day', 'kinh_nghiem', 'khu_vuc_nhan_day', 'hoc_phi_theo_gio']);
         $data['trang_thai_duyet'] = 'cho_duyet';
 
         if ($request->hasFile('bang_cap')) {
@@ -65,13 +70,21 @@ class GiaSuController extends Controller
         if ($request->hasFile('the_sinh_vien')) {
             $data['the_sinh_vien'] = $request->file('the_sinh_vien')->store('ho-so', 'public');
         }
+        if ($request->hasFile('avatar')) {
+            // Xoá ảnh cũ nếu có
+            $hoSoCu = HoSoGiaSu::where('tai_khoan_id', $user->id)->first();
+            if ($hoSoCu && $hoSoCu->avatar) {
+                Storage::disk('public')->delete($hoSoCu->avatar);
+            }
+            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
 
         HoSoGiaSu::updateOrCreate(
             ['tai_khoan_id' => $user->id],
             array_merge($data, ['tai_khoan_id' => $user->id])
         );
 
-        return redirect()->route('giasu.ho-so')->with('success', 'Đã cập nhật hồ sơ. Vui lòng chờ kiểm duyệt từ trung tâm.');
+        return redirect()->route('giasu.ho-so')->with('success', 'Đã cập nhật hồ sơ thành công! Vui lòng chờ kiểm duyệt từ trung tâm.');
     }
 
     public function timKiemLop(Request $request)

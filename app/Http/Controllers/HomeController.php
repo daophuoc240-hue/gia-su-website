@@ -48,11 +48,14 @@ class HomeController extends Controller
                 $q->where('truong_hoc', 'like', "%{$kw}%")
                   ->orWhere('chuyen_nganh', 'like', "%{$kw}%")
                   ->orWhere('khu_vuc_nhan_day', 'like', "%{$kw}%")
+                  ->orWhere('mon_day', 'like', "%{$kw}%")
                   ->orWhereHas('taiKhoan', function($sq) use ($kw) {
                       $sq->where('ho_ten', 'like', "%{$kw}%");
                   });
             });
         }
+        // Lọc theo khu vực riêng (độc lập vs keyword)
+        
 
         if ($request->filled('khu_vuc')) {
             $query->where('khu_vuc_nhan_day', 'like', "%{$request->khu_vuc}%");
