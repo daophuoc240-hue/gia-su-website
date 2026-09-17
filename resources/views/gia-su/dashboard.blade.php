@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Dashboard Gia Sư')
-@section('page-title', 'Dashboard Gia Sư')
+@section('title', 'Tổng Quan Gia Sư')
+@section('page-title', 'Bàn Làm Việc Gia Sư')
 
 @section('sidebar-nav')
 <p class="nav-section-title">Tổng Quan</p>
 <div class="nav-item">
     <a href="{{ route('giasu.dashboard') }}" class="nav-link {{ request()->routeIs('giasu.dashboard') ? 'active' : '' }}">
-        <span class="nav-icon"><i class="fas fa-home"></i></span> Dashboard
+        <span class="nav-icon"><i class="fas fa-home"></i></span> Tổng Quan
     </a>
 </div>
 <p class="nav-section-title">Hồ Sơ & Lớp Học</p>

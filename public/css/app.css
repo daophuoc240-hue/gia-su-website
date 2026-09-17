@@ -491,41 +491,46 @@ textarea.form-control {
     min-width: 180px;
 }
 
-/* ==================== PAGINATION & SVG FIX ==================== */
-svg {
-    max-width: 100%;
+/* ==================== CUSTOM VIETNAMESE PAGINATION ==================== */
+.custom-pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.2rem 0.5rem 0.5rem;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 1.2rem;
 }
 
-nav[role="navigation"] svg,
-.pagination svg {
-    width: 18px !important;
-    height: 18px !important;
-    max-width: 18px !important;
-    max-height: 18px !important;
-    display: inline-block !important;
-    vertical-align: middle !important;
+.pagination-info {
+    font-size: 0.88rem;
+    color: #64748b;
 }
 
-.pagination {
+.pagination-info strong {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.custom-pagination {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 0.35rem;
     list-style: none;
     padding: 0;
-    margin: 1.5rem 0 0.5rem;
+    margin: 0;
     flex-wrap: wrap;
 }
 
-.pagination .page-item .page-link,
-nav[role="navigation"] a,
-nav[role="navigation"] span {
+.custom-pagination .page-item .page-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.4rem;
     min-width: 38px;
     height: 38px;
-    padding: 0 0.75rem;
+    padding: 0 0.85rem;
     font-size: 0.88rem;
     font-weight: 600;
     border-radius: var(--radius-sm);
@@ -536,35 +541,27 @@ nav[role="navigation"] span {
     transition: all 0.2s ease;
 }
 
-.pagination .page-item.active .page-link,
-nav[role="navigation"] span[aria-current="page"] > span,
-nav[role="navigation"] span[aria-current="page"] {
+.custom-pagination .page-item.active .page-link {
     background: var(--primary) !important;
     color: #ffffff !important;
     border-color: var(--primary) !important;
     box-shadow: 0 4px 12px rgba(37,99,235,0.25);
 }
 
-.pagination .page-item .page-link:hover,
-nav[role="navigation"] a:hover {
+.custom-pagination .page-item .page-link:hover {
     background: #eff6ff;
     color: var(--primary);
     border-color: #bfdbfe;
 }
 
-.pagination .page-item.disabled .page-link {
+.custom-pagination .page-item.disabled .page-link {
     color: var(--text-muted);
     background: #f8fafc;
     border-color: #e2e8f0;
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.55;
 }
 
-nav[role="navigation"] > div:first-child {
-    display: none; /* Hide 'Showing 1 to 10 of ...' text from Tailwind default */
-}
-nav[role="navigation"] > div:last-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+svg {
+    max-width: 100%;
 }

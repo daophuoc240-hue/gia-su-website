@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name'            => env('APP_NAME', 'Gia Sư Connect'),
+    'name'            => env('APP_NAME', 'Gia Sư Tri Thức'),
     'env'             => env('APP_ENV', 'local'),
     'debug'           => (bool) env('APP_DEBUG', false),
     'url'             => env('APP_URL', 'http://localhost'),

@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Dashboard Quản Trị Viên')
-@section('page-title', 'Dashboard Quản Trị')
+@section('title', 'Tổng Quan Quản Trị Hệ Thống')
+@section('page-title', 'Bảng Điều Khiển Quản Trị')
 
 @section('sidebar-nav')
 <p class="nav-section-title">Tổng Quan</p>
 <div class="nav-item">
     <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-        <span class="nav-icon"><i class="fas fa-chart-line"></i></span> Dashboard
+        <span class="nav-icon"><i class="fas fa-chart-line"></i></span> Tổng Quan
     </a>
 </div>
 <p class="nav-section-title">Quản Lý</p>

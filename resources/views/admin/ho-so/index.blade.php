@@ -3,7 +3,7 @@
 @section('page-title', 'Duyệt Hồ Sơ Gia Sư')
 @section('sidebar-nav')
 <p class="nav-section-title">Tổng Quan</p>
-<div class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-chart-line"></i></span> Dashboard</a></div>
+<div class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-chart-line"></i></span> Tổng Quan</a></div>
 <p class="nav-section-title">Quản Lý</p>
 <div class="nav-item"><a href="{{ route('admin.tai-khoan.index') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-users"></i></span> Tài Khoản</a></div>
 <div class="nav-item"><a href="{{ route('admin.ho-so.index') }}" class="nav-link active"><span class="nav-icon"><i class="fas fa-id-card"></i></span> Hồ Sơ Gia Sư</a></div>

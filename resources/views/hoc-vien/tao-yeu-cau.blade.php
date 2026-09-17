@@ -4,7 +4,7 @@
 
 @section('sidebar-nav')
 <p class="nav-section-title">Tổng Quan</p>
-<div class="nav-item"><a href="{{ route('hocvien.dashboard') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-home"></i></span> Dashboard</a></div>
+<div class="nav-item"><a href="{{ route('hocvien.dashboard') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-home"></i></span> Tổng Quan</a></div>
 <p class="nav-section-title">Tìm Gia Sư</p>
 <div class="nav-item"><a href="{{ route('hocvien.tao-yeu-cau') }}" class="nav-link active"><span class="nav-icon"><i class="fas fa-plus-circle"></i></span> Tạo Yêu Cầu Mới</a></div>
 <div class="nav-item"><a href="{{ route('hocvien.danh-sach-lop') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-list"></i></span> Danh Sách Lớp</a></div>

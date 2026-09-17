@@ -60,7 +60,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div>
-                    <div class="topbar-title">@yield('page-title', 'Dashboard')</div>
+                    <div class="topbar-title">@yield('page-title', 'Tổng Quan')</div>
                     <div style="font-size:0.78rem; color:#64748b;">Hệ thống Kết nối & Quản lý Gia sư Chuyên nghiệp</div>
                 </div>
             </div>

@@ -140,11 +140,11 @@
             <div style="display: flex; align-items: center; gap: 0.8rem;">
                 @auth
                     @if(auth()->user()->vai_tro === 'admin')
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-sm"><i class="fas fa-user-shield"></i> Trang Admin</a>
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-sm"><i class="fas fa-user-shield"></i> Trang Quản Trị</a>
                     @elseif(auth()->user()->vai_tro === 'giasu')
-                        <a href="{{ route('giasu.dashboard') }}" class="btn btn-primary btn-sm"><i class="fas fa-tachometer-alt"></i> Dashboard Gia Sư</a>
+                        <a href="{{ route('giasu.dashboard') }}" class="btn btn-primary btn-sm"><i class="fas fa-chalkboard-teacher"></i> Bàn Làm Việc Gia Sư</a>
                     @else
-                        <a href="{{ route('hocvien.dashboard') }}" class="btn btn-primary btn-sm"><i class="fas fa-user"></i> Dashboard Học Viên</a>
+                        <a href="{{ route('hocvien.dashboard') }}" class="btn btn-primary btn-sm"><i class="fas fa-user"></i> Khu Vực Học Viên</a>
                     @endif
                 @else
                     <a href="{{ route('login') }}" class="btn btn-outline btn-sm"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>

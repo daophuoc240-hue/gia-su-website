@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title', 'Dashboard Học Viên / Phụ Huynh')
-@section('page-title', 'Dashboard Phụ Huynh & Học Viên')
+@section('title', 'Tổng Quan Phụ Huynh & Học Viên')
+@section('page-title', 'Khu Vực Phụ Huynh & Học Viên')
 
 @section('sidebar-nav')
 <p class="nav-section-title">Tổng Quan</p>
-<div class="nav-item"><a href="{{ route('hocvien.dashboard') }}" class="nav-link {{ request()->routeIs('hocvien.dashboard') ? 'active' : '' }}"><span class="nav-icon"><i class="fas fa-home"></i></span> Dashboard</a></div>
+<div class="nav-item"><a href="{{ route('hocvien.dashboard') }}" class="nav-link {{ request()->routeIs('hocvien.dashboard') ? 'active' : '' }}"><span class="nav-icon"><i class="fas fa-home"></i></span> Tổng Quan</a></div>
 <p class="nav-section-title">Tìm Gia Sư</p>
 <div class="nav-item"><a href="{{ route('hocvien.tao-yeu-cau') }}" class="nav-link {{ request()->routeIs('hocvien.tao-yeu-cau') ? 'active' : '' }}"><span class="nav-icon"><i class="fas fa-plus-circle"></i></span> Tạo Yêu Cầu Mới</a></div>
 <div class="nav-item"><a href="{{ route('hocvien.danh-sach-lop') }}" class="nav-link {{ request()->routeIs('hocvien.danh-sach-lop') ? 'active' : '' }}"><span class="nav-icon"><i class="fas fa-list"></i></span> Danh Sách Lớp</a></div>
