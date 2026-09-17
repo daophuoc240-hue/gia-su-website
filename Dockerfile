@@ -13,17 +13,32 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     && docker-php-ext-install pdo pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd
 
-# Enable Apache mod_rewrite
+# Enable Apache modules
 RUN a2enmod rewrite headers
+
+# ============================================================
+# FIX CHÍNH: Ghi config Apache trực tiếp (không copy file)
+# Đảm bảo DocumentRoot luôn trỏ đúng vào /var/www/html/public
+# ============================================================
+RUN { \
+    echo '<VirtualHost *:80>'; \
+    echo '    ServerAdmin webmaster@localhost'; \
+    echo '    DocumentRoot /var/www/html/public'; \
+    echo '    <Directory /var/www/html/public>'; \
+    echo '        Options Indexes FollowSymLinks'; \
+    echo '        AllowOverride All'; \
+    echo '        Require all granted'; \
+    echo '    </Directory>'; \
+    echo '    ErrorLog ${APACHE_LOG_DIR}/error.log'; \
+    echo '    CustomLog ${APACHE_LOG_DIR}/access.log combined'; \
+    echo '</VirtualHost>'; \
+} > /etc/apache2/sites-available/000-default.conf \
+  && ln -sf /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 WORKDIR /var/www/html
 
 # Copy application files
 COPY . /var/www/html
-
-# Copy custom Apache site config vào ĐÚNG nơi Apache đọc
-COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
-COPY docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Install Composer dependencies
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
