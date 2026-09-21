@@ -38,6 +38,7 @@
                     <td>
                         <div style="font-weight:600; color:var(--text-primary);">{{ $lop->mon_hoc }}</div>
                         <div style="font-size:0.78rem; color:var(--text-muted);">{{ $lop->khoi_lop }} • {{ $lop->so_buoi_tuan }} buổi/tuần</div>
+                        <div style="font-size:0.74rem; color:#2563eb; margin-top:2px;">🗓️ {{ $lop->thoi_gian_hoc ?: 'Lịch thỏa thuận' }}</div>
                     </td>
                     <td style="font-size:0.85rem;">{{ Str::limit($lop->dia_chi_day, 30) }}</td>
                     <td style="font-weight:600; color:#fda085;">{{ number_format($lop->muc_hoc_phi) }}đ</td>

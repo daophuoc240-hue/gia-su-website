@@ -23,6 +23,7 @@
         <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Môn Học</span><br><strong style="font-size:1.1rem;">{{ $lop->mon_hoc }}</strong></div>
         <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Khối Lớp</span><br><strong>{{ $lop->khoi_lop }}</strong></div>
         <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Số Buổi / Tuần</span><br>{{ $lop->so_buoi_tuan }} buổi</div>
+        <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Lịch Học Chi Tiết</span><br><strong style="color:#2563eb; font-size:0.95rem;">🗓️ {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần (Thoả thuận)') }}</strong></div>
         <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Địa Chỉ Dạy</span><br>{{ $lop->dia_chi_day }}</div>
         <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Mức Học Phí</span><br><strong style="color:#fda085; font-size:1.1rem;">{{ number_format($lop->muc_hoc_phi) }}đ/buổi</strong></div>
         @if($lop->yeu_cau_them)
@@ -110,9 +111,16 @@
         <div class="glass-card" style="padding:1.5rem; margin-bottom:1rem;">
             <h3 style="font-size:1rem; font-weight:700; margin-bottom:1rem;">👨‍🏫 Gia Sư Đã Đăng Ký ({{ $lop->dangKyNhanLops->count() }})</h3>
             @forelse($lop->dangKyNhanLops as $dk)
-            <div style="padding:0.7rem 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                <div style="font-weight:600; color:var(--text-primary);">{{ $dk->giaSu->ho_ten }}</div>
-                <div style="font-size:0.78rem; color:var(--text-muted);">Đăng ký: {{ $dk->created_at->format('d/m/Y') }}</div>
+            <div style="padding:0.7rem 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:600; color:var(--text-primary);">{{ $dk->giaSu->ho_ten }}</div>
+                    <div style="font-size:0.78rem; color:var(--text-muted);">Đăng ký: {{ $dk->created_at->format('d/m/Y') }}</div>
+                </div>
+                @if($dk->giaSu->hoSoGiaSu)
+                <span style="font-size:0.8rem; font-weight:700; color:#f59e0b; background:#fffbeb; padding:2px 8px; border-radius:12px; border:1px solid #fef3c7;">
+                    ⭐ {{ number_format($dk->giaSu->hoSoGiaSu->diem_trung_binh, 1) }}
+                </span>
+                @endif
             </div>
             @empty
             <div class="empty-state" style="padding:1rem;">
@@ -121,6 +129,47 @@
             </div>
             @endforelse
         </div>
+
+        {{-- Gợi Ý Gia Sư Phù Hợp Nhất (Smart Matching Recommendation) --}}
+        @if(isset($giaSuGoiY) && $giaSuGoiY->count() > 0)
+        <div class="glass-card" style="padding:1.4rem; margin-bottom:1rem; border: 1px solid #bfdbfe; background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%); border-radius:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                <h3 style="font-size:0.98rem; font-weight:800; color:#1e40af; margin:0;">
+                    🎯 Gia Sư Phù Hợp Nhất (Gợi ý tự động)
+                </h3>
+                <span class="badge badge-info" style="font-size:0.72rem; padding:3px 8px;">Gợi Ý</span>
+            </div>
+            <p style="font-size:0.78rem; color:#64748b; margin-bottom:0.9rem;">Hệ thống lọc theo môn <strong>{{ $lop->mon_hoc }}</strong> và điểm đánh giá cao nhất:</p>
+
+            <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                @foreach($giaSuGoiY as $gs)
+                <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:0.8rem; display:flex; gap:0.8rem; align-items:center; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+                    <img src="{{ $gs->avatar_url }}" alt="{{ $gs->taiKhoan->ho_ten }}"
+                         style="width:46px; height:46px; border-radius:50%; object-fit:cover; border:2px solid #2563eb; flex-shrink:0;">
+                    <div style="flex:1; min-width:0;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:0.88rem; font-weight:700; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                {{ $gs->taiKhoan->ho_ten }}
+                            </span>
+                            <span style="font-size:0.78rem; font-weight:700; color:#f59e0b; background:#fffbeb; padding:1px 6px; border-radius:6px; flex-shrink:0;">
+                                ⭐ {{ number_format($gs->diem_trung_binh, 1) }} ({{ $gs->so_luot_danh_gia }})
+                            </span>
+                        </div>
+                        <div style="font-size:0.75rem; color:#475569; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            🎓 {{ $gs->truong_hoc }}
+                        </div>
+                        <div style="font-size:0.73rem; color:#2563eb;">
+                            📚 {{ $gs->mon_day }} • {{ number_format($gs->hoc_phi_theo_gio) }}đ/b
+                        </div>
+                    </div>
+                    <a href="{{ route('chi-tiet-gia-su', $gs->id) }}" target="_blank" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.3rem 0.6rem; border-radius:8px; white-space:nowrap;">
+                        Xem HS
+                    </a>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
 
         <form method="POST" action="{{ route('hocvien.huy-lop', $lop->id) }}">
             @csrf

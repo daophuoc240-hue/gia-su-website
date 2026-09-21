@@ -23,9 +23,19 @@
             @endif
             <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 1.2rem;">📧 {{ $ho_so->taiKhoan->email }}</p>
 
-            <span class="badge badge-success" style="font-size: 0.88rem; padding: 0.5rem 1.2rem; border-radius: 20px; margin-bottom: 1.5rem;">
+            <span class="badge badge-success" style="font-size: 0.88rem; padding: 0.5rem 1.2rem; border-radius: 20px; margin-bottom: 1.2rem;">
                 ✅ Hồ Sơ Đã Được Thẩm Định
             </span>
+
+            {{-- Đánh giá tổng quan --}}
+            <div style="background:#fffbeb; border:1px solid #fef3c7; border-radius:14px; padding:0.9rem 1rem; margin-bottom:1.5rem;">
+                <div style="font-size:1.5rem; font-weight:800; color:#d97706;">
+                    ⭐ {{ number_format($ho_so->diem_trung_binh ?? 5.0, 1) }} <span style="font-size:0.85rem; color:#92400e; font-weight:600;">/ 5.0</span>
+                </div>
+                <div style="font-size:0.82rem; color:#b45309; font-weight:600; margin-top:3px;">
+                    ({{ $ho_so->so_luot_danh_gia ?? 0 }} đánh giá từ phụ huynh)
+                </div>
+            </div>
 
             <div style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem; text-align: left; font-size: 0.9rem; color: #334155; line-height: 1.9;">
                 <div>🎓 <strong>Trường học:</strong> <br><span style="font-weight: 700; color: #0f172a;">{{ $ho_so->truong_hoc }}</span></div>
@@ -50,6 +60,49 @@
                 <p style="font-size: 0.98rem; color: #334155; line-height: 1.8; white-space: pre-line;">
                     {{ $ho_so->kinh_nghiem }}
                 </p>
+            </div>
+
+            {{-- Đánh giá & Nhận xét từ phụ huynh --}}
+            <div class="glass-card" style="padding: 2.2rem; border-radius: 20px; background: #ffffff; margin-bottom: 1.8rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0;">
+                        💬 Nhận Xét Từ Phụ Huynh Đã Học ({{ isset($danh_gias) ? $danh_gias->count() : 0 }})
+                    </h3>
+                    <span style="font-size:0.85rem; color:#d97706; font-weight:700; background:#fef3c7; padding:2px 10px; border-radius:12px;">
+                        ⭐ {{ number_format($ho_so->diem_trung_binh ?? 5.0, 1) }} / 5.0
+                    </span>
+                </div>
+
+                @if(isset($danh_gias) && $danh_gias->count() > 0)
+                    @foreach($danh_gias as $dg)
+                    <div style="padding: 0.9rem 0; border-bottom: 1px solid #f1f5f9;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                            <div style="display:flex; align-items:center; gap:0.6rem;">
+                                <div style="width:34px; height:34px; border-radius:50%; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">
+                                    {{ substr($dg->hocVien->ho_ten ?? 'PH', 0, 1) }}
+                                </div>
+                                <div>
+                                    <span style="font-weight:700; color:#0f172a; font-size:0.92rem;">{{ $dg->hocVien->ho_ten ?? 'Phụ huynh' }}</span>
+                                    <span style="font-size:0.75rem; color:#94a3b8; margin-left:6px;">{{ $dg->created_at->format('d/m/Y') }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                @for($i = 1; $i <= 5; $i++)
+                                    <i class="fas fa-star" style="font-size:0.82rem; color:{{ $i <= $dg->so_sao ? '#f59e0b' : '#cbd5e1' }};"></i>
+                                @endfor
+                            </div>
+                        </div>
+                        <p style="font-size:0.9rem; color:#334155; line-height:1.6; margin:0; padding-left:2.7rem; font-style:italic;">
+                            "{{ $dg->nhan_xet }}"
+                        </p>
+                    </div>
+                    @endforeach
+                @else
+                    <div style="text-align:center; padding: 2rem 1rem; color:#94a3b8;">
+                        <div style="font-size:2rem; margin-bottom:0.5rem;">🌟</div>
+                        <p style="margin:0; font-size:0.9rem;">Gia sư này đang chờ những đánh giá đầu tiên. Mời gia sư ngay để trải nghiệm dịch vụ!</p>
+                    </div>
+                @endif
             </div>
 
             <!-- Contact & Hire Banner -->

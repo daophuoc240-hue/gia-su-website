@@ -33,12 +33,15 @@ class HocVienController extends Controller
     public function guiYeuCau(Request $request)
     {
         $request->validate([
-            'mon_hoc'      => 'required|string|max:100',
-            'khoi_lop'     => 'required|string|max:50',
-            'so_buoi_tuan' => 'required|integer|min:1|max:7',
-            'dia_chi_day'  => 'required|string|max:255',
-            'muc_hoc_phi'  => 'required|numeric|min:0',
-            'yeu_cau_them' => 'nullable|string|max:500',
+            'mon_hoc'       => 'required|string|max:100',
+            'khoi_lop'      => 'required|string|max:50',
+            'so_buoi_tuan'  => 'required|integer|min:1|max:7',
+            'dia_chi_day'   => 'required|string|max:255',
+            'muc_hoc_phi'   => 'required|numeric|min:0',
+            'yeu_cau_them'  => 'nullable|string|max:500',
+            'thu_hoc'       => 'nullable|array',
+            'ca_hoc'        => 'nullable|string|max:100',
+            'thoi_gian_hoc' => 'nullable|string|max:255',
         ], [
             'mon_hoc.required'      => 'Vui lòng nhập môn học.',
             'khoi_lop.required'     => 'Vui lòng chọn khối lớp.',
@@ -47,15 +50,24 @@ class HocVienController extends Controller
             'muc_hoc_phi.required'  => 'Vui lòng nhập mức học phí.',
         ]);
 
+        $thoiGianHoc = $request->thoi_gian_hoc;
+        if (!$thoiGianHoc && $request->has('thu_hoc') && is_array($request->thu_hoc)) {
+            $thoiGianHoc = implode(', ', $request->thu_hoc);
+            if ($request->filled('ca_hoc')) {
+                $thoiGianHoc .= ' (' . $request->ca_hoc . ')';
+            }
+        }
+
         LopHoc::create([
-            'hoc_vien_id'  => Auth::id(),
-            'mon_hoc'      => $request->mon_hoc,
-            'khoi_lop'     => $request->khoi_lop,
-            'so_buoi_tuan' => $request->so_buoi_tuan,
-            'dia_chi_day'  => $request->dia_chi_day,
-            'muc_hoc_phi'  => $request->muc_hoc_phi,
-            'yeu_cau_them' => $request->yeu_cau_them,
-            'trang_thai'   => 'dang_tim',
+            'hoc_vien_id'   => Auth::id(),
+            'mon_hoc'       => $request->mon_hoc,
+            'khoi_lop'      => $request->khoi_lop,
+            'so_buoi_tuan'  => $request->so_buoi_tuan,
+            'thoi_gian_hoc' => $thoiGianHoc ?: ($request->so_buoi_tuan . ' buổi/tuần (Thoả thuận)'),
+            'dia_chi_day'   => $request->dia_chi_day,
+            'muc_hoc_phi'   => $request->muc_hoc_phi,
+            'yeu_cau_them'  => $request->yeu_cau_them,
+            'trang_thai'    => 'dang_tim',
         ]);
 
         return redirect()->route('hocvien.danh-sach-lop')
@@ -78,7 +90,7 @@ class HocVienController extends Controller
     public function chiTietLop($id)
     {
         $user = Auth::user();
-        $lop  = LopHoc::with(['giaSu.hoSoGiaSu', 'dangKyNhanLops.giaSu'])
+        $lop  = LopHoc::with(['giaSu.hoSoGiaSu', 'dangKyNhanLops.giaSu.hoSoGiaSu'])
             ->where('hoc_vien_id', $user->id)
             ->findOrFail($id);
 
@@ -86,7 +98,34 @@ class HocVienController extends Controller
             ->where('hoc_vien_id', $user->id)
             ->first();
 
-        return view('hoc-vien.chi-tiet-lop', compact('lop', 'danhGia'));
+        // Thuật toán gợi ý Gia Sư phù hợp nhất (Smart Matching Recommendation)
+        $giaSuGoiY = collect();
+        if ($lop->trang_thai === 'dang_tim') {
+            $giaSuGoiY = \App\Models\HoSoGiaSu::with('taiKhoan')
+                ->where('trang_thai_duyet', 'da_duyet')
+                ->where(function($q) use ($lop) {
+                    $q->where('mon_day', 'like', "%{$lop->mon_hoc}%")
+                      ->orWhere('kinh_nghiem', 'like', "%{$lop->mon_hoc}%");
+                })
+                ->orderByDesc('diem_trung_binh')
+                ->orderByDesc('so_lop_da_day')
+                ->take(4)
+                ->get();
+
+            if ($giaSuGoiY->count() < 4) {
+                $daCoIds = $giaSuGoiY->pluck('id')->toArray();
+                $extra = \App\Models\HoSoGiaSu::with('taiKhoan')
+                    ->where('trang_thai_duyet', 'da_duyet')
+                    ->whereNotIn('id', $daCoIds)
+                    ->orderByDesc('diem_trung_binh')
+                    ->orderByDesc('so_lop_da_day')
+                    ->take(4 - $giaSuGoiY->count())
+                    ->get();
+                $giaSuGoiY = $giaSuGoiY->merge($extra);
+            }
+        }
+
+        return view('hoc-vien.chi-tiet-lop', compact('lop', 'danhGia', 'giaSuGoiY'));
     }
 
     public function danhGiaGiaSu(Request $request, $id)
@@ -115,6 +154,18 @@ class HocVienController extends Controller
                 'nhan_xet'  => $request->nhan_xet,
             ]
         );
+
+        // Tự động tính toán lại điểm trung bình và số lượt đánh giá của gia sư
+        $hoSo = \App\Models\HoSoGiaSu::where('tai_khoan_id', $lop->gia_su_id)->first();
+        if ($hoSo) {
+            $avg = DanhGia::where('gia_su_id', $lop->gia_su_id)->avg('so_sao');
+            $count = DanhGia::where('gia_su_id', $lop->gia_su_id)->count();
+            $hoSo->update([
+                'diem_trung_binh'  => $avg ? round($avg, 1) : 5.0,
+                'diem_danh_gia'    => $avg ? round($avg, 1) : 5.0,
+                'so_luot_danh_gia' => $count,
+            ]);
+        }
 
         return back()->with('success', 'Cảm ơn bạn! Đánh giá và nhận xét gia sư đã được ghi nhận thành công.');
     }

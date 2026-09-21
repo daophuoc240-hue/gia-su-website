@@ -168,10 +168,11 @@ class AdminController extends Controller
             'so_buoi_tuan'  => 'required|integer|min:1|max:7',
             'dia_chi_day'   => 'required|string|max:255',
             'muc_hoc_phi'   => 'required|numeric|min:0',
+            'thoi_gian_hoc' => 'nullable|string|max:255',
         ]);
 
         $lop = LopHoc::findOrFail($id);
-        $lop->update($request->only(['mon_hoc', 'khoi_lop', 'so_buoi_tuan', 'dia_chi_day', 'muc_hoc_phi', 'yeu_cau_them']));
+        $lop->update($request->only(['mon_hoc', 'khoi_lop', 'so_buoi_tuan', 'dia_chi_day', 'muc_hoc_phi', 'thoi_gian_hoc', 'yeu_cau_them']));
         return redirect()->route('admin.lop-hoc.index')->with('success', 'Đã cập nhật thông tin lớp học.');
     }
 

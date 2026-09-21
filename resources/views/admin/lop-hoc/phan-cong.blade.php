@@ -21,6 +21,7 @@
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Môn học</span><br><strong>{{ $lop->mon_hoc }}</strong></div>
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Khối lớp</span><br><strong>{{ $lop->khoi_lop }}</strong></div>
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Số buổi/tuần</span><br><strong>{{ $lop->so_buoi_tuan }} buổi</strong></div>
+        <div><span style="color:var(--text-muted); font-size:0.8rem;">Lịch học</span><br><strong style="color:#2563eb;">🗓️ {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần') }}</strong></div>
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Địa chỉ dạy</span><br>{{ $lop->dia_chi_day }}</div>
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Học phí</span><br><strong style="color:#fda085;">{{ number_format($lop->muc_hoc_phi) }}đ/buổi</strong></div>
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Học viên</span><br>{{ $lop->hocVien->ho_ten }}</div>
@@ -35,7 +36,14 @@
     <div style="padding:1.2rem; background:rgba(255,255,255,0.04); border-radius:var(--radius-sm); border:1px solid rgba(255,255,255,0.08); margin-bottom:1rem;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
             <div style="flex:1;">
-                <div style="font-size:1rem; font-weight:700; color:var(--text-primary); margin-bottom:0.5rem;">{{ $dk->giaSu->ho_ten }}</div>
+                <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
+                    <div style="font-size:1rem; font-weight:700; color:var(--text-primary);">{{ $dk->giaSu->ho_ten }}</div>
+                    @if($dk->giaSu->hoSoGiaSu)
+                    <span style="font-size:0.78rem; font-weight:700; color:#d97706; background:#fffbeb; padding:2px 8px; border-radius:10px; border:1px solid #fef3c7;">
+                        ⭐ {{ number_format($dk->giaSu->hoSoGiaSu->diem_trung_binh, 1) }} ({{ $dk->giaSu->hoSoGiaSu->so_luot_danh_gia }} đánh giá)
+                    </span>
+                    @endif
+                </div>
                 <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.3rem;">
                     📧 {{ $dk->giaSu->email }} • 📞 {{ $dk->giaSu->so_dien_thoai }}
                 </div>

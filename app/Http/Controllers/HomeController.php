@@ -54,14 +54,23 @@ class HomeController extends Controller
                   });
             });
         }
-        // Lọc theo khu vực riêng (độc lập vs keyword)
-        
 
         if ($request->filled('khu_vuc')) {
             $query->where('khu_vuc_nhan_day', 'like', "%{$request->khu_vuc}%");
         }
 
-        $gia_sus = $query->latest()->paginate(9);
+        // Sắp xếp gia sư theo tiêu chí
+        $sort = $request->get('sort', 'latest');
+        match ($sort) {
+            'rating_desc'  => $query->orderByDesc('diem_trung_binh')->orderByDesc('so_luot_danh_gia'),
+            'rating_count' => $query->orderByDesc('so_luot_danh_gia')->orderByDesc('diem_trung_binh'),
+            'classes_desc' => $query->orderByDesc('so_lop_da_day')->orderByDesc('diem_trung_binh'),
+            'fee_asc'      => $query->orderBy('hoc_phi_theo_gio', 'asc'),
+            'fee_desc'     => $query->orderByDesc('hoc_phi_theo_gio'),
+            default        => $query->latest(),
+        };
+
+        $gia_sus = $query->paginate(9);
 
         return view('home.danh-sach-gia-su', compact('gia_sus'));
     }
@@ -72,7 +81,12 @@ class HomeController extends Controller
             ->where('trang_thai_duyet', 'da_duyet')
             ->findOrFail($id);
 
-        return view('home.chi-tiet-gia-su', compact('ho_so'));
+        $danh_gias = DanhGia::with('hocVien')
+            ->where('gia_su_id', $ho_so->tai_khoan_id)
+            ->latest()
+            ->get();
+
+        return view('home.chi-tiet-gia-su', compact('ho_so', 'danh_gias'));
     }
 
     public function danhSachLopHoc(Request $request)

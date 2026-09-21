@@ -109,37 +109,37 @@ class DatabaseSeeder extends Seeder
 
         // ==================== LỚP HỌC (30 lớp) ====================
         $danhSachLop = [
-            ['mon' => 'Toán Đại Số & Hình Học', 'khoi' => 'Lớp 12', 'buoi' => 3, 'dia_chi' => '123 Nguyễn Minh Khai, Q.1', 'phi' => 1500000, 'yc' => 'Ưu tiên gia sư sư phạm Toán, kinh nghiệm luyện thi ĐH', 'tt' => 'dang_tim', 'hv_idx' => 0],
-            ['mon' => 'Tiếng Anh IELTS', 'khoi' => 'Lớp 12', 'buoi' => 2, 'dia_chi' => '45 Lê Văn Sỹ, Q.3', 'phi' => 1800000, 'yc' => 'Gia sư IELTS 7.0+ có kinh nghiệm luyện thi', 'tt' => 'dang_tim', 'hv_idx' => 1],
-            ['mon' => 'Vật Lý THPT', 'khoi' => 'Lớp 11', 'buoi' => 2, 'dia_chi' => '67 Trần Hưng Đạo, Q.5', 'phi' => 1300000, 'yc' => 'Gia sư kiên nhẫn, giảng rõ ràng', 'tt' => 'dang_tim', 'hv_idx' => 2],
-            ['mon' => 'Hóa Học', 'khoi' => 'Lớp 11', 'buoi' => 2, 'dia_chi' => '89 Nguyễn Trãi, Q.5', 'phi' => 1200000, 'yc' => 'Gia sư Hóa vui vẻ, chia sẻ tài liệu ôn thi', 'tt' => 'dang_tim', 'hv_idx' => 3],
-            ['mon' => 'Ngữ Văn', 'khoi' => 'Lớp 12', 'buoi' => 2, 'dia_chi' => '12 Bà Huyện Thanh Quan, Q.3', 'phi' => 1100000, 'yc' => 'Gia sư Văn giỏi nghị luận, cẩn thận sửa bài', 'tt' => 'dang_tim', 'hv_idx' => 4],
-            ['mon' => 'Sinh Học', 'khoi' => 'Lớp 12', 'buoi' => 2, 'dia_chi' => '34 Lý Chính Thắng, Q.3', 'phi' => 1200000, 'yc' => 'Gia sư Sinh luyện thi khối B', 'tt' => 'dang_tim', 'hv_idx' => 5],
-            ['mon' => 'Toán - Tiếng Việt', 'khoi' => 'Lớp 3', 'buoi' => 3, 'dia_chi' => '56 Cách Mạng Tháng 8, Q.10', 'phi' => 800000, 'yc' => 'Gia sư cẩn thận, yêu trẻ, có kinh nghiệm dạy tiểu học', 'tt' => 'dang_tim', 'hv_idx' => 6],
-            ['mon' => 'Tiếng Anh Giao Tiếp', 'khoi' => 'Lớp 8', 'buoi' => 2, 'dia_chi' => '78 Đinh Tiên Hoàng, Bình Thạnh', 'phi' => 1000000, 'yc' => 'Gia sư phát âm chuẩn, tạo môi trường nói tốt', 'tt' => 'dang_tim', 'hv_idx' => 7],
-            ['mon' => 'Toán', 'khoi' => 'Lớp 9', 'buoi' => 3, 'dia_chi' => '90 Xô Viết Nghệ Tĩnh, Bình Thạnh', 'phi' => 1100000, 'yc' => 'Ôn thi vào lớp 10 chuyên Toán', 'tt' => 'dang_tim', 'hv_idx' => 8],
-            ['mon' => 'Vật Lý', 'khoi' => 'Lớp 10', 'buoi' => 2, 'dia_chi' => '13 Bình Giã, Tân Bình', 'phi' => 1000000, 'yc' => 'Học sinh mới lên 10, cần củng cố kiến thức cơ bản', 'tt' => 'dang_tim', 'hv_idx' => 9],
-            ['mon' => 'Tiếng Nhật N4', 'khoi' => 'Đại học', 'buoi' => 2, 'dia_chi' => '5 Nguyễn Đình Chiểu, Q.3', 'phi' => 1500000, 'yc' => 'Gia sư Nhật từng học/làm việc tại Nhật', 'tt' => 'dang_tim', 'hv_idx' => 0],
-            ['mon' => 'Lập Trình Python', 'khoi' => 'Đại học', 'buoi' => 2, 'dia_chi' => '23 Hai Bà Trưng, Q.1', 'phi' => 2000000, 'yc' => 'Học lập trình từ đầu, ưu tiên gia sư IT đang đi làm', 'tt' => 'dang_tim', 'hv_idx' => 1],
-            ['mon' => 'Toán Nâng Cao', 'khoi' => 'Lớp 6', 'buoi' => 3, 'dia_chi' => '41 Huỳnh Tịnh Của, Q.3', 'phi' => 900000, 'yc' => 'Con học trường chuyên, cần ôn nâng cao', 'tt' => 'dang_tim', 'hv_idx' => 2],
-            ['mon' => 'Hóa Đại Cương', 'khoi' => 'Đại học', 'buoi' => 2, 'dia_chi' => '67 Phan Xích Long, Phú Nhuận', 'phi' => 1400000, 'yc' => 'Sinh viên năm 1 Y Dược cần học Hóa nền', 'tt' => 'dang_tim', 'hv_idx' => 3],
-            ['mon' => 'Tiếng Anh Toeic', 'khoi' => 'Đại học', 'buoi' => 3, 'dia_chi' => '99 Nguyễn Oanh, Gò Vấp', 'phi' => 1600000, 'yc' => 'Ôn TOEIC 700+ trong 2 tháng', 'tt' => 'dang_tim', 'hv_idx' => 4],
-            ['mon' => 'Toán', 'khoi' => 'Lớp 5', 'buoi' => 2, 'dia_chi' => '15 Trường Chinh, Tân Bình', 'phi' => 700000, 'yc' => 'Con lớp 5 cần ôn thi chuyển cấp', 'tt' => 'dang_tim', 'hv_idx' => 5],
-            ['mon' => 'Văn - Sử - Địa', 'khoi' => 'Lớp 12', 'buoi' => 3, 'dia_chi' => '27 Âu Cơ, Tân Phú', 'phi' => 1300000, 'yc' => 'Luyện thi ĐH khối C, ưu tiên kinh nghiệm', 'tt' => 'dang_tim', 'hv_idx' => 6],
-            ['mon' => 'Toán & Lý', 'khoi' => 'Lớp 11', 'buoi' => 4, 'dia_chi' => '88 Lê Quang Định, Bình Thạnh', 'phi' => 2200000, 'yc' => 'Cần 1 gia sư dạy cả Toán lẫn Lý', 'tt' => 'dang_tim', 'hv_idx' => 7],
-            ['mon' => 'Tiếng Trung HSK3', 'khoi' => 'Lớp 9', 'buoi' => 2, 'dia_chi' => '3 Trần Não, Q.2', 'phi' => 1200000, 'yc' => 'Học Tiếng Trung từ A0, phát âm chuẩn', 'tt' => 'dang_tim', 'hv_idx' => 8],
-            ['mon' => 'Toán Tư Duy', 'khoi' => 'Lớp 1', 'buoi' => 2, 'dia_chi' => '11 Nguyễn Thị Định, Q.2', 'phi' => 600000, 'yc' => 'Gia sư vui vẻ, kiên nhẫn dạy bé lớp 1', 'tt' => 'dang_tim', 'hv_idx' => 9],
+            ['mon' => 'Toán Đại Số & Hình Học', 'khoi' => 'Lớp 12', 'buoi' => 3, 'lich' => 'Thứ 2, Thứ 4, Thứ 6 (18:00 - 19:30)', 'dia_chi' => '123 Nguyễn Minh Khai, Q.1', 'phi' => 1500000, 'yc' => 'Ưu tiên gia sư sư phạm Toán, kinh nghiệm luyện thi ĐH', 'tt' => 'dang_tim', 'hv_idx' => 0],
+            ['mon' => 'Tiếng Anh IELTS', 'khoi' => 'Lớp 12', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 5 (19:30 - 21:00)', 'dia_chi' => '45 Lê Văn Sỹ, Q.3', 'phi' => 1800000, 'yc' => 'Gia sư IELTS 7.0+ có kinh nghiệm luyện thi', 'tt' => 'dang_tim', 'hv_idx' => 1],
+            ['mon' => 'Vật Lý THPT', 'khoi' => 'Lớp 11', 'buoi' => 2, 'lich' => 'Thứ 4, Thứ 7 (17:30 - 19:00)', 'dia_chi' => '67 Trần Hưng Đạo, Q.5', 'phi' => 1300000, 'yc' => 'Gia sư kiên nhẫn, giảng rõ ràng', 'tt' => 'dang_tim', 'hv_idx' => 2],
+            ['mon' => 'Hóa Học', 'khoi' => 'Lớp 11', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 6 (18:00 - 19:30)', 'dia_chi' => '89 Nguyễn Trãi, Q.5', 'phi' => 1200000, 'yc' => 'Gia sư Hóa vui vẻ, chia sẻ tài liệu ôn thi', 'tt' => 'dang_tim', 'hv_idx' => 3],
+            ['mon' => 'Ngữ Văn', 'khoi' => 'Lớp 12', 'buoi' => 2, 'lich' => 'Thứ 2, Thứ 5 (19:00 - 20:30)', 'dia_chi' => '12 Bà Huyện Thanh Quan, Q.3', 'phi' => 1100000, 'yc' => 'Gia sư Văn giỏi nghị luận, cẩn thận sửa bài', 'tt' => 'dang_tim', 'hv_idx' => 4],
+            ['mon' => 'Sinh Học', 'khoi' => 'Lớp 12', 'buoi' => 2, 'lich' => 'Thứ 7, Chủ Nhật (08:30 - 10:00)', 'dia_chi' => '34 Lý Chính Thắng, Q.3', 'phi' => 1200000, 'yc' => 'Gia sư Sinh luyện thi khối B', 'tt' => 'dang_tim', 'hv_idx' => 5],
+            ['mon' => 'Toán - Tiếng Việt', 'khoi' => 'Lớp 3', 'buoi' => 3, 'lich' => 'Thứ 2, Thứ 4, Thứ 6 (17:00 - 18:30)', 'dia_chi' => '56 Cách Mạng Tháng 8, Q.10', 'phi' => 800000, 'yc' => 'Gia sư cẩn thận, yêu trẻ, có kinh nghiệm dạy tiểu học', 'tt' => 'dang_tim', 'hv_idx' => 6],
+            ['mon' => 'Tiếng Anh Giao Tiếp', 'khoi' => 'Lớp 8', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 7 (18:30 - 20:00)', 'dia_chi' => '78 Đinh Tiên Hoàng, Bình Thạnh', 'phi' => 1000000, 'yc' => 'Gia sư phát âm chuẩn, tạo môi trường nói tốt', 'tt' => 'dang_tim', 'hv_idx' => 7],
+            ['mon' => 'Toán', 'khoi' => 'Lớp 9', 'buoi' => 3, 'lich' => 'Thứ 2, Thứ 4, Thứ 6 (19:00 - 20:30)', 'dia_chi' => '90 Xô Viết Nghệ Tĩnh, Bình Thạnh', 'phi' => 1100000, 'yc' => 'Ôn thi vào lớp 10 chuyên Toán', 'tt' => 'dang_tim', 'hv_idx' => 8],
+            ['mon' => 'Vật Lý', 'khoi' => 'Lớp 10', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 5 (17:30 - 19:00)', 'dia_chi' => '13 Bình Giã, Tân Bình', 'phi' => 1000000, 'yc' => 'Học sinh mới lên 10, cần củng cố kiến thức cơ bản', 'tt' => 'dang_tim', 'hv_idx' => 9],
+            ['mon' => 'Tiếng Nhật N4', 'khoi' => 'Đại học', 'buoi' => 2, 'lich' => 'Thứ 7, Chủ Nhật (14:00 - 15:30)', 'dia_chi' => '5 Nguyễn Đình Chiểu, Q.3', 'phi' => 1500000, 'yc' => 'Gia sư Nhật từng học/làm việc tại Nhật', 'tt' => 'dang_tim', 'hv_idx' => 0],
+            ['mon' => 'Lập Trình Python', 'khoi' => 'Đại học', 'buoi' => 2, 'lich' => 'Thứ 2, Thứ 5 (19:30 - 21:00)', 'dia_chi' => '23 Hai Bà Trưng, Q.1', 'phi' => 2000000, 'yc' => 'Học lập trình từ đầu, ưu tiên gia sư IT đang đi làm', 'tt' => 'dang_tim', 'hv_idx' => 1],
+            ['mon' => 'Toán Nâng Cao', 'khoi' => 'Lớp 6', 'buoi' => 3, 'lich' => 'Thứ 3, Thứ 5, Thứ 7 (18:00 - 19:30)', 'dia_chi' => '41 Huỳnh Tịnh Của, Q.3', 'phi' => 900000, 'yc' => 'Con học trường chuyên, cần ôn nâng cao', 'tt' => 'dang_tim', 'hv_idx' => 2],
+            ['mon' => 'Hóa Đại Cương', 'khoi' => 'Đại học', 'buoi' => 2, 'lich' => 'Thứ 4, Chủ Nhật (18:00 - 19:30)', 'dia_chi' => '67 Phan Xích Long, Phú Nhuận', 'phi' => 1400000, 'yc' => 'Sinh viên năm 1 Y Dược cần học Hóa nền', 'tt' => 'dang_tim', 'hv_idx' => 3],
+            ['mon' => 'Tiếng Anh Toeic', 'khoi' => 'Đại học', 'buoi' => 3, 'lich' => 'Thứ 2, Thứ 4, Thứ 6 (19:30 - 21:00)', 'dia_chi' => '99 Nguyễn Oanh, Gò Vấp', 'phi' => 1600000, 'yc' => 'Ôn TOEIC 700+ trong 2 tháng', 'tt' => 'dang_tim', 'hv_idx' => 4],
+            ['mon' => 'Toán', 'khoi' => 'Lớp 5', 'buoi' => 2, 'lich' => 'Thứ 7, Chủ Nhật (09:00 - 10:30)', 'dia_chi' => '15 Trường Chinh, Tân Bình', 'phi' => 700000, 'yc' => 'Con lớp 5 cần ôn thi chuyển cấp', 'tt' => 'dang_tim', 'hv_idx' => 5],
+            ['mon' => 'Văn - Sử - Địa', 'khoi' => 'Lớp 12', 'buoi' => 3, 'lich' => 'Thứ 3, Thứ 5, Thứ 7 (19:00 - 20:30)', 'dia_chi' => '27 Âu Cơ, Tân Phú', 'phi' => 1300000, 'yc' => 'Luyện thi ĐH khối C, ưu tiên kinh nghiệm', 'tt' => 'dang_tim', 'hv_idx' => 6],
+            ['mon' => 'Toán & Lý', 'khoi' => 'Lớp 11', 'buoi' => 4, 'lich' => 'Thứ 2, Thứ 3, Thứ 5, Thứ 6 (18:00 - 19:30)', 'dia_chi' => '88 Lê Quang Định, Bình Thạnh', 'phi' => 2200000, 'yc' => 'Cần 1 gia sư dạy cả Toán lẫn Lý', 'tt' => 'dang_tim', 'hv_idx' => 7],
+            ['mon' => 'Tiếng Trung HSK3', 'khoi' => 'Lớp 9', 'buoi' => 2, 'lich' => 'Thứ 4, Thứ 6 (18:30 - 20:00)', 'dia_chi' => '3 Trần Não, Q.2', 'phi' => 1200000, 'yc' => 'Học Tiếng Trung từ A0, phát âm chuẩn', 'tt' => 'dang_tim', 'hv_idx' => 8],
+            ['mon' => 'Toán Tư Duy', 'khoi' => 'Lớp 1', 'buoi' => 2, 'lich' => 'Thứ 7, Chủ Nhật (10:00 - 11:30)', 'dia_chi' => '11 Nguyễn Thị Định, Q.2', 'phi' => 600000, 'yc' => 'Gia sư vui vẻ, kiên nhẫn dạy bé lớp 1', 'tt' => 'dang_tim', 'hv_idx' => 9],
             // Lớp đã có gia sư
-            ['mon' => 'Tiếng Anh Giao Tiếp', 'khoi' => 'Lớp 9', 'buoi' => 2, 'dia_chi' => '456 Lê Văn Sỹ, Q.3', 'phi' => 1200000, 'yc' => 'Gia sư phát âm chuẩn, IELTS 6.5+', 'tt' => 'da_co_gia_su', 'hv_idx' => 0, 'gs_idx' => 0],
-            ['mon' => 'Vật Lý THPT', 'khoi' => 'Lớp 12', 'buoi' => 2, 'dia_chi' => '789 Trần Hưng Đạo, Q.5', 'phi' => 1300000, 'yc' => 'Luyện thi ĐH khối A', 'tt' => 'da_co_gia_su', 'hv_idx' => 1, 'gs_idx' => 2],
-            ['mon' => 'Hóa Học', 'khoi' => 'Lớp 12', 'buoi' => 3, 'dia_chi' => '22 Đinh Bộ Lĩnh, Bình Thạnh', 'phi' => 1400000, 'yc' => 'Ôn thi ĐH khối B chuyên sâu', 'tt' => 'da_co_gia_su', 'hv_idx' => 2, 'gs_idx' => 4],
-            ['mon' => 'Lập Trình Web', 'khoi' => 'Đại học', 'buoi' => 2, 'dia_chi' => '55 Đinh Tiên Hoàng, Q.1', 'phi' => 2500000, 'yc' => 'Học ReactJS/Laravel', 'tt' => 'da_co_gia_su', 'hv_idx' => 3, 'gs_idx' => 6],
-            ['mon' => 'Toán Tiểu Học', 'khoi' => 'Lớp 4', 'buoi' => 3, 'dia_chi' => '33 Trường Chinh, Tân Bình', 'phi' => 750000, 'yc' => 'Con cần ôn tập toàn diện', 'tt' => 'hoan_thanh', 'hv_idx' => 4, 'gs_idx' => 12],
-            ['mon' => 'Tiếng Anh THPT', 'khoi' => 'Lớp 10', 'buoi' => 2, 'dia_chi' => '44 Pasteur, Q.3', 'phi' => 1200000, 'yc' => 'Củng cố nền tảng Tiếng Anh', 'tt' => 'hoan_thanh', 'hv_idx' => 5, 'gs_idx' => 1],
-            ['mon' => 'Toán THCS', 'khoi' => 'Lớp 7', 'buoi' => 2, 'dia_chi' => '66 Trần Phú, Q.5', 'phi' => 850000, 'yc' => 'Gia sư kiên nhẫn với học sinh yếu', 'tt' => 'hoan_thanh', 'hv_idx' => 6, 'gs_idx' => 7],
-            ['mon' => 'Sinh Học', 'khoi' => 'Lớp 11', 'buoi' => 2, 'dia_chi' => '77 Nguyễn Thị Minh Khai, Q.1', 'phi' => 1100000, 'yc' => 'Luyện thi ĐH khối B', 'tt' => 'da_co_gia_su', 'hv_idx' => 7, 'gs_idx' => 5],
-            ['mon' => 'Toán Lý Hóa', 'khoi' => 'Lớp 12', 'buoi' => 6, 'dia_chi' => '88 Xô Viết Nghệ Tĩnh, Bình Thạnh', 'phi' => 3500000, 'yc' => 'Cần gia sư tốt luyện thi ĐH 3 môn', 'tt' => 'da_co_gia_su', 'hv_idx' => 8, 'gs_idx' => 0],
-            ['mon' => 'Tiếng Nhật Giao Tiếp', 'khoi' => 'Đại học', 'buoi' => 2, 'dia_chi' => '99 Đinh Bộ Lĩnh, Bình Thạnh', 'phi' => 1600000, 'yc' => 'Học để đi du học Nhật', 'tt' => 'da_co_gia_su', 'hv_idx' => 9, 'gs_idx' => 10],
+            ['mon' => 'Tiếng Anh Giao Tiếp', 'khoi' => 'Lớp 9', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 5 (18:00 - 19:30)', 'dia_chi' => '456 Lê Văn Sỹ, Q.3', 'phi' => 1200000, 'yc' => 'Gia sư phát âm chuẩn, IELTS 6.5+', 'tt' => 'da_co_gia_su', 'hv_idx' => 0, 'gs_idx' => 0],
+            ['mon' => 'Vật Lý THPT', 'khoi' => 'Lớp 12', 'buoi' => 2, 'lich' => 'Thứ 2, Thứ 4 (19:30 - 21:00)', 'dia_chi' => '789 Trần Hưng Đạo, Q.5', 'phi' => 1300000, 'yc' => 'Luyện thi ĐH khối A', 'tt' => 'da_co_gia_su', 'hv_idx' => 1, 'gs_idx' => 2],
+            ['mon' => 'Hóa Học', 'khoi' => 'Lớp 12', 'buoi' => 3, 'lich' => 'Thứ 3, Thứ 5, Thứ 7 (18:00 - 19:30)', 'dia_chi' => '22 Đinh Bộ Lĩnh, Bình Thạnh', 'phi' => 1400000, 'yc' => 'Ôn thi ĐH khối B chuyên sâu', 'tt' => 'da_co_gia_su', 'hv_idx' => 2, 'gs_idx' => 4],
+            ['mon' => 'Lập Trình Web', 'khoi' => 'Đại học', 'buoi' => 2, 'lich' => 'Thứ 6, Chủ Nhật (19:00 - 20:30)', 'dia_chi' => '55 Đinh Tiên Hoàng, Q.1', 'phi' => 2500000, 'yc' => 'Học ReactJS/Laravel', 'tt' => 'da_co_gia_su', 'hv_idx' => 3, 'gs_idx' => 6],
+            ['mon' => 'Toán Tiểu Học', 'khoi' => 'Lớp 4', 'buoi' => 3, 'lich' => 'Thứ 2, Thứ 4, Thứ 6 (17:30 - 19:00)', 'dia_chi' => '33 Trường Chinh, Tân Bình', 'phi' => 750000, 'yc' => 'Con cần ôn tập toàn diện', 'tt' => 'hoan_thanh', 'hv_idx' => 4, 'gs_idx' => 12],
+            ['mon' => 'Tiếng Anh THPT', 'khoi' => 'Lớp 10', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 7 (18:00 - 19:30)', 'dia_chi' => '44 Pasteur, Q.3', 'phi' => 1200000, 'yc' => 'Củng cố nền tảng Tiếng Anh', 'tt' => 'hoan_thanh', 'hv_idx' => 5, 'gs_idx' => 1],
+            ['mon' => 'Toán THCS', 'khoi' => 'Lớp 7', 'buoi' => 2, 'lich' => 'Thứ 4, Thứ 7 (19:00 - 20:30)', 'dia_chi' => '66 Trần Phú, Q.5', 'phi' => 850000, 'yc' => 'Gia sư kiên nhẫn với học sinh yếu', 'tt' => 'hoan_thanh', 'hv_idx' => 6, 'gs_idx' => 7],
+            ['mon' => 'Sinh Học', 'khoi' => 'Lớp 11', 'buoi' => 2, 'lich' => 'Thứ 5, Chủ Nhật (17:00 - 18:30)', 'dia_chi' => '77 Nguyễn Thị Minh Khai, Q.1', 'phi' => 1100000, 'yc' => 'Luyện thi ĐH khối B', 'tt' => 'da_co_gia_su', 'hv_idx' => 7, 'gs_idx' => 5],
+            ['mon' => 'Toán Lý Hóa', 'khoi' => 'Lớp 12', 'buoi' => 6, 'lich' => 'Thứ 2 đến Thứ 7 (19:00 - 20:30)', 'dia_chi' => '88 Xô Viết Nghệ Tĩnh, Bình Thạnh', 'phi' => 3500000, 'yc' => 'Cần gia sư tốt luyện thi ĐH 3 môn', 'tt' => 'da_co_gia_su', 'hv_idx' => 8, 'gs_idx' => 0],
+            ['mon' => 'Tiếng Nhật Giao Tiếp', 'khoi' => 'Đại học', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 6 (19:30 - 21:00)', 'dia_chi' => '99 Đinh Bộ Lĩnh, Bình Thạnh', 'phi' => 1600000, 'yc' => 'Học để đi du học Nhật', 'tt' => 'da_co_gia_su', 'hv_idx' => 9, 'gs_idx' => 10],
         ];
 
         $lopDaCapNhat = [];
@@ -149,15 +149,16 @@ class DatabaseSeeder extends Seeder
                 $giaSuId = $giaSuAccounts[$lop['gs_idx']]['acc']->id;
             }
             $lopMoi = LopHoc::create([
-                'hoc_vien_id'  => $hocVienAccounts[$lop['hv_idx']]->id,
-                'mon_hoc'      => $lop['mon'],
-                'khoi_lop'     => $lop['khoi'],
-                'so_buoi_tuan' => $lop['buoi'],
-                'dia_chi_day'  => $lop['dia_chi'],
-                'muc_hoc_phi'  => $lop['phi'],
-                'yeu_cau_them' => $lop['yc'],
-                'trang_thai'   => $lop['tt'],
-                'gia_su_id'    => $giaSuId,
+                'hoc_vien_id'   => $hocVienAccounts[$lop['hv_idx']]->id,
+                'mon_hoc'       => $lop['mon'],
+                'khoi_lop'      => $lop['khoi'],
+                'so_buoi_tuan'  => $lop['buoi'],
+                'thoi_gian_hoc' => $lop['lich'],
+                'dia_chi_day'   => $lop['dia_chi'],
+                'muc_hoc_phi'   => $lop['phi'],
+                'yeu_cau_them'  => $lop['yc'],
+                'trang_thai'    => $lop['tt'],
+                'gia_su_id'     => $giaSuId,
             ]);
             $lopDaCapNhat[] = ['lop' => $lopMoi, 'gs_idx' => $lop['gs_idx'] ?? null, 'hv_idx' => $lop['hv_idx']];
         }
@@ -220,6 +221,17 @@ class DatabaseSeeder extends Seeder
                     // Bỏ qua nếu trùng
                 }
             }
+        }
+
+        // Cập nhật điểm trung bình và số lượt đánh giá cho từng hồ sơ gia sư
+        foreach (\App\Models\HoSoGiaSu::all() as $hs) {
+            $avg = DanhGia::where('gia_su_id', $hs->tai_khoan_id)->avg('so_sao');
+            $count = DanhGia::where('gia_su_id', $hs->tai_khoan_id)->count();
+            $hs->update([
+                'diem_trung_binh'  => $count > 0 ? round($avg, 1) : 5.0,
+                'diem_danh_gia'    => $count > 0 ? round($avg, 1) : 5.0,
+                'so_luot_danh_gia' => $count,
+            ]);
         }
     }
 }

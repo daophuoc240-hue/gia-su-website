@@ -47,11 +47,45 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.3rem;">
                 <div>
                     <label class="form-label">⏱️ Số Buổi Học / Tuần</label>
-                    <input type="number" name="so_buoi_tuan" class="form-control" value="{{ old('so_buoi_tuan', 2) }}" min="1" max="7" required placeholder="Số buổi...">
+                    <input type="number" id="so_buoi_tuan_input" name="so_buoi_tuan" class="form-control" value="{{ old('so_buoi_tuan', 3) }}" min="1" max="7" required placeholder="Số buổi...">
                 </div>
                 <div>
                     <label class="form-label">💰 Mức Học Phí (VNĐ / Buổi)</label>
                     <input type="number" name="muc_hoc_phi" class="form-control" value="{{ old('muc_hoc_phi', 150000) }}" min="10000" step="10000" required placeholder="Mức học phí...">
+                </div>
+            </div>
+
+            {{-- Chọn lịch học chi tiết trong tuần (Theo yêu cầu giảng viên hướng dẫn) --}}
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; margin-bottom: 1.3rem;">
+                <label class="form-label" style="margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: space-between;">
+                    <span><i class="fas fa-calendar-alt" style="color:#2563eb;"></i> <strong>Lịch Học Chi Tiết Trong Tuần</strong> <span style="color:#ef4444;">*</span></span>
+                    <small style="color: #64748b; font-weight: normal;">Chọn các thứ có thể học</small>
+                </label>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.9rem;">
+                    @foreach(['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'] as $thu)
+                    <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; background: #ffffff; border: 1.5px solid #cbd5e1; padding: 0.45rem 0.85rem; border-radius: 10px; font-size: 0.88rem; font-weight: 600; user-select: none; transition: all 0.2s;">
+                        <input type="checkbox" name="thu_hoc[]" value="{{ $thu }}" {{ in_array($thu, old('thu_hoc', ['Thứ 2', 'Thứ 4', 'Thứ 6'])) ? 'checked' : '' }} style="accent-color: #2563eb; width: 16px; height: 16px;">
+                        <span>{{ $thu }}</span>
+                    </label>
+                    @endforeach
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label class="form-label" style="font-size: 0.82rem; margin-bottom: 0.3rem;">⏰ Ca học / Khung giờ học</label>
+                        <select name="ca_hoc" class="form-select" style="font-size: 0.88rem;">
+                            <option value="18:00 - 19:30" {{ old('ca_hoc') === '18:00 - 19:30' ? 'selected' : '' }}>18:00 - 19:30 (Tối phổ biến)</option>
+                            <option value="19:30 - 21:00" {{ old('ca_hoc') === '19:30 - 21:00' ? 'selected' : '' }}>19:30 - 21:00 (Tối muộn)</option>
+                            <option value="17:30 - 19:00" {{ old('ca_hoc') === '17:30 - 19:00' ? 'selected' : '' }}>17:30 - 19:00 (Đầu giờ tối)</option>
+                            <option value="14:00 - 15:30" {{ old('ca_hoc') === '14:00 - 15:30' ? 'selected' : '' }}>14:00 - 15:30 (Chiều)</option>
+                            <option value="08:30 - 10:00" {{ old('ca_hoc') === '08:30 - 10:00' ? 'selected' : '' }}>08:30 - 10:00 (Sáng cuối tuần)</option>
+                            <option value="Linh hoạt theo thỏa thuận" {{ old('ca_hoc') === 'Linh hoạt theo thỏa thuận' ? 'selected' : '' }}>Linh hoạt theo thỏa thuận</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" style="font-size: 0.82rem; margin-bottom: 0.3rem;">✍️ Hoặc ghi chú lịch riêng (nếu có)</label>
+                        <input type="text" name="thoi_gian_hoc" class="form-control" value="{{ old('thoi_gian_hoc') }}" placeholder="VD: T2-T4-T6 lúc 18h..." style="font-size: 0.88rem;">
+                    </div>
                 </div>
             </div>
 

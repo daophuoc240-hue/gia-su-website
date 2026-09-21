@@ -62,9 +62,14 @@
         </div>
 
         <div style="padding: 1.4rem;">
-            <div style="font-size: 0.88rem; color: #334155; margin-bottom: 0.6rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+            <div style="font-size: 0.88rem; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: flex-start; gap: 0.5rem;">
                 <span style="color: #ef4444; font-size: 1rem;">📍</span>
                 <span><strong>Địa điểm:</strong> {{ $lop->dia_chi_day }}</span>
+            </div>
+
+            <div style="font-size: 0.85rem; color: #2563eb; margin-bottom: 0.6rem; display: flex; align-items: flex-start; gap: 0.5rem; background: #eff6ff; padding: 0.35rem 0.6rem; border-radius: 8px;">
+                <span>🗓️</span>
+                <span><strong>Lịch học:</strong> {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần') }}</span>
             </div>
 
             @if($lop->yeu_cau_them)

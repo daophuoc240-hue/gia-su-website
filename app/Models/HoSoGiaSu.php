@@ -22,6 +22,8 @@ class HoSoGiaSu extends Model
         'trang_thai_duyet',
         'ly_do_tu_choi',
         'diem_danh_gia',
+        'diem_trung_binh',
+        'so_luot_danh_gia',
         'so_lop_da_day',
     ];
 

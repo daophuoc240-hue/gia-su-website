@@ -13,6 +13,7 @@ class LopHoc extends Model
         'mon_hoc',
         'khoi_lop',
         'so_buoi_tuan',
+        'thoi_gian_hoc',
         'dia_chi_day',
         'muc_hoc_phi',
         'yeu_cau_them',
@@ -65,6 +66,6 @@ class LopHoc extends Model
     public function getHocPhiAttribute() { return $this->muc_hoc_phi; }
     public function getSoBuoiTrungBinhAttribute() { return $this->so_buoi_tuan; }
     public function getYeuCauGiaSuAttribute() { return $this->yeu_cau_them; }
-    public function getThoiGianDayAttribute() { return 'Lịch thỏa thuận với phụ huynh'; }
+    public function getThoiGianDayAttribute() { return $this->thoi_gian_hoc ?: ($this->so_buoi_tuan . ' buổi/tuần (Thoả thuận)'); }
     public function getMoTaAttribute() { return $this->yeu_cau_them; }
 }
