@@ -35,8 +35,30 @@
                         </select>
                     </div>
                     <div>
-                        <label style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem; display: block;">Khu Vực</label>
-                        <input type="text" name="dia_chi" class="form-control" placeholder="Quận / Huyện..." style="padding: 0.6rem 0.8rem; font-size: 0.88rem;">
+                        <label style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem; display: block;">Khu Vực (Huyện / Tỉnh)</label>
+                        <input type="text" name="dia_chi" list="danh-sach-khu-vuc" class="form-control" placeholder="Quận/Huyện, Tỉnh/Thành..." style="padding: 0.6rem 0.8rem; font-size: 0.88rem;">
+                        <datalist id="danh-sach-khu-vuc">
+                            <option value="Quận 1">TP. Hồ Chí Minh - Quận 1</option>
+                            <option value="Quận 3">TP. Hồ Chí Minh - Quận 3</option>
+                            <option value="Quận 5">TP. Hồ Chí Minh - Quận 5</option>
+                            <option value="Quận 7">TP. Hồ Chí Minh - Quận 7</option>
+                            <option value="Quận 10">TP. Hồ Chí Minh - Quận 10</option>
+                            <option value="Bình Thạnh">TP. Hồ Chí Minh - Bình Thạnh</option>
+                            <option value="Gò Vấp">TP. Hồ Chí Minh - Gò Vấp</option>
+                            <option value="Tân Bình">TP. Hồ Chí Minh - Tân Bình</option>
+                            <option value="Phú Nhuận">TP. Hồ Chí Minh - Phú Nhuận</option>
+                            <option value="Thủ Đức">TP. Hồ Chí Minh - TP. Thủ Đức</option>
+                            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh (Toàn thành phố)</option>
+                            <option value="Cầu Giấy">Hà Nội - Quận Cầu Giấy</option>
+                            <option value="Ba Đình">Hà Nội - Quận Ba Đình</option>
+                            <option value="Đống Đa">Hà Nội - Quận Đống Đa</option>
+                            <option value="Thanh Xuân">Hà Nội - Quận Thanh Xuân</option>
+                            <option value="Hà Nội">Hà Nội (Toàn thành phố)</option>
+                            <option value="Hải Châu">Đà Nẵng - Quận Hải Châu</option>
+                            <option value="Ninh Kiều">Cần Thơ - Quận Ninh Kiều</option>
+                            <option value="Huế">Thừa Thiên Huế - TP. Huế</option>
+                            <option value="Hải Phòng">Hải Phòng</option>
+                        </datalist>
                     </div>
                     <div style="align-self: end;">
                         <button type="submit" class="btn btn-primary" style="padding: 0.68rem 1.2rem; font-size: 0.9rem;">

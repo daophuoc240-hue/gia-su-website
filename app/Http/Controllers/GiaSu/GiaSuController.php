@@ -106,7 +106,35 @@ class GiaSuController extends Controller
             $query->where('khoi_lop', $request->khoi_lop);
         }
         if ($request->filled('dia_chi')) {
-            $query->where('dia_chi_day', 'like', '%'.$request->dia_chi.'%');
+            $raw = trim($request->dia_chi);
+            $terms = [$raw];
+            if (str_contains($raw, '-')) {
+                foreach (explode('-', $raw) as $part) {
+                    if (trim($part)) $terms[] = trim($part);
+                }
+            }
+            if (preg_match('/(?:quận|q\.?)\s*(\d+)/ui', $raw, $m)) {
+                $terms[] = 'Quận ' . $m[1];
+                $terms[] = 'Q.' . $m[1];
+                $terms[] = 'Q' . $m[1];
+            }
+            if (preg_match('/(?:hồ chí minh|hcm|tp\.?hcm|sài gòn)/ui', $raw)) {
+                $terms[] = 'Hồ Chí Minh';
+                $terms[] = 'TP.HCM';
+                $terms[] = 'TP. Hồ Chí Minh';
+            }
+            if (preg_match('/(?:hà nội|hn)/ui', $raw)) {
+                $terms[] = 'Hà Nội';
+            }
+            if (preg_match('/(?:đà nẵng|dn)/ui', $raw)) {
+                $terms[] = 'Đà Nẵng';
+            }
+            $terms = array_unique(array_filter($terms));
+            $query->where(function($q) use ($terms) {
+                foreach ($terms as $t) {
+                    $q->orWhere('dia_chi_day', 'like', "%{$t}%");
+                }
+            });
         }
 
         $da_dang_ky_ids = DangKyNhanLop::where('gia_su_id', $user->id)->pluck('lop_hoc_id')->toArray();

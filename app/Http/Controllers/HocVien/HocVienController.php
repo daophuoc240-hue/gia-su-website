@@ -36,7 +36,10 @@ class HocVienController extends Controller
             'mon_hoc'       => 'required|string|max:100',
             'khoi_lop'      => 'required|string|max:50',
             'so_buoi_tuan'  => 'required|integer|min:1|max:7',
-            'dia_chi_day'   => 'required|string|max:255',
+            'dia_chi_day'   => 'nullable|string|max:255',
+            'tinh_thanh'    => 'nullable|string|max:100',
+            'quan_huyen'    => 'nullable|string|max:100',
+            'so_nha_duong'  => 'nullable|string|max:150',
             'muc_hoc_phi'   => 'required|numeric|min:0',
             'yeu_cau_them'  => 'nullable|string|max:500',
             'thu_hoc'       => 'nullable|array',
@@ -46,9 +49,19 @@ class HocVienController extends Controller
             'mon_hoc.required'      => 'Vui lòng nhập môn học.',
             'khoi_lop.required'     => 'Vui lòng chọn khối lớp.',
             'so_buoi_tuan.required' => 'Vui lòng nhập số buổi học trong tuần.',
-            'dia_chi_day.required'  => 'Vui lòng nhập địa chỉ dạy.',
             'muc_hoc_phi.required'  => 'Vui lòng nhập mức học phí.',
         ]);
+
+        $diaChiDay = $request->dia_chi_day;
+        if ($request->filled('quan_huyen') && $request->filled('tinh_thanh')) {
+            $diaChiDay = $request->filled('so_nha_duong')
+                ? ($request->so_nha_duong . ', ' . $request->quan_huyen . ', ' . $request->tinh_thanh)
+                : ($request->quan_huyen . ', ' . $request->tinh_thanh);
+        }
+
+        if (!$diaChiDay) {
+            return back()->withInput()->withErrors(['dia_chi_day' => 'Vui lòng nhập khu vực / địa chỉ dạy học.']);
+        }
 
         $thoiGianHoc = $request->thoi_gian_hoc;
         if (!$thoiGianHoc && $request->has('thu_hoc') && is_array($request->thu_hoc)) {
@@ -64,7 +77,7 @@ class HocVienController extends Controller
             'khoi_lop'      => $request->khoi_lop,
             'so_buoi_tuan'  => $request->so_buoi_tuan,
             'thoi_gian_hoc' => $thoiGianHoc ?: ($request->so_buoi_tuan . ' buổi/tuần (Thoả thuận)'),
-            'dia_chi_day'   => $request->dia_chi_day,
+            'dia_chi_day'   => $diaChiDay,
             'muc_hoc_phi'   => $request->muc_hoc_phi,
             'yeu_cau_them'  => $request->yeu_cau_them,
             'trang_thai'    => 'dang_tim',

@@ -56,7 +56,7 @@ class HomeController extends Controller
         }
 
         if ($request->filled('khu_vuc')) {
-            $query->where('khu_vuc_nhan_day', 'like', "%{$request->khu_vuc}%");
+            $this->applyLocationFilter($query, 'khu_vuc_nhan_day', $request->khu_vuc);
         }
 
         // Sắp xếp gia sư theo tiêu chí
@@ -100,12 +100,65 @@ class HomeController extends Controller
             $query->where('khoi_lop', $request->khoi_lop);
         }
         if ($request->filled('dia_chi')) {
-            $query->where('dia_chi_day', 'like', "%{$request->dia_chi}%");
+            $this->applyLocationFilter($query, 'dia_chi_day', $request->dia_chi);
         }
 
         $lop_hocs = $query->latest()->paginate(9);
 
         return view('home.danh-sach-lop-hoc', compact('lop_hocs'));
+    }
+
+    /**
+     * Bộ lọc địa điểm thông minh: Tự động chuẩn hóa Huyện/Quận và Tỉnh/Thành
+     */
+    private function applyLocationFilter($query, string $column, string $input): void
+    {
+        $raw = trim($input);
+        if ($raw === '') return;
+
+        $terms = [$raw];
+
+        // 1. Tách nếu người dùng chọn định dạng "TP. Hồ Chí Minh - Quận 1"
+        if (str_contains($raw, '-')) {
+            $parts = explode('-', $raw);
+            foreach ($parts as $part) {
+                $p = trim($part);
+                if ($p !== '') {
+                    $terms[] = $p;
+                }
+            }
+        }
+
+        // 2. Xử lý viết tắt Quận / Q: "Quận 1" <-> "Q.1" <-> "Q1"
+        foreach ([$raw, ...$terms] as $t) {
+            if (preg_match('/(?:quận|q\.?)\s*(\d+)/ui', $t, $m)) {
+                $num = $m[1];
+                $terms[] = "Quận " . $num;
+                $terms[] = "Q." . $num;
+                $terms[] = "Q" . $num;
+            }
+        }
+
+        // 3. Xử lý Tỉnh / Thành phố đồng nghĩa
+        if (preg_match('/(?:hồ chí minh|hcm|tp\.?hcm|sài gòn)/ui', $raw)) {
+            $terms[] = "Hồ Chí Minh";
+            $terms[] = "TP.HCM";
+            $terms[] = "TP. Hồ Chí Minh";
+        }
+        if (preg_match('/(?:hà nội|hn)/ui', $raw)) {
+            $terms[] = "Hà Nội";
+        }
+        if (preg_match('/(?:đà nẵng|dn)/ui', $raw)) {
+            $terms[] = "Đà Nẵng";
+        }
+
+        $terms = array_unique(array_filter($terms));
+
+        $query->where(function($q) use ($column, $terms) {
+            foreach ($terms as $term) {
+                $q->orWhere($column, 'like', "%{$term}%");
+            }
+        });
     }
 
     public function chiTietLopHoc($id)

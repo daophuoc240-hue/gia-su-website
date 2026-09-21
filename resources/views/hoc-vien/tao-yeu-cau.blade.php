@@ -89,9 +89,54 @@
                 </div>
             </div>
 
-            <div style="margin-bottom: 1.3rem;">
-                <label class="form-label">📍 Địa Chỉ Dạy Học Trực Tiếp</label>
-                <input type="text" name="dia_chi_day" class="form-control" value="{{ old('dia_chi_day') }}" required placeholder="Nhập địa chỉ nhà, tên đường, Phường/Xã, Quận/Huyện...">
+            {{-- Địa điểm theo Huyện/Quận và Tỉnh/Thành phố --}}
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; margin-bottom: 1.3rem;">
+                <label class="form-label" style="margin-bottom: 0.6rem;">
+                    📍 <strong>Khu Vực & Địa Điểm Học (Tỉnh/Thành & Quận/Huyện)</strong> <span style="color:#ef4444;">*</span>
+                </label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.8rem;">
+                    <div>
+                        <label class="form-label" style="font-size: 0.82rem; margin-bottom: 0.3rem;">Tỉnh / Thành phố <span style="color:#ef4444;">*</span></label>
+                        <select name="tinh_thanh" class="form-select" required style="font-size: 0.88rem;">
+                            <option value="TP. Hồ Chí Minh" {{ old('tinh_thanh') === 'TP. Hồ Chí Minh' ? 'selected' : '' }}>TP. Hồ Chí Minh</option>
+                            <option value="Hà Nội" {{ old('tinh_thanh') === 'Hà Nội' ? 'selected' : '' }}>Hà Nội</option>
+                            <option value="Đà Nẵng" {{ old('tinh_thanh') === 'Đà Nẵng' ? 'selected' : '' }}>Đà Nẵng</option>
+                            <option value="Hải Phòng" {{ old('tinh_thanh') === 'Hải Phòng' ? 'selected' : '' }}>Hải Phòng</option>
+                            <option value="Cần Thơ" {{ old('tinh_thanh') === 'Cần Thơ' ? 'selected' : '' }}>Cần Thơ</option>
+                            <option value="Thừa Thiên Huế" {{ old('tinh_thanh') === 'Thừa Thiên Huế' ? 'selected' : '' }}>Thừa Thiên Huế</option>
+                            <option value="Bình Dương" {{ old('tinh_thanh') === 'Bình Dương' ? 'selected' : '' }}>Bình Dương</option>
+                            <option value="Đồng Nai" {{ old('tinh_thanh') === 'Đồng Nai' ? 'selected' : '' }}>Đồng Nai</option>
+                            <option value="Tỉnh / Thành khác" {{ old('tinh_thanh') === 'Tỉnh / Thành khác' ? 'selected' : '' }}>Tỉnh / Thành khác</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" style="font-size: 0.82rem; margin-bottom: 0.3rem;">Quận / Huyện <span style="color:#ef4444;">*</span></label>
+                        <input type="text" name="quan_huyen" list="quan-huyen-goi-y" class="form-control" value="{{ old('quan_huyen') }}" required placeholder="Ví dụ: Quận 1, Bình Thạnh, Cầu Giấy..." style="font-size: 0.88rem;">
+                        <datalist id="quan-huyen-goi-y">
+                            <option value="Quận 1">
+                            <option value="Quận 3">
+                            <option value="Quận 5">
+                            <option value="Quận 7">
+                            <option value="Quận 10">
+                            <option value="Quận Bình Thạnh">
+                            <option value="Quận Gò Vấp">
+                            <option value="Quận Tân Bình">
+                            <option value="Quận Phú Nhuận">
+                            <option value="TP. Thủ Đức">
+                            <option value="Quận Cầu Giấy">
+                            <option value="Quận Ba Đình">
+                            <option value="Quận Đống Đa">
+                            <option value="Quận Thanh Xuân">
+                            <option value="Quận Hải Châu">
+                            <option value="Quận Ninh Kiều">
+                            <option value="TP. Huế">
+                        </datalist>
+                    </div>
+                </div>
+                <div>
+                    <label class="form-label" style="font-size: 0.82rem; margin-bottom: 0.3rem;">Số nhà, tên đường, Phường/Xã (Tùy chọn)</label>
+                    <input type="text" name="so_nha_duong" class="form-control" value="{{ old('so_nha_duong') }}" placeholder="VD: 123 Nguyễn Thị Minh Khai, Phường Bến Thành (hoặc để trống)" style="font-size: 0.88rem;">
+                </div>
             </div>
 
             <div style="margin-bottom: 1.8rem;">
