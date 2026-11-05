@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HoSoGiaSu;
 use App\Models\LopHoc;
 use App\Models\DangKyNhanLop;
+use App\Models\ThongBao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +17,15 @@ class GiaSuController extends Controller
     {
         $user    = Auth::user();
         $ho_so   = $user->hoSoGiaSu;
+
+        // Các lời mời dạy kèm từ học viên đang chờ gia sư xem có rảnh vào giờ đó không
+        $loi_moi_cho_xac_nhan = DangKyNhanLop::where('gia_su_id', $user->id)
+                    ->where('xac_nhan_gia_su', 'cho_xac_nhan')
+                    ->where('trang_thai', '!=', 'tu_choi')
+                    ->with(['lopHoc.hocVien'])
+                    ->latest()
+                    ->get();
+
         $dang_ky = DangKyNhanLop::where('gia_su_id', $user->id)
                     ->with('lopHoc')
                     ->latest()
@@ -23,13 +33,85 @@ class GiaSuController extends Controller
                     ->get();
 
         $stats = [
+            'cho_xac_nhan' => $loi_moi_cho_xac_nhan->count(),
             'cho_duyet'    => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'cho_duyet')->count(),
             'da_duyet'     => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'da_duyet')->count(),
             'tu_choi'      => DangKyNhanLop::where('gia_su_id', $user->id)->where('trang_thai', 'tu_choi')->count(),
             'lop_dang_tim' => LopHoc::where('trang_thai', 'dang_tim')->count(),
         ];
 
-        return view('gia-su.dashboard', compact('user', 'ho_so', 'dang_ky', 'stats'));
+        return view('gia-su.dashboard', compact('user', 'ho_so', 'dang_ky', 'stats', 'loi_moi_cho_xac_nhan'));
+    }
+
+    /**
+     * Gia sư xác nhận có rảnh vào khung giờ học viên yêu cầu & đồng ý nhận lớp
+     * -> Chuyển lên hệ thống Admin trung tâm xét duyệt
+     */
+    public function xacNhanLich($id)
+    {
+        $user = Auth::user();
+        $dang_ky = DangKyNhanLop::with('lopHoc.hocVien')
+                    ->where('gia_su_id', $user->id)
+                    ->findOrFail($id);
+
+        $dang_ky->update([
+            'xac_nhan_gia_su'     => 'da_xac_nhan',
+            'trang_thai'          => 'cho_duyet',
+            'gioi_thieu_ban_than' => $dang_ky->gioi_thieu_ban_than . " [Gia sư đã xác nhận rảnh và đồng ý nhận lớp]",
+        ]);
+
+        $dang_ky->lopHoc->update([
+            'trang_thai' => 'dang_tim',
+        ]);
+
+        // Thông báo phản hồi lại cho Học viên
+        ThongBao::gui(
+            $dang_ky->lopHoc->hoc_vien_id,
+            "🎉 Gia sư {$user->ho_ten} đã xác nhận rảnh lịch học!",
+            "Gia sư {$user->ho_ten} đã kiểm tra lịch và xác nhận RẢNH vào khung giờ ({$dang_ky->lopHoc->thoi_gian_hoc}). Yêu cầu đã được chuyển lên Ban Quản Trị trung tâm để hoàn tất xét duyệt!",
+            route('hocvien.danh-sach-lop'),
+            'xac_nhan'
+        );
+
+        return redirect()->route('giasu.dashboard')
+            ->with('success', "🎉 Bạn đã xác nhận rảnh khung giờ này và đồng ý nhận lớp! Hệ thống đã gửi hồ sơ lên Ban Quản Trị trung tâm để xét duyệt.");
+    }
+
+    /**
+     * Gia sư báo bận vào khung giờ này / từ chối lời mời
+     */
+    public function tuChoiLich(Request $request, $id)
+    {
+        $user = Auth::user();
+        $dang_ky = DangKyNhanLop::with('lopHoc.hocVien')
+                    ->where('gia_su_id', $user->id)
+                    ->findOrFail($id);
+
+        $lyDo = $request->input('ly_do') ?: 'Trùng lịch dạy khác';
+
+        $dang_ky->update([
+            'xac_nhan_gia_su'     => 'tu_choi',
+            'trang_thai'          => 'tu_choi',
+            'gioi_thieu_ban_than' => $dang_ky->gioi_thieu_ban_than . " [Gia sư báo bận: {$lyDo}]",
+        ]);
+
+        // Bỏ gán gia sư để lớp có thể tiếp tục tìm kiếm hoặc học viên chọn gia sư khác
+        $dang_ky->lopHoc->update([
+            'gia_su_id'  => null,
+            'trang_thai' => 'dang_tim',
+        ]);
+
+        // Thông báo cho Học viên
+        ThongBao::gui(
+            $dang_ky->lopHoc->hoc_vien_id,
+            "⚠️ Gia sư {$user->ho_ten} báo bận khung giờ đã đăng ký",
+            "Gia sư {$user->ho_ten} rất tiếc phải báo bận vào khung giờ ({$dang_ky->lopHoc->thoi_gian_hoc}) do: {$lyDo}. Bạn có thể chọn khung giờ khác hoặc tìm gia sư phù hợp khác trên hệ thống.",
+            route('danh-sach-gia-su'),
+            'tu_choi'
+        );
+
+        return redirect()->route('giasu.dashboard')
+            ->with('info', "Bạn đã báo bận vào khung giờ này. Hệ thống đã cập nhật và thông báo lại cho học viên.");
     }
 
     public function hoSo()
@@ -61,8 +143,26 @@ class GiaSuController extends Controller
         ]);
 
         $user = Auth::user();
+        $hoSoCu = HoSoGiaSu::where('tai_khoan_id', $user->id)->first();
+
         $data = $request->only(['truong_hoc', 'chuyen_nganh', 'mon_day', 'kinh_nghiem', 'khu_vuc_nhan_day', 'hoc_phi_theo_gio']);
-        $data['trang_thai_duyet'] = 'cho_duyet';
+        
+        // Nếu đã được duyệt trước đó, duy trì trạng thái để không bị ẩn hồ sơ khi gia sư xếp lịch
+        if ($hoSoCu && $hoSoCu->trang_thai_duyet === 'da_duyet') {
+            $data['trang_thai_duyet'] = 'da_duyet';
+        } else {
+            $data['trang_thai_duyet'] = 'cho_duyet';
+        }
+
+        // Lưu thông tin lịch dạy & khung giờ rảnh
+        if ($request->has('lich_day_slots') || $request->filled('lich_day_ghi_chu')) {
+            $data['lich_day'] = json_encode([
+                'slots'   => $request->input('lich_day_slots', []),
+                'ghi_chu' => $request->input('lich_day_ghi_chu', ''),
+            ], JSON_UNESCAPED_UNICODE);
+        } elseif ($request->has('lich_day')) {
+            $data['lich_day'] = $request->input('lich_day');
+        }
 
         if ($request->hasFile('bang_cap')) {
             $data['bang_cap'] = $request->file('bang_cap')->store('ho-so', 'public');
@@ -72,7 +172,6 @@ class GiaSuController extends Controller
         }
         if ($request->hasFile('avatar')) {
             // Xoá ảnh cũ nếu có
-            $hoSoCu = HoSoGiaSu::where('tai_khoan_id', $user->id)->first();
             if ($hoSoCu && $hoSoCu->avatar) {
                 Storage::disk('public')->delete($hoSoCu->avatar);
             }
@@ -84,7 +183,11 @@ class GiaSuController extends Controller
             array_merge($data, ['tai_khoan_id' => $user->id])
         );
 
-        return redirect()->route('giasu.ho-so')->with('success', 'Đã cập nhật hồ sơ thành công! Vui lòng chờ kiểm duyệt từ trung tâm.');
+        $msg = ($hoSoCu && $hoSoCu->trang_thai_duyet === 'da_duyet')
+            ? 'Đã cập nhật hồ sơ và lịch dạy thành công!'
+            : 'Đã cập nhật hồ sơ thành công! Vui lòng chờ kiểm duyệt từ trung tâm.';
+
+        return redirect()->route('giasu.ho-so')->with('success', $msg);
     }
 
     public function timKiemLop(Request $request)
@@ -106,7 +209,35 @@ class GiaSuController extends Controller
             $query->where('khoi_lop', $request->khoi_lop);
         }
         if ($request->filled('dia_chi')) {
-            $query->where('dia_chi_day', 'like', '%'.$request->dia_chi.'%');
+            $raw = trim($request->dia_chi);
+            $terms = [$raw];
+            if (str_contains($raw, '-')) {
+                foreach (explode('-', $raw) as $part) {
+                    if (trim($part)) $terms[] = trim($part);
+                }
+            }
+            if (preg_match('/(?:quận|q\.?)\s*(\d+)/ui', $raw, $m)) {
+                $terms[] = 'Quận ' . $m[1];
+                $terms[] = 'Q.' . $m[1];
+                $terms[] = 'Q' . $m[1];
+            }
+            if (preg_match('/(?:hồ chí minh|hcm|tp\.?hcm|sài gòn)/ui', $raw)) {
+                $terms[] = 'Hồ Chí Minh';
+                $terms[] = 'TP.HCM';
+                $terms[] = 'TP. Hồ Chí Minh';
+            }
+            if (preg_match('/(?:hà nội|hn)/ui', $raw)) {
+                $terms[] = 'Hà Nội';
+            }
+            if (preg_match('/(?:đà nẵng|dn)/ui', $raw)) {
+                $terms[] = 'Đà Nẵng';
+            }
+            $terms = array_unique(array_filter($terms));
+            $query->where(function($q) use ($terms) {
+                foreach ($terms as $t) {
+                    $q->orWhere('dia_chi_day', 'like', "%{$t}%");
+                }
+            });
         }
 
         $da_dang_ky_ids = DangKyNhanLop::where('gia_su_id', $user->id)->pluck('lop_hoc_id')->toArray();

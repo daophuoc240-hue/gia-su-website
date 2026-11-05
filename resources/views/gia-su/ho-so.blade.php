@@ -76,6 +76,15 @@
 .fee-input-wrap input {
     padding-left: 42px;
 }
+.slot-label {
+    transition: background 0.15s ease;
+}
+.slot-label:hover {
+    background: #e2e8f0;
+}
+.slot-label.slot-active {
+    background: #dcfce7;
+}
 </style>
 @endpush
 
@@ -206,6 +215,98 @@
                 @error('kinh_nghiem')<span class="error-msg">{{ $message }}</span>@enderror
             </div>
 
+            {{-- Lịch Dạy & Khung Giờ Rảnh --}}
+            @php
+                $lichDayData = [];
+                if (!empty($ho_so?->lich_day)) {
+                    $decoded = json_decode($ho_so->lich_day, true);
+                    if (is_array($decoded)) {
+                        $lichDayData = $decoded;
+                    }
+                }
+                $savedSlots = $lichDayData['slots'] ?? [];
+                $savedGhiChu = $lichDayData['ghi_chu'] ?? (!is_array(json_decode($ho_so?->lich_day, true)) ? ($ho_so?->lich_day ?? '') : '');
+                $dayList = [
+                    'T2' => 'Thứ 2',
+                    'T3' => 'Thứ 3',
+                    'T4' => 'Thứ 4',
+                    'T5' => 'Thứ 5',
+                    'T6' => 'Thứ 6',
+                    'T7' => 'Thứ 7',
+                    'CN' => 'Chủ Nhật',
+                ];
+                $shiftList = [
+                    'sang'  => ['label' => 'Sáng', 'time' => '8h - 11h30', 'icon' => '🌅'],
+                    'chieu' => ['label' => 'Chiều', 'time' => '14h - 17h30', 'icon' => '☀️'],
+                    'toi'   => ['label' => 'Tối', 'time' => '18h - 21h30', 'icon' => '🌙'],
+                ];
+            @endphp
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.8rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; margin-bottom: 1rem;">
+                    <div>
+                        <h4 style="font-size: 1.08rem; font-weight: 800; color: #0f172a; margin: 0 0 0.2rem 0;">
+                            📅 Sắp Xếp Lịch Dạy & Khung Giờ Rảnh Của Bạn
+                        </h4>
+                        <p style="font-size: 0.82rem; color: #64748b; margin: 0;">
+                            Đánh dấu các buổi bạn có thể nhận dạy kèm. Phụ huynh/học viên sẽ dựa vào lịch này để đăng ký giờ học.
+                        </p>
+                    </div>
+                    <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <button type="button" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.3rem 0.6rem;" onclick="quickSelectSchedule('toi')">🌙 Tất cả buổi tối</button>
+                        <button type="button" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.3rem 0.6rem;" onclick="quickSelectSchedule('weekend')">☕ Cuối tuần (T7, CN)</button>
+                        <button type="button" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.3rem 0.6rem;" onclick="quickSelectSchedule('all')">✓ Chọn tất cả</button>
+                        <button type="button" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.3rem 0.6rem; color:#ef4444;" onclick="quickSelectSchedule('none')">✕ Bỏ chọn</button>
+                    </div>
+                </div>
+
+                {{-- Bảng ma trận lịch trong tuần --}}
+                <div style="overflow-x:auto;">
+                    <table style="width:100%; border-collapse: collapse; text-align:center; font-size:0.85rem; background:#fff; border-radius:10px; overflow:hidden; border:1px solid #e2e8f0;">
+                        <thead>
+                            <tr style="background:#f1f5f9; color:#334155;">
+                                <th style="padding:0.75rem 0.5rem; font-weight:700; width:110px; border-bottom:1px solid #e2e8f0;">Ca Học</th>
+                                @foreach($dayList as $k => $dayName)
+                                <th style="padding:0.75rem 0.4rem; font-weight:700; border-bottom:1px solid #e2e8f0;">{{ $dayName }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($shiftList as $sKey => $sVal)
+                            <tr style="border-bottom:1px solid #f1f5f9;">
+                                <td style="padding:0.65rem 0.5rem; text-align:left; background:#fafafa; font-weight:700; color:#1e293b; border-right:1px solid #f1f5f9;">
+                                    <span>{{ $sVal['icon'] }} {{ $sVal['label'] }}</span>
+                                    <div style="font-size:0.7rem; color:#64748b; font-weight:normal;">{{ $sVal['time'] }}</div>
+                                </td>
+                                @foreach($dayList as $dKey => $dayName)
+                                @php
+                                    $isChecked = isset($savedSlots[$dKey][$sKey]) && $savedSlots[$dKey][$sKey];
+                                @endphp
+                                <td style="padding:0.6rem 0.3rem;">
+                                    <label style="cursor:pointer; display:block; padding:0.4rem; border-radius:6px; margin:0;" class="slot-label {{ $isChecked ? 'slot-active' : '' }}">
+                                        <input type="checkbox" name="lich_day_slots[{{ $dKey }}][{{ $sKey }}]" value="1"
+                                               class="schedule-slot-check slot-{{ $sKey }} slot-day-{{ $dKey }}"
+                                               {{ $isChecked ? 'checked' : '' }}
+                                               onchange="toggleSlotBg(this)">
+                                    </label>
+                                </td>
+                                @endforeach
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Ghi chú lịch dạy --}}
+                <div style="margin-top: 1rem;">
+                    <label style="font-size:0.84rem; font-weight:700; color:#334155; margin-bottom:0.3rem; display:block;">
+                        💬 Ghi chú thêm về lịch dạy (Tùy chọn)
+                    </label>
+                    <input type="text" name="lich_day_ghi_chu" class="form-control"
+                           value="{{ old('lich_day_ghi_chu', $savedGhiChu) }}"
+                           placeholder="Ví dụ: Có thể dạy Online vào các ngày trong tuần; chỉ nhận dạy kèm trực tiếp vào cuối tuần...">
+                </div>
+            </div>
+
             {{-- Documents --}}
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-bottom: 1.8rem;">
                 <div class="form-group">
@@ -252,6 +353,30 @@ function previewAvatar(input) {
             setTimeout(() => toast.remove(), 3500);
         };
         reader.readAsDataURL(file);
+    }
+}
+
+function toggleSlotBg(checkbox) {
+    const parent = checkbox.closest('.slot-label');
+    if (parent) {
+        if (checkbox.checked) {
+            parent.classList.add('slot-active');
+        } else {
+            parent.classList.remove('slot-active');
+        }
+    }
+}
+
+function quickSelectSchedule(type) {
+    const allChecks = document.querySelectorAll('.schedule-slot-check');
+    if (type === 'all') {
+        allChecks.forEach(c => { c.checked = true; toggleSlotBg(c); });
+    } else if (type === 'none') {
+        allChecks.forEach(c => { c.checked = false; toggleSlotBg(c); });
+    } else if (type === 'toi') {
+        document.querySelectorAll('.slot-toi').forEach(c => { c.checked = true; toggleSlotBg(c); });
+    } else if (type === 'weekend') {
+        document.querySelectorAll('.slot-day-T7, .slot-day-CN').forEach(c => { c.checked = true; toggleSlotBg(c); });
     }
 }
 </script>

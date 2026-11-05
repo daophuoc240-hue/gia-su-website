@@ -18,6 +18,8 @@ use App\Http\Controllers\TaiKhoanController;
 Route::get('/',                 [HomeController::class, 'index'])->name('home');
 Route::get('/danh-sach-gia-su',  [HomeController::class, 'danhSachGiaSu'])->name('danh-sach-gia-su');
 Route::get('/gia-su/{id}',      [HomeController::class, 'chiTietGiaSu'])->whereNumber('id')->name('chi-tiet-gia-su');
+Route::get('/gia-su/{id}/moi',  [HomeController::class, 'moiGiaSu'])->whereNumber('id')->name('giasu.moi');
+Route::post('/gia-su/{id}/dang-ky-gio-day', [HomeController::class, 'dangKyGioDay'])->whereNumber('id')->name('giasu.dang-ky-gio-day');
 Route::get('/danh-sach-lop-hoc',[HomeController::class, 'danhSachLopHoc'])->name('danh-sach-lop-hoc');
 Route::get('/lop-hoc/{id}',     [HomeController::class, 'chiTietLopHoc'])->whereNumber('id')->name('chi-tiet-lop-hoc');
 Route::get('/gioi-thieu',       [HomeController::class, 'gioiThieu'])->name('gioi-thieu');
@@ -38,6 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/cai-dat-tai-khoan',               [TaiKhoanController::class, 'caiDat'])->name('tai-khoan.cai-dat');
     Route::post('/cai-dat-tai-khoan/thong-tin',    [TaiKhoanController::class, 'capNhatThongTin'])->name('tai-khoan.thong-tin');
     Route::post('/cai-dat-tai-khoan/doi-mat-khau', [TaiKhoanController::class, 'doiMatKhau'])->name('tai-khoan.doi-mat-khau');
+
+    // Quản lý thông báo
+    Route::get('/thong-bao',              [TaiKhoanController::class, 'danhSachThongBao'])->name('thong-bao.index');
+    Route::post('/thong-bao/{id}/da-doc', [TaiKhoanController::class, 'danhDauDaDoc'])->name('thong-bao.da-doc');
+    Route::post('/thong-bao/doc-tat-ca',  [TaiKhoanController::class, 'docTatCa'])->name('thong-bao.doc-tat-ca');
 });
 
 // ==================== ADMIN ROUTES ====================
@@ -69,17 +76,20 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
 
 // ==================== GIA SU ROUTES ====================
 Route::prefix('gia-su')->name('giasu.')->middleware(['auth', 'role:giasu'])->group(function () {
-    Route::get('/dashboard',     [GiaSuController::class, 'dashboard'])->name('dashboard');
-    Route::get('/ho-so',         [GiaSuController::class, 'hoSo'])->name('ho-so');
-    Route::post('/ho-so',        [GiaSuController::class, 'capNhatHoSo'])->name('ho-so.cap-nhat');
-    Route::get('/tim-kiem-lop',  [GiaSuController::class, 'timKiemLop'])->name('tim-kiem-lop');
+    Route::get('/dashboard',             [GiaSuController::class, 'dashboard'])->name('dashboard');
+    Route::get('/ho-so',                 [GiaSuController::class, 'hoSo'])->name('ho-so');
+    Route::post('/ho-so',                [GiaSuController::class, 'capNhatHoSo'])->name('ho-so.cap-nhat');
+    Route::get('/tim-kiem-lop',          [GiaSuController::class, 'timKiemLop'])->name('tim-kiem-lop');
     Route::post('/dang-ky-lop/{lop_id}', [GiaSuController::class, 'dangKyNhanLop'])->name('dang-ky-lop');
-    Route::get('/ket-qua',       [GiaSuController::class, 'ketQuaDangKy'])->name('ket-qua');
+    Route::get('/ket-qua',               [GiaSuController::class, 'ketQuaDangKy'])->name('ket-qua');
+    Route::post('/xac-nhan-lich/{id}',   [GiaSuController::class, 'xacNhanLich'])->whereNumber('id')->name('xac-nhan-lich');
+    Route::post('/tu-choi-lich/{id}',    [GiaSuController::class, 'tuChoiLich'])->whereNumber('id')->name('tu-choi-lich');
 });
 
 // ==================== HỌC VIÊN ROUTES ====================
 Route::prefix('hoc-vien')->name('hocvien.')->middleware(['auth', 'role:hocvien'])->group(function () {
     Route::get('/dashboard',       [HocVienController::class, 'dashboard'])->name('dashboard');
+    Route::get('/gia-su',          [HocVienController::class, 'danhSachGiaSu'])->name('gia-su');
     Route::get('/tao-yeu-cau',     [HocVienController::class, 'taoYeuCau'])->name('tao-yeu-cau');
     Route::post('/tao-yeu-cau',    [HocVienController::class, 'guiYeuCau'])->name('gui-yeu-cau');
     Route::get('/danh-sach-lop',   [HocVienController::class, 'danhSachLop'])->name('danh-sach-lop');

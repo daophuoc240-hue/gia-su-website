@@ -66,6 +66,23 @@
                 </div>
             @endif
 
+            @if(session('info'))
+                <div style="background:#eff6ff; color:#1e40af; border:1.5px solid #93c5fd; padding:0.85rem 1rem; border-radius:10px; margin-bottom:1.2rem; font-size:0.88rem; font-weight:600; display:flex; align-items:center; gap:0.6rem;">
+                    <i class="fas fa-info-circle" style="color:#2563eb;"></i>
+                    <span>{{ session('info') }}</span>
+                </div>
+            @endif
+
+            @if(session('moi_gia_su_name'))
+                <div style="background:#f0fdf4; border:1.5px solid #86efac; padding:0.85rem 1rem; border-radius:12px; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.8rem;">
+                    <span style="font-size:1.4rem;">🎯</span>
+                    <div>
+                        <div style="font-weight:700; color:#166534; font-size:0.92rem;">Bạn đang mời gia sư: {{ session('moi_gia_su_name') }}</div>
+                        <div style="font-size:0.8rem; color:#15803d;">Môn: {{ session('moi_gia_su_mon') }}. Sau khi đăng nhập hệ thống sẽ tự động chuyển tới trang tạo yêu cầu cho gia sư này.</div>
+                    </div>
+                </div>
+            @endif
+
             @if(session('success'))
                 <div style="background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; padding:0.85rem 1rem; border-radius:10px; margin-bottom:1.2rem; font-size:0.88rem; font-weight:600; display:flex; align-items:center; gap:0.6rem;">
                     <i class="fas fa-check-circle"></i>

@@ -6,8 +6,12 @@
 <p class="nav-section-title">Tổng Quan</p>
 <div class="nav-item"><a href="{{ route('hocvien.dashboard') }}" class="nav-link {{ request()->routeIs('hocvien.dashboard') ? 'active' : '' }}"><span class="nav-icon"><i class="fas fa-home"></i></span> Tổng Quan</a></div>
 <p class="nav-section-title">Tìm Gia Sư</p>
+<div class="nav-item"><a href="{{ route('hocvien.gia-su') }}" class="nav-link {{ request()->routeIs('hocvien.gia-su*') ? 'active' : '' }}"><span class="nav-icon"><i class="fas fa-user-graduate"></i></span> Gia Sư</a></div>
 <div class="nav-item"><a href="{{ route('hocvien.tao-yeu-cau') }}" class="nav-link {{ request()->routeIs('hocvien.tao-yeu-cau') ? 'active' : '' }}"><span class="nav-icon"><i class="fas fa-plus-circle"></i></span> Tạo Yêu Cầu Mới</a></div>
 <div class="nav-item"><a href="{{ route('hocvien.danh-sach-lop') }}" class="nav-link {{ request()->routeIs('hocvien.danh-sach-lop') ? 'active' : '' }}"><span class="nav-icon"><i class="fas fa-list"></i></span> Danh Sách Lớp</a></div>
+<p class="nav-section-title">Hệ Thống</p>
+<div class="nav-item"><a href="{{ route('thong-bao.index') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-bell"></i></span> Thông Báo</a></div>
+<div class="nav-item"><a href="{{ route('tai-khoan.cai-dat') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-cog"></i></span> Cài Đặt Tài Khoản</a></div>
 @endsection
 
 @section('content')
@@ -20,15 +24,51 @@
             </div>
             <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.4rem;">Xin chào, {{ auth()->user()->ho_ten }}! 👋</h2>
             <p style="font-size: 0.95rem; color: rgba(255,255,255,0.85); max-width: 600px;">
-                Đăng yêu cầu tìm gia sư ngay hôm nay để nhận danh sách các gia sư giỏi, tận tâm phù hợp nhất cho con em của bạn!
+                Duyệt đội ngũ gia sư giỏi hoặc tạo yêu cầu tìm gia sư ngay hôm nay để nhận gia sư phù hợp nhất cho con em của bạn!
             </p>
         </div>
-        <div>
-            <a href="{{ route('hocvien.tao-yeu-cau') }}" class="btn" style="background: #ffffff !important; color: #0284c7 !important; font-weight: 800; padding: 0.85rem 1.6rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+            <a href="{{ route('hocvien.gia-su') }}" class="btn" style="background: #ffffff !important; color: #0284c7 !important; font-weight: 800; padding: 0.85rem 1.4rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+                <i class="fas fa-user-graduate" style="margin-right: 0.4rem; color:#0284c7;"></i> Tìm Gia Sư Ngay
+            </a>
+            <a href="{{ route('hocvien.tao-yeu-cau') }}" class="btn" style="background: rgba(255,255,255,0.2) !important; color: #ffffff !important; border: 1.5px solid rgba(255,255,255,0.5); font-weight: 700; padding: 0.85rem 1.4rem; border-radius: 12px;">
                 <i class="fas fa-plus-circle" style="margin-right: 0.4rem;"></i> Đăng Yêu Cầu Mới
             </a>
         </div>
     </div>
+</div>
+
+{{-- Quick Action Cards --}}
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; margin-bottom: 2rem;">
+    <a href="{{ route('hocvien.gia-su') }}" style="text-decoration: none;">
+        <div class="glass-card" style="padding: 1.4rem; display: flex; align-items: center; gap: 1rem; border-left: 5px solid #2563eb; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #2563eb;">👨‍🏫</div>
+            <div>
+                <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">Đội Ngũ Gia Sư</div>
+                <div style="font-size: 0.8rem; color: #64748b;">Xem hồ sơ & đặt lịch trực tiếp</div>
+            </div>
+        </div>
+    </a>
+
+    <a href="{{ route('hocvien.tao-yeu-cau') }}" style="text-decoration: none;">
+        <div class="glass-card" style="padding: 1.4rem; display: flex; align-items: center; gap: 1rem; border-left: 5px solid #0284c7; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="width: 48px; height: 48px; background: #e0f2fe; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #0284c7;">📝</div>
+            <div>
+                <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">Đăng Yêu Cầu Lớp</div>
+                <div style="font-size: 0.8rem; color: #64748b;">Tạo lớp để trung tâm điều phối</div>
+            </div>
+        </div>
+    </a>
+
+    <a href="{{ route('hocvien.danh-sach-lop') }}" style="text-decoration: none;">
+        <div class="glass-card" style="padding: 1.4rem; display: flex; align-items: center; gap: 1rem; border-left: 5px solid #10b981; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="width: 48px; height: 48px; background: #ecfdf5; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #10b981;">📋</div>
+            <div>
+                <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">Lớp Của Tôi</div>
+                <div style="font-size: 0.8rem; color: #64748b;">Theo dõi tiến độ nhận lớp</div>
+            </div>
+        </div>
+    </a>
 </div>
 
 {{-- 4 Stat Cards --}}

@@ -63,6 +63,11 @@
         </div>
 
         <div class="form-group">
+            <label class="form-label"><i class="fas fa-calendar-alt"></i> Lịch Học / Thời Gian Chi Tiết</label>
+            <input type="text" name="thoi_gian_hoc" class="form-control" value="{{ old('thoi_gian_hoc', $lop->thoi_gian_hoc) }}" placeholder="Ví dụ: Thứ 2, Thứ 4, Thứ 6 (18:00 - 19:30)">
+        </div>
+
+        <div class="form-group">
             <label class="form-label"><i class="fas fa-sticky-note"></i> Yêu Cầu Thêm</label>
             <textarea name="yeu_cau_them" class="form-control" rows="3">{{ old('yeu_cau_them', $lop->yeu_cau_them) }}</textarea>
         </div>

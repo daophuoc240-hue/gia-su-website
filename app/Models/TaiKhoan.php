@@ -55,6 +55,16 @@ class TaiKhoan extends Authenticatable
         return $this->hasMany(DanhGia::class, 'gia_su_id');
     }
 
+    public function thongBaos()
+    {
+        return $this->hasMany(ThongBao::class, 'tai_khoan_id')->latest();
+    }
+
+    public function thongBaoChuaDocCount(): int
+    {
+        return $this->thongBaos()->where('da_doc', false)->count();
+    }
+
     // Helper methods
     public function isAdmin(): bool
     {

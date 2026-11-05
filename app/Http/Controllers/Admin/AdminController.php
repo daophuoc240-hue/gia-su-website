@@ -7,6 +7,7 @@ use App\Models\TaiKhoan;
 use App\Models\HoSoGiaSu;
 use App\Models\LopHoc;
 use App\Models\DangKyNhanLop;
+use App\Models\ThongBao;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -168,10 +169,11 @@ class AdminController extends Controller
             'so_buoi_tuan'  => 'required|integer|min:1|max:7',
             'dia_chi_day'   => 'required|string|max:255',
             'muc_hoc_phi'   => 'required|numeric|min:0',
+            'thoi_gian_hoc' => 'nullable|string|max:255',
         ]);
 
         $lop = LopHoc::findOrFail($id);
-        $lop->update($request->only(['mon_hoc', 'khoi_lop', 'so_buoi_tuan', 'dia_chi_day', 'muc_hoc_phi', 'yeu_cau_them']));
+        $lop->update($request->only(['mon_hoc', 'khoi_lop', 'so_buoi_tuan', 'dia_chi_day', 'muc_hoc_phi', 'thoi_gian_hoc', 'yeu_cau_them']));
         return redirect()->route('admin.lop-hoc.index')->with('success', 'Đã cập nhật thông tin lớp học.');
     }
 
@@ -186,18 +188,32 @@ class AdminController extends Controller
     public function phanCongLop($lop_id)
     {
         $lop = LopHoc::with(['hocVien', 'dangKyNhanLops.giaSu.hoSoGiaSu'])->findOrFail($lop_id);
+        
+        // Danh sách gia sư đã xác nhận rảnh hoặc ứng tuyển (sẵn sàng để admin duyệt phân công)
         $dang_kys = DangKyNhanLop::with(['giaSu.hoSoGiaSu'])
             ->where('lop_hoc_id', $lop_id)
             ->where('trang_thai', 'cho_duyet')
+            ->where(function($q) {
+                $q->whereNull('xac_nhan_gia_su')
+                  ->orWhere('xac_nhan_gia_su', 'da_xac_nhan');
+            })
             ->get();
-        return view('admin.lop-hoc.phan-cong', compact('lop', 'dang_kys'));
+
+        // Danh sách gia sư được mời nhưng đang chờ xem xét lịch rảnh
+        $cho_xac_nhan = DangKyNhanLop::with(['giaSu.hoSoGiaSu'])
+            ->where('lop_hoc_id', $lop_id)
+            ->where('xac_nhan_gia_su', 'cho_xac_nhan')
+            ->where('trang_thai', '!=', 'tu_choi')
+            ->get();
+
+        return view('admin.lop-hoc.phan-cong', compact('lop', 'dang_kys', 'cho_xac_nhan'));
     }
 
     public function xacNhanPhanCong(Request $request, $lop_id)
     {
         $request->validate(['dang_ky_id' => 'required|exists:dang_ky_nhan_lops,id']);
 
-        $dang_ky = DangKyNhanLop::findOrFail($request->dang_ky_id);
+        $dang_ky = DangKyNhanLop::with(['giaSu', 'lopHoc.hocVien'])->findOrFail($request->dang_ky_id);
 
         // Mark selected as approved
         $dang_ky->update(['trang_thai' => 'da_duyet']);
@@ -208,11 +224,30 @@ class AdminController extends Controller
             ->update(['trang_thai' => 'tu_choi']);
 
         // Update the class
-        LopHoc::findOrFail($lop_id)->update([
+        $lop = LopHoc::with('hocVien')->findOrFail($lop_id);
+        $lop->update([
             'trang_thai' => 'da_co_gia_su',
             'gia_su_id'  => $dang_ky->gia_su_id,
         ]);
 
-        return redirect()->route('admin.lop-hoc.index')->with('success', 'Đã phân công lớp học thành công!');
+        // Gửi thông báo đến Gia Sư
+        ThongBao::gui(
+            $dang_ky->gia_su_id,
+            "🎉 Chúc mừng! Bạn đã được Ban Quản Trị phân công nhận lớp",
+            "Ban Quản Trị trung tâm đã chính thức phê duyệt phân công bạn dạy lớp {$lop->mon_hoc} ({$lop->khoi_lop}) cho Học viên {$lop->hocVien->ho_ten}. Vui lòng liên hệ với phụ huynh để thống nhất lịch học đầu tiên!",
+            route('giasu.dashboard'),
+            'phan_cong'
+        );
+
+        // Gửi thông báo đến Học Viên
+        ThongBao::gui(
+            $lop->hoc_vien_id,
+            "🎉 Lớp học của bạn đã có gia sư chính thức!",
+            "Ban Quản Trị trung tâm đã phê duyệt phân công Gia sư {$dang_ky->giaSu->ho_ten} dạy kèm lớp {$lop->mon_hoc} ({$lop->khoi_lop}). Gia sư sẽ sớm liên hệ trực tiếp với bạn theo số điện thoại đăng ký.",
+            route('hocvien.danh-sach-lop'),
+            'phan_cong'
+        );
+
+        return redirect()->route('admin.lop-hoc.index')->with('success', 'Đã phân công lớp học thành công và gửi thông báo tới các bên!');
     }
 }

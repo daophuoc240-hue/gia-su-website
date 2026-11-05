@@ -5,8 +5,12 @@
 <p class="nav-section-title">Tổng Quan</p>
 <div class="nav-item"><a href="{{ route('hocvien.dashboard') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-home"></i></span> Tổng Quan</a></div>
 <p class="nav-section-title">Tìm Gia Sư</p>
+<div class="nav-item"><a href="{{ route('hocvien.gia-su') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-user-graduate"></i></span> Gia Sư</a></div>
 <div class="nav-item"><a href="{{ route('hocvien.tao-yeu-cau') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-plus-circle"></i></span> Tạo Yêu Cầu Mới</a></div>
 <div class="nav-item"><a href="{{ route('hocvien.danh-sach-lop') }}" class="nav-link active"><span class="nav-icon"><i class="fas fa-list"></i></span> Danh Sách Lớp</a></div>
+<p class="nav-section-title">Hệ Thống</p>
+<div class="nav-item"><a href="{{ route('thong-bao.index') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-bell"></i></span> Thông Báo</a></div>
+<div class="nav-item"><a href="{{ route('tai-khoan.cai-dat') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-cog"></i></span> Cài Đặt Tài Khoản</a></div>
 @endsection
 @section('content')
 <div class="page-header">
@@ -38,6 +42,7 @@
                     <td>
                         <div style="font-weight:600; color:var(--text-primary);">{{ $lop->mon_hoc }}</div>
                         <div style="font-size:0.78rem; color:var(--text-muted);">{{ $lop->khoi_lop }} • {{ $lop->so_buoi_tuan }} buổi/tuần</div>
+                        <div style="font-size:0.74rem; color:#2563eb; margin-top:2px;">🗓️ {{ $lop->thoi_gian_hoc ?: 'Lịch thỏa thuận' }}</div>
                     </td>
                     <td style="font-size:0.85rem;">{{ Str::limit($lop->dia_chi_day, 30) }}</td>
                     <td style="font-weight:600; color:#fda085;">{{ number_format($lop->muc_hoc_phi) }}đ</td>

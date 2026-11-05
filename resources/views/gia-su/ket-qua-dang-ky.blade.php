@@ -28,6 +28,11 @@
             <div>
                 <div style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.3rem;">
                     📚 {{ $dk->lopHoc->mon_hoc }} - {{ $dk->lopHoc->khoi_lop }}
+                    @if($dk->lopHoc->gia_su_id === auth()->id() || str_contains($dk->gioi_thieu_ban_than, 'trực tiếp') || str_contains($dk->gioi_thieu_ban_than, 'đăng ký lịch'))
+                    <span style="background:#eff6ff; color:#2563eb; font-weight:700; font-size:0.75rem; padding:3px 10px; border-radius:20px; display:inline-block; border:1px solid #bfdbfe;">
+                        ⭐ Học viên đăng ký giờ dạy trực tiếp
+                    </span>
+                    @endif
                 </div>
                 <div style="font-size: 0.85rem; color: #475569; margin-bottom: 0.4rem;">
                     📍 {{ $dk->lopHoc->dia_chi_day }} • 💰 {{ number_format($dk->lopHoc->muc_hoc_phi) }} đ/buổi

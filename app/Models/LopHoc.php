@@ -13,6 +13,7 @@ class LopHoc extends Model
         'mon_hoc',
         'khoi_lop',
         'so_buoi_tuan',
+        'thoi_gian_hoc',
         'dia_chi_day',
         'muc_hoc_phi',
         'yeu_cau_them',
@@ -41,8 +42,12 @@ class LopHoc extends Model
 
     public function getTrangThaiLabelAttribute(): string
     {
+        if ($this->trang_thai === 'dang_tim' && $this->gia_su_id && $this->dangKyNhanLops->where('xac_nhan_gia_su', 'cho_xac_nhan')->isNotEmpty()) {
+            return 'Chờ gia sư xác nhận lịch';
+        }
+
         return match($this->trang_thai) {
-            'dang_tim'      => 'Đang tìm gia sư',
+            'dang_tim'      => 'Đang tìm gia sư / Chờ duyệt',
             'da_co_gia_su'  => 'Đã có gia sư',
             'hoan_thanh'    => 'Hoàn thành',
             'da_huy'        => 'Đã hủy',
@@ -52,10 +57,14 @@ class LopHoc extends Model
 
     public function getTrangThaiClassAttribute(): string
     {
+        if ($this->trang_thai === 'dang_tim' && $this->gia_su_id && $this->dangKyNhanLops->where('xac_nhan_gia_su', 'cho_xac_nhan')->isNotEmpty()) {
+            return 'badge-warning';
+        }
+
         return match($this->trang_thai) {
-            'dang_tim'      => 'badge-warning',
+            'dang_tim'      => 'badge-info',
             'da_co_gia_su'  => 'badge-success',
-            'hoan_thanh'    => 'badge-info',
+            'hoan_thanh'    => 'badge-primary',
             'da_huy'        => 'badge-danger',
             default         => 'badge-secondary',
         };
@@ -65,6 +74,6 @@ class LopHoc extends Model
     public function getHocPhiAttribute() { return $this->muc_hoc_phi; }
     public function getSoBuoiTrungBinhAttribute() { return $this->so_buoi_tuan; }
     public function getYeuCauGiaSuAttribute() { return $this->yeu_cau_them; }
-    public function getThoiGianDayAttribute() { return 'Lịch thỏa thuận với phụ huynh'; }
+    public function getThoiGianDayAttribute() { return $this->thoi_gian_hoc ?: ($this->so_buoi_tuan . ' buổi/tuần (Thoả thuận)'); }
     public function getMoTaAttribute() { return $this->yeu_cau_them; }
 }

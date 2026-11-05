@@ -69,8 +69,22 @@
                     <div style="font-size:0.78rem; color:#64748b;">Hệ thống Kết nối & Quản lý Gia sư Chuyên nghiệp</div>
                 </div>
             </div>
-            <div class="topbar-actions">
+            <div class="topbar-actions" style="display:flex; align-items:center; gap:0.9rem;">
                 @auth
+                {{-- Chuông thông báo --}}
+                @php
+                    $unreadCount = auth()->user()->thongBaoChuaDocCount();
+                @endphp
+                <a href="{{ route('thong-bao.index') }}" title="Xem tất cả thông báo"
+                   style="position:relative; width:40px; height:40px; border-radius:12px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; color:#334155; text-decoration:none; border:1px solid #e2e8f0; transition:all 0.2s;">
+                    <i class="fas fa-bell" style="font-size:1.15rem; color:{{ $unreadCount > 0 ? '#2563eb' : '#64748b' }};"></i>
+                    @if($unreadCount > 0)
+                    <span style="position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.7rem; font-weight:800; border-radius:50%; min-width:18px; height:18px; display:flex; align-items:center; justify-content:center; padding:0 3px; box-shadow:0 2px 5px rgba(239,68,68,0.4);">
+                        {{ $unreadCount }}
+                    </span>
+                    @endif
+                </a>
+
                 <div style="display:flex; align-items:center; gap:0.8rem; background:#f1f5f9; padding:0.4rem 0.9rem; border-radius:20px; border:1px solid #e2e8f0;">
                     <span style="font-size:0.82rem; font-weight:700; color:#2563eb;">🟢 Đang hoạt động</span>
                     <span style="font-size:0.82rem; color:#475569;">{{ auth()->user()->ho_ten }}</span>

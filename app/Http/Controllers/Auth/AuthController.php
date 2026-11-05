@@ -47,6 +47,16 @@ class AuthController extends Controller
 
         Auth::login($user, $request->boolean('remember'));
 
+        // Tự động kiểm tra lời mời gia sư đang lưu trong session
+        if (session()->has('moi_gia_su_id')) {
+            $giaSuId = session()->get('moi_gia_su_id');
+            if ($user->isHocVien()) {
+                session()->forget(['moi_gia_su_id', 'moi_gia_su_name', 'moi_gia_su_mon']);
+                return redirect(route('chi-tiet-gia-su', $giaSuId) . '#dang-ky-lich-day')
+                    ->with('success', 'Đăng nhập thành công! Hệ thống đã đưa bạn đến trang gia sư để xem phong cách giảng dạy và đăng ký lịch học.');
+            }
+        }
+
         return $this->redirectByRole($user);
     }
 
@@ -83,6 +93,16 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+
+        // Tự động kiểm tra lời mời gia sư đang lưu trong session
+        if (session()->has('moi_gia_su_id')) {
+            $giaSuId = session()->get('moi_gia_su_id');
+            if ($user->isHocVien()) {
+                session()->forget(['moi_gia_su_id', 'moi_gia_su_name', 'moi_gia_su_mon']);
+                return redirect(route('chi-tiet-gia-su', $giaSuId) . '#dang-ky-lich-day')
+                    ->with('success', 'Đăng ký tài khoản thành công! Bạn có thể xem chi tiết phong cách dạy và đăng ký lịch học với gia sư.');
+            }
+        }
 
         return $this->redirectByRole($user)->with('success', 'Đăng ký thành công! Chào mừng ' . $user->ho_ten);
     }

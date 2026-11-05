@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\TaiKhoan;
+use App\Models\ThongBao;
 
 class TaiKhoanController extends Controller
 {
@@ -57,5 +58,28 @@ class TaiKhoanController extends Controller
         ]);
 
         return back()->with('success', 'Đổi mật khẩu thành công! Mật khẩu mới đã được lưu.');
+    }
+
+    public function danhSachThongBao()
+    {
+        $user = Auth::user();
+        $thong_baos = ThongBao::where('tai_khoan_id', $user->id)->latest()->paginate(15);
+        return view('tai-khoan.thong-bao', compact('user', 'thong_baos'));
+    }
+
+    public function danhDauDaDoc($id)
+    {
+        $tb = ThongBao::where('tai_khoan_id', Auth::id())->findOrFail($id);
+        $tb->update(['da_doc' => true]);
+        if ($tb->duong_dan) {
+            return redirect($tb->duong_dan);
+        }
+        return back()->with('success', 'Đã xem thông báo.');
+    }
+
+    public function docTatCa()
+    {
+        ThongBao::where('tai_khoan_id', Auth::id())->where('da_doc', false)->update(['da_doc' => true]);
+        return back()->with('success', 'Đã đánh dấu tất cả thông báo là đã đọc.');
     }
 }

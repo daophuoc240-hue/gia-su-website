@@ -6,6 +6,8 @@ use App\Models\HoSoGiaSu;
 use App\Models\LopHoc;
 use App\Models\TaiKhoan;
 use App\Models\DanhGia;
+use App\Models\DangKyNhanLop;
+use App\Models\ThongBao;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -54,14 +56,23 @@ class HomeController extends Controller
                   });
             });
         }
-        // Lọc theo khu vực riêng (độc lập vs keyword)
-        
 
         if ($request->filled('khu_vuc')) {
-            $query->where('khu_vuc_nhan_day', 'like', "%{$request->khu_vuc}%");
+            $this->applyLocationFilter($query, 'khu_vuc_nhan_day', $request->khu_vuc);
         }
 
-        $gia_sus = $query->latest()->paginate(9);
+        // Sắp xếp gia sư theo tiêu chí
+        $sort = $request->get('sort', 'latest');
+        match ($sort) {
+            'rating_desc'  => $query->orderByDesc('diem_trung_binh')->orderByDesc('so_luot_danh_gia'),
+            'rating_count' => $query->orderByDesc('so_luot_danh_gia')->orderByDesc('diem_trung_binh'),
+            'classes_desc' => $query->orderByDesc('so_lop_da_day')->orderByDesc('diem_trung_binh'),
+            'fee_asc'      => $query->orderBy('hoc_phi_theo_gio', 'asc'),
+            'fee_desc'     => $query->orderByDesc('hoc_phi_theo_gio'),
+            default        => $query->latest(),
+        };
+
+        $gia_sus = $query->paginate(9);
 
         return view('home.danh-sach-gia-su', compact('gia_sus'));
     }
@@ -72,7 +83,131 @@ class HomeController extends Controller
             ->where('trang_thai_duyet', 'da_duyet')
             ->findOrFail($id);
 
-        return view('home.chi-tiet-gia-su', compact('ho_so'));
+        $danh_gias = DanhGia::with('hocVien')
+            ->where('gia_su_id', $ho_so->tai_khoan_id)
+            ->latest()
+            ->get();
+
+        return view('home.chi-tiet-gia-su', compact('ho_so', 'danh_gias'));
+    }
+
+    /**
+     * Xử lý hành động "Mời Gia Sư Ngay":
+     * - Nếu chưa đăng nhập: lưu thông tin gia sư vào Session và chuyển hướng đến trang Đăng nhập (thay vì đăng ký).
+     * - Nếu đã đăng nhập với vai trò Học viên / Phụ huynh: chuyển thẳng đến trang Chi tiết Gia sư và cuộn xuống mục Đăng ký lịch dạy.
+     * - Sau khi đăng nhập, hệ thống tự động kiểm tra Session để chuyển tiếp tục đến trang chi tiết gia sư mà học viên muốn xem.
+     */
+    public function moiGiaSu($id)
+    {
+        $ho_so = HoSoGiaSu::with('taiKhoan')->findOrFail($id);
+
+        if (auth()->check()) {
+            $user = auth()->user();
+            if ($user->isHocVien()) {
+                return redirect(route('chi-tiet-gia-su', $ho_so->id) . '#dang-ky-lich-day')
+                    ->with('info', "Bạn đang kết nối trực tiếp với Gia sư {$ho_so->taiKhoan->ho_ten}. Hãy chọn lịch dạy và gửi yêu cầu bên dưới nhé!");
+            } else {
+                return redirect()->route('chi-tiet-gia-su', $id)
+                    ->with('error', 'Chức năng mời gia sư chỉ dành cho tài khoản Phụ huynh / Học viên. Tài khoản hiện tại của bạn là: ' . ($user->isAdmin() ? 'Quản trị viên' : 'Gia sư') . '.');
+            }
+        }
+
+        // Lưu thông tin gia sư vào Session để sau khi đăng nhập tự động quay lại trang hồ sơ gia sư
+        session([
+            'moi_gia_su_id'   => $ho_so->id,
+            'moi_gia_su_name' => $ho_so->taiKhoan->ho_ten,
+            'moi_gia_su_mon'  => $ho_so->mon_day,
+            'url.intended'    => route('chi-tiet-gia-su', $ho_so->id) . '#dang-ky-lich-day',
+        ]);
+
+        return redirect()->route('login')
+            ->with('info', "Vui lòng đăng nhập tài khoản Phụ huynh / Học viên để xem chi tiết giảng dạy và đăng ký lịch học với Gia sư {$ho_so->taiKhoan->ho_ten}!");
+    }
+
+    /**
+     * Học viên đăng ký giờ dạy & gửi lời mời trực tiếp tới gia sư
+     */
+    public function dangKyGioDay(Request $request, $id)
+    {
+        if (!auth()->check()) {
+            session([
+                'moi_gia_su_id' => $id,
+                'url.intended'  => route('chi-tiet-gia-su', $id) . '#dang-ky-lich-day',
+            ]);
+            return redirect()->route('login')
+                ->with('info', 'Vui lòng đăng nhập tài khoản Phụ huynh / Học viên để đăng ký giờ dạy.');
+        }
+
+        $user = auth()->user();
+        if (!$user->isHocVien()) {
+            return redirect()->route('chi-tiet-gia-su', $id)
+                ->with('error', 'Chỉ tài khoản Phụ huynh / Học viên mới có quyền đăng ký giờ dạy với gia sư.');
+        }
+
+        $ho_so = HoSoGiaSu::with('taiKhoan')->findOrFail($id);
+
+        $request->validate([
+            'mon_hoc'      => 'required|string|max:100',
+            'khoi_lop'     => 'required|string|max:50',
+            'ngay_hoc'     => 'required|array|min:1',
+            'khung_gio'    => 'required|string|max:100',
+            'hinh_thuc'    => 'required|in:tai_nha,online',
+            'dia_chi_day'  => 'nullable|string|max:255',
+            'yeu_cau_them' => 'nullable|string|max:500',
+        ], [
+            'mon_hoc.required'   => 'Vui lòng nhập môn học cần học.',
+            'khoi_lop.required'  => 'Vui lòng chọn khối lớp học.',
+            'ngay_hoc.required'  => 'Vui lòng chọn ít nhất 1 ngày học trong tuần.',
+            'ngay_hoc.min'       => 'Vui lòng chọn ít nhất 1 ngày học trong tuần.',
+            'khung_gio.required' => 'Vui lòng chọn khung giờ học mong muốn.',
+            'hinh_thuc.required' => 'Vui lòng chọn hình thức học (Tại nhà hoặc Online).',
+        ]);
+
+        if ($request->hinh_thuc === 'tai_nha' && !$request->filled('dia_chi_day')) {
+            return back()->withInput()->withErrors(['dia_chi_day' => 'Vui lòng nhập địa chỉ học cụ thể khi chọn hình thức học tại nhà.']);
+        }
+
+        $soBuoiTuan  = count($request->ngay_hoc);
+        $thoiGianHoc = implode(', ', $request->ngay_hoc) . " ({$request->khung_gio})";
+        $diaChi      = ($request->hinh_thuc === 'online')
+            ? 'Học Online (Qua Zoom / Google Meet)'
+            : ($request->dia_chi_day ?: 'Thỏa thuận trực tiếp với gia sư');
+        $mucHocPhi   = $ho_so->hoc_phi_theo_gio ?: 200000;
+
+        // Tạo lớp học mới gắn với yêu cầu của học viên (trạng thái chờ gia sư xác nhận lịch)
+        $lop = LopHoc::create([
+            'hoc_vien_id'   => $user->id,
+            'mon_hoc'       => $request->mon_hoc,
+            'khoi_lop'      => $request->khoi_lop,
+            'so_buoi_tuan'  => $soBuoiTuan,
+            'thoi_gian_hoc' => $thoiGianHoc,
+            'dia_chi_day'   => $diaChi,
+            'muc_hoc_phi'   => $mucHocPhi,
+            'yeu_cau_them'  => ($request->hinh_thuc === 'online' ? '[Học Online] ' : '[Học tại nhà] ') . ($request->yeu_cau_them ?? 'Học viên đăng ký lịch dạy trực tiếp từ hồ sơ gia sư.'),
+            'trang_thai'    => 'dang_tim',
+            'gia_su_id'     => $ho_so->tai_khoan_id,
+        ]);
+
+        // Tạo lời mời trực tiếp cho Gia sư để gia sư xem có rảnh vào giờ đó không trước khi gửi lên hệ thống xét duyệt
+        DangKyNhanLop::create([
+            'lop_hoc_id'          => $lop->id,
+            'gia_su_id'           => $ho_so->tai_khoan_id,
+            'gioi_thieu_ban_than' => "Học viên {$user->ho_ten} đăng ký lịch học: {$thoiGianHoc}. Lời mời dạy kèm trực tiếp.",
+            'trang_thai'          => 'cho_duyet',
+            'xac_nhan_gia_su'     => 'cho_xac_nhan',
+        ]);
+
+        // Gửi thông báo đến tài khoản của Gia sư
+        ThongBao::gui(
+            $ho_so->tai_khoan_id,
+            "🔔 Lời mời dạy mới từ Học viên {$user->ho_ten}",
+            "Học viên {$user->ho_ten} vừa đăng ký lịch học môn {$request->mon_hoc} ({$request->khoi_lop}) vào khung giờ: {$thoiGianHoc}. Vui lòng kiểm tra lịch rảnh và xác nhận trước khi gửi lên hệ thống xét duyệt!",
+            route('giasu.dashboard'),
+            'yeu_cau_day'
+        );
+
+        return redirect(route('chi-tiet-gia-su', $id) . '#dang-ky-lich-day')
+            ->with('success', "🎉 Đăng ký giờ dạy thành công! Hệ thống đã gửi thông báo đến Gia sư {$ho_so->taiKhoan->ho_ten} để kiểm tra lịch rảnh. Sau khi gia sư xác nhận rảnh, yêu cầu sẽ được chuyển lên trung tâm xét duyệt.");
     }
 
     public function danhSachLopHoc(Request $request)
@@ -86,12 +221,65 @@ class HomeController extends Controller
             $query->where('khoi_lop', $request->khoi_lop);
         }
         if ($request->filled('dia_chi')) {
-            $query->where('dia_chi_day', 'like', "%{$request->dia_chi}%");
+            $this->applyLocationFilter($query, 'dia_chi_day', $request->dia_chi);
         }
 
         $lop_hocs = $query->latest()->paginate(9);
 
         return view('home.danh-sach-lop-hoc', compact('lop_hocs'));
+    }
+
+    /**
+     * Bộ lọc địa điểm thông minh: Tự động chuẩn hóa Huyện/Quận và Tỉnh/Thành
+     */
+    private function applyLocationFilter($query, string $column, string $input): void
+    {
+        $raw = trim($input);
+        if ($raw === '') return;
+
+        $terms = [$raw];
+
+        // 1. Tách nếu người dùng chọn định dạng "TP. Hồ Chí Minh - Quận 1"
+        if (str_contains($raw, '-')) {
+            $parts = explode('-', $raw);
+            foreach ($parts as $part) {
+                $p = trim($part);
+                if ($p !== '') {
+                    $terms[] = $p;
+                }
+            }
+        }
+
+        // 2. Xử lý viết tắt Quận / Q: "Quận 1" <-> "Q.1" <-> "Q1"
+        foreach ([$raw, ...$terms] as $t) {
+            if (preg_match('/(?:quận|q\.?)\s*(\d+)/ui', $t, $m)) {
+                $num = $m[1];
+                $terms[] = "Quận " . $num;
+                $terms[] = "Q." . $num;
+                $terms[] = "Q" . $num;
+            }
+        }
+
+        // 3. Xử lý Tỉnh / Thành phố đồng nghĩa
+        if (preg_match('/(?:hồ chí minh|hcm|tp\.?hcm|sài gòn)/ui', $raw)) {
+            $terms[] = "Hồ Chí Minh";
+            $terms[] = "TP.HCM";
+            $terms[] = "TP. Hồ Chí Minh";
+        }
+        if (preg_match('/(?:hà nội|hn)/ui', $raw)) {
+            $terms[] = "Hà Nội";
+        }
+        if (preg_match('/(?:đà nẵng|dn)/ui', $raw)) {
+            $terms[] = "Đà Nẵng";
+        }
+
+        $terms = array_unique(array_filter($terms));
+
+        $query->where(function($q) use ($column, $terms) {
+            foreach ($terms as $term) {
+                $q->orWhere($column, 'like', "%{$term}%");
+            }
+        });
     }
 
     public function chiTietLopHoc($id)

@@ -15,15 +15,52 @@
     <!-- Filter Bar -->
     <form method="GET" action="{{ route('danh-sach-gia-su') }}" class="filter-bar" style="box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
         <input type="text" name="keyword" class="form-control" placeholder="Tìm theo tên gia sư, trường học, chuyên ngành, môn dạy..." value="{{ request('keyword') }}">
-        <input type="text" name="khu_vuc" class="form-control" placeholder="Khu vực (Quận/Huyện)..." value="{{ request('khu_vuc') }}" style="max-width: 240px;">
-        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm kiếm</button>
-        <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline"><i class="fas fa-times"></i> Xóa lọc</a>
+        <input type="text" name="khu_vuc" list="danh-sach-khu-vuc-giasu" class="form-control" placeholder="Khu vực (Huyện/Tỉnh)..." value="{{ request('khu_vuc') }}" style="max-width: 210px;">
+        <datalist id="danh-sach-khu-vuc-giasu">
+            <option value="Quận 1">TP. Hồ Chí Minh - Quận 1</option>
+            <option value="Quận 3">TP. Hồ Chí Minh - Quận 3</option>
+            <option value="Quận 5">TP. Hồ Chí Minh - Quận 5</option>
+            <option value="Quận 7">TP. Hồ Chí Minh - Quận 7</option>
+            <option value="Quận 10">TP. Hồ Chí Minh - Quận 10</option>
+            <option value="Bình Thạnh">TP. Hồ Chí Minh - Bình Thạnh</option>
+            <option value="Gò Vấp">TP. Hồ Chí Minh - Gò Vấp</option>
+            <option value="Tân Bình">TP. Hồ Chí Minh - Tân Bình</option>
+            <option value="Phú Nhuận">TP. Hồ Chí Minh - Phú Nhuận</option>
+            <option value="Thủ Đức">TP. Hồ Chí Minh - TP. Thủ Đức</option>
+            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh (Toàn thành phố)</option>
+            <option value="Cầu Giấy">Hà Nội - Quận Cầu Giấy</option>
+            <option value="Ba Đình">Hà Nội - Quận Ba Đình</option>
+            <option value="Đống Đa">Hà Nội - Quận Đống Đa</option>
+            <option value="Thanh Xuân">Hà Nội - Quận Thanh Xuân</option>
+            <option value="Hà Nội">Hà Nội (Toàn thành phố)</option>
+            <option value="Hải Châu">Đà Nẵng - Quận Hải Châu</option>
+            <option value="Ninh Kiều">Cần Thơ - Quận Ninh Kiều</option>
+            <option value="Huế">Thừa Thiên Huế - TP. Huế</option>
+            <option value="Hải Phòng">Hải Phòng</option>
+        </datalist>
+        <select name="sort" class="form-select" style="max-width: 210px;" onchange="this.form.submit()">
+            <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Sắp xếp: Mới nhất</option>
+            <option value="rating_desc" {{ request('sort') === 'rating_desc' ? 'selected' : '' }}>⭐ Đánh giá cao nhất</option>
+            <option value="rating_count" {{ request('sort') === 'rating_count' ? 'selected' : '' }}>💬 Nhiều nhận xét nhất</option>
+            <option value="classes_desc" {{ request('sort') === 'classes_desc' ? 'selected' : '' }}>🏫 Dạy nhiều lớp nhất</option>
+            <option value="fee_asc" {{ request('sort') === 'fee_asc' ? 'selected' : '' }}>💰 Học phí: Thấp → Cao</option>
+            <option value="fee_desc" {{ request('sort') === 'fee_desc' ? 'selected' : '' }}>💰 Học phí: Cao → Thấp</option>
+        </select>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm</button>
+        <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline"><i class="fas fa-times"></i> Xóa</a>
     </form>
 
     @if($gia_sus->count() > 0)
-    <p style="color:#64748b; font-size:0.88rem; margin-bottom:1.5rem;">
-        Tìm thấy <strong style="color:#2563eb;">{{ $gia_sus->total() }}</strong> gia sư phù hợp
-    </p>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <p style="color:#64748b; font-size:0.88rem; margin:0;">
+            Tìm thấy <strong style="color:#2563eb;">{{ $gia_sus->total() }}</strong> gia sư phù hợp
+        </p>
+        @if(request('sort') === 'rating_desc')
+        <span style="font-size:0.8rem; color:#d97706; background:#fef3c7; padding:3px 10px; border-radius:20px; font-weight:700;">
+            ⭐ Đang hiển thị theo đánh giá cao nhất
+        </span>
+        @endif
+    </div>
     @endif
 
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem;">
@@ -33,9 +70,9 @@
              onmouseleave="this.style.transform=''; this.style.boxShadow=''">
 
             {{-- Stars ribbon --}}
-            @if($hs->so_lop_da_day >= 10)
+            @if(($hs->diem_trung_binh >= 4.8 && $hs->so_luot_danh_gia > 0) || $hs->so_lop_da_day >= 10)
             <div style="position:absolute;top:12px;right:12px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:0.7rem;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:0.3px;">
-                ⭐ Gia Sư Nổi Bật
+                ⭐ Đánh Giá Cao
             </div>
             @endif
 
@@ -55,25 +92,37 @@
                 </div>
             </div>
 
-            <div style="font-size: 0.88rem; color: #475569; line-height: 1.9; margin-bottom: 1.4rem;">
+            <div style="font-size: 0.88rem; color: #475569; line-height: 1.9; margin-bottom: 1.1rem;">
                 <div>🎓 <strong>Trường:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->truong_hoc }}</span></div>
                 <div>📖 <strong>Chuyên ngành:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->chuyen_nganh }}</span></div>
                 <div>📍 <strong>Khu vực dạy:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->khu_vuc_nhan_day }}</span></div>
                 @if($hs->hoc_phi_theo_gio)
                 <div>💰 <strong>Học phí/buổi:</strong> <span style="color:#2563eb; font-weight:700;">{{ number_format($hs->hoc_phi_theo_gio) }}đ</span></div>
                 @endif
-                <div style="margin-top:0.4rem; color:#64748b;">💡 {{ Str::limit($hs->kinh_nghiem, 80) }}</div>
+                <div style="margin-top:0.3rem; color:#64748b; font-size:0.83rem;">💡 {{ Str::limit($hs->kinh_nghiem, 75) }}</div>
             </div>
 
-            <div style="display:flex; gap:0.6rem; align-items:center; margin-bottom:0.8rem;">
+            {{-- Đánh giá & Thống kê --}}
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.9rem; padding: 0.45rem 0.75rem; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                <div style="display:flex; align-items:center; gap:0.3rem;">
+                    <span style="color:#f59e0b; font-weight:800; font-size:0.92rem;">⭐ {{ number_format($hs->diem_trung_binh ?? 5.0, 1) }}</span>
+                    <span style="color:#64748b; font-size:0.75rem;">({{ $hs->so_luot_danh_gia ?? 0 }} nhận xét)</span>
+                </div>
                 @if($hs->so_lop_da_day)
-                <span style="font-size:0.78rem; color:#64748b;"><i class="fas fa-chalkboard-teacher" style="color:#2563eb;"></i> {{ $hs->so_lop_da_day }} lớp đã dạy</span>
+                <span style="font-size:0.75rem; color:#475569; font-weight:600;"><i class="fas fa-chalkboard-teacher" style="color:#2563eb;"></i> {{ $hs->so_lop_da_day }} lớp</span>
+                @else
+                <span style="font-size:0.75rem; color:#10b981; font-weight:600;"><i class="fas fa-check-circle"></i> Sẵn sàng</span>
                 @endif
             </div>
 
-            <a href="{{ route('chi-tiet-gia-su', $hs->id) }}" class="btn btn-primary btn-sm btn-block" style="border-radius: 10px; background:linear-gradient(135deg,#2563eb,#7c3aed); border:none;">
-                <i class="fas fa-id-card"></i> Xem Chi Tiết Hồ Sơ
-            </a>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <a href="{{ route('chi-tiet-gia-su', $hs->id) }}" class="btn btn-outline btn-sm" style="border-radius: 10px; font-size: 0.82rem; padding: 0.5rem; text-align:center; background:#ffffff;">
+                    <i class="fas fa-eye"></i> Xem Hồ Sơ
+                </a>
+                <a href="{{ route('giasu.moi', $hs->id) }}" class="btn btn-primary btn-sm" style="border-radius: 10px; font-size: 0.82rem; padding: 0.5rem; background:linear-gradient(135deg,#2563eb,#7c3aed); border:none; text-align:center;">
+                    <i class="fas fa-paper-plane"></i> Mời Ngay
+                </a>
+            </div>
         </div>
         @empty
         <div style="grid-column: span 3; text-align: center; padding: 4rem 2rem; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0;">

@@ -34,7 +34,29 @@
             <option value="{{ $kl }}" {{ request('khoi_lop') === $kl ? 'selected' : '' }}>{{ $kl }}</option>
             @endforeach
         </select>
-        <input type="text" name="dia_chi" class="form-control" placeholder="📍 Địa chỉ / Quận..." value="{{ request('dia_chi') }}">
+        <input type="text" name="dia_chi" list="danh-sach-khu-vuc-gs-tim" class="form-control" placeholder="📍 Khu vực (Huyện/Tỉnh)..." value="{{ request('dia_chi') }}">
+        <datalist id="danh-sach-khu-vuc-gs-tim">
+            <option value="Quận 1">TP. Hồ Chí Minh - Quận 1</option>
+            <option value="Quận 3">TP. Hồ Chí Minh - Quận 3</option>
+            <option value="Quận 5">TP. Hồ Chí Minh - Quận 5</option>
+            <option value="Quận 7">TP. Hồ Chí Minh - Quận 7</option>
+            <option value="Quận 10">TP. Hồ Chí Minh - Quận 10</option>
+            <option value="Bình Thạnh">TP. Hồ Chí Minh - Bình Thạnh</option>
+            <option value="Gò Vấp">TP. Hồ Chí Minh - Gò Vấp</option>
+            <option value="Tân Bình">TP. Hồ Chí Minh - Tân Bình</option>
+            <option value="Phú Nhuận">TP. Hồ Chí Minh - Phú Nhuận</option>
+            <option value="Thủ Đức">TP. Hồ Chí Minh - TP. Thủ Đức</option>
+            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh (Toàn thành phố)</option>
+            <option value="Cầu Giấy">Hà Nội - Quận Cầu Giấy</option>
+            <option value="Ba Đình">Hà Nội - Quận Ba Đình</option>
+            <option value="Đống Đa">Hà Nội - Quận Đống Đa</option>
+            <option value="Thanh Xuân">Hà Nội - Quận Thanh Xuân</option>
+            <option value="Hà Nội">Hà Nội (Toàn thành phố)</option>
+            <option value="Hải Châu">Đà Nẵng - Quận Hải Châu</option>
+            <option value="Ninh Kiều">Cần Thơ - Quận Ninh Kiều</option>
+            <option value="Huế">Thừa Thiên Huế - TP. Huế</option>
+            <option value="Hải Phòng">Hải Phòng</option>
+        </datalist>
         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm kiếm</button>
         <a href="{{ route('giasu.tim-kiem-lop') }}" class="btn btn-outline">Xóa lọc</a>
     </form>
@@ -62,9 +84,14 @@
         </div>
 
         <div style="padding: 1.4rem;">
-            <div style="font-size: 0.88rem; color: #334155; margin-bottom: 0.6rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+            <div style="font-size: 0.88rem; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: flex-start; gap: 0.5rem;">
                 <span style="color: #ef4444; font-size: 1rem;">📍</span>
                 <span><strong>Địa điểm:</strong> {{ $lop->dia_chi_day }}</span>
+            </div>
+
+            <div style="font-size: 0.85rem; color: #2563eb; margin-bottom: 0.6rem; display: flex; align-items: flex-start; gap: 0.5rem; background: #eff6ff; padding: 0.35rem 0.6rem; border-radius: 8px;">
+                <span>🗓️</span>
+                <span><strong>Lịch học:</strong> {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần') }}</span>
             </div>
 
             @if($lop->yeu_cau_them)

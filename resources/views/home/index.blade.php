@@ -35,8 +35,30 @@
                         </select>
                     </div>
                     <div>
-                        <label style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem; display: block;">Khu Vực</label>
-                        <input type="text" name="dia_chi" class="form-control" placeholder="Quận / Huyện..." style="padding: 0.6rem 0.8rem; font-size: 0.88rem;">
+                        <label style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem; display: block;">Khu Vực (Huyện / Tỉnh)</label>
+                        <input type="text" name="dia_chi" list="danh-sach-khu-vuc" class="form-control" placeholder="Quận/Huyện, Tỉnh/Thành..." style="padding: 0.6rem 0.8rem; font-size: 0.88rem;">
+                        <datalist id="danh-sach-khu-vuc">
+                            <option value="Quận 1">TP. Hồ Chí Minh - Quận 1</option>
+                            <option value="Quận 3">TP. Hồ Chí Minh - Quận 3</option>
+                            <option value="Quận 5">TP. Hồ Chí Minh - Quận 5</option>
+                            <option value="Quận 7">TP. Hồ Chí Minh - Quận 7</option>
+                            <option value="Quận 10">TP. Hồ Chí Minh - Quận 10</option>
+                            <option value="Bình Thạnh">TP. Hồ Chí Minh - Bình Thạnh</option>
+                            <option value="Gò Vấp">TP. Hồ Chí Minh - Gò Vấp</option>
+                            <option value="Tân Bình">TP. Hồ Chí Minh - Tân Bình</option>
+                            <option value="Phú Nhuận">TP. Hồ Chí Minh - Phú Nhuận</option>
+                            <option value="Thủ Đức">TP. Hồ Chí Minh - TP. Thủ Đức</option>
+                            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh (Toàn thành phố)</option>
+                            <option value="Cầu Giấy">Hà Nội - Quận Cầu Giấy</option>
+                            <option value="Ba Đình">Hà Nội - Quận Ba Đình</option>
+                            <option value="Đống Đa">Hà Nội - Quận Đống Đa</option>
+                            <option value="Thanh Xuân">Hà Nội - Quận Thanh Xuân</option>
+                            <option value="Hà Nội">Hà Nội (Toàn thành phố)</option>
+                            <option value="Hải Châu">Đà Nẵng - Quận Hải Châu</option>
+                            <option value="Ninh Kiều">Cần Thơ - Quận Ninh Kiều</option>
+                            <option value="Huế">Thừa Thiên Huế - TP. Huế</option>
+                            <option value="Hải Phòng">Hải Phòng</option>
+                        </datalist>
                     </div>
                     <div style="align-self: end;">
                         <button type="submit" class="btn btn-primary" style="padding: 0.68rem 1.2rem; font-size: 0.9rem;">
@@ -116,7 +138,7 @@
             @forelse($gia_su_noi_bat as $hs)
             <div class="glass-card" style="border-radius: 18px; padding: 1.8rem; transition: transform 0.25s ease;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
                 <div style="display: flex; gap: 1.2rem; align-items: center; margin-bottom: 1.2rem;">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Gia sư Avatar" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #2563eb;">
+                    <img src="{{ $hs->avatar_url }}" alt="{{ $hs->taiKhoan->ho_ten }}" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #2563eb;">
                     <div>
                         <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.2rem;">{{ $hs->taiKhoan->ho_ten }}</h3>
                         <span class="badge badge-success"><i class="fas fa-shield-alt"></i> Đã duyệt</span>
@@ -127,9 +149,14 @@
                     <div>📖 <strong>Chuyên ngành:</strong> {{ $hs->chuyen_nganh }}</div>
                     <div>📍 <strong>Khu vực:</strong> {{ $hs->khu_vuc_nhan_day }}</div>
                 </div>
-                <a href="{{ route('chi-tiet-gia-su', $hs->id) }}" class="btn btn-outline btn-sm btn-block" style="border-radius: 10px;">
-                    <i class="fas fa-eye"></i> Xem Hồ Sơ Chi Tiết
-                </a>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <a href="{{ route('chi-tiet-gia-su', $hs->id) }}" class="btn btn-outline btn-sm" style="border-radius: 10px; font-size: 0.82rem; padding: 0.55rem; text-align:center; background:#ffffff;">
+                        <i class="fas fa-eye"></i> Xem Hồ Sơ
+                    </a>
+                    <a href="{{ route('giasu.moi', $hs->id) }}" class="btn btn-primary btn-sm" style="border-radius: 10px; font-size: 0.82rem; padding: 0.55rem; background:linear-gradient(135deg,#2563eb,#7c3aed); border:none; text-align:center;">
+                        <i class="fas fa-paper-plane"></i> Mời Ngay
+                    </a>
+                </div>
             </div>
             @empty
             <div style="grid-column: span 3; text-align: center; padding: 3rem; color: #64748b;">
