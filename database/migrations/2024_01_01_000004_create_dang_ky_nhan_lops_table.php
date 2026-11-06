@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('gia_su_id')->constrained('tai_khoans')->onDelete('cascade');
             $table->text('gioi_thieu_ban_than')->nullable();
             $table->enum('trang_thai', ['cho_duyet', 'da_duyet', 'tu_choi'])->default('cho_duyet');
+            $table->string('xac_nhan_gia_su', 50)->nullable()->default(null);
             $table->timestamps();
 
             // Prevent duplicate registrations
