@@ -59,16 +59,6 @@
                 <p style="font-size:0.92rem; color:#64748b; font-weight:500;">Điền thông tin bên dưới để bắt đầu sử dụng dịch vụ</p>
             </div>
 
-            @if(session('moi_gia_su_name'))
-                <div style="background:#f0fdf4; border:1.5px solid #86efac; padding:0.85rem 1rem; border-radius:12px; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.8rem;">
-                    <span style="font-size:1.4rem;">🎯</span>
-                    <div>
-                        <div style="font-weight:700; color:#166534; font-size:0.92rem;">Bạn đang mời gia sư: {{ session('moi_gia_su_name') }}</div>
-                        <div style="font-size:0.8rem; color:#15803d;">Môn: {{ session('moi_gia_su_mon') }}. Đăng ký tài khoản Phụ huynh/Học viên để tiếp tục gửi lời mời.</div>
-                    </div>
-                </div>
-            @endif
-
             @if($errors->any())
                 <div style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca; padding:0.85rem 1rem; border-radius:10px; margin-bottom:1.2rem; font-size:0.88rem; font-weight:600;">
                     <i class="fas fa-exclamation-circle" style="margin-right:0.4rem;"></i>

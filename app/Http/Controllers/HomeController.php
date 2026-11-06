@@ -127,8 +127,7 @@ class HomeController extends Controller
             'url.intended'    => route('chi-tiet-gia-su', $ho_so->id) . '#dang-ky-lich-day',
         ]);
 
-        return redirect()->route('login')
-            ->with('info', "Vui lòng đăng nhập tài khoản Phụ huynh / Học viên để xem chi tiết giảng dạy và đăng ký lịch học với Gia sư {$ho_so->taiKhoan->ho_ten}!");
+        return redirect()->route('login');
     }
 
     /**
@@ -141,8 +140,7 @@ class HomeController extends Controller
                 'moi_gia_su_id' => $id,
                 'url.intended'  => route('chi-tiet-gia-su', $id) . '#dang-ky-lich-day',
             ]);
-            return redirect()->route('login')
-                ->with('info', 'Vui lòng đăng nhập tài khoản Phụ huynh / Học viên để đăng ký giờ dạy.');
+            return redirect()->route('login');
         }
 
         $user = auth()->user();

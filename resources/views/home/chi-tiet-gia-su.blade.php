@@ -406,7 +406,7 @@
                                     🔒 Vui lòng Đăng Nhập để Gửi Đăng Ký Giờ Dạy
                                 </div>
                                 <p style="font-size:0.88rem; color:#1e3a8a; margin-bottom:1rem;">
-                                    Sau khi đăng nhập tài khoản Học viên, hệ thống sẽ tự động đưa bạn trở lại trang của Gia sư {{ $ho_so->taiKhoan->ho_ten }} để xác nhận lịch học.
+                                    Đăng nhập tài khoản Học viên / Phụ huynh để kết nối và đăng ký lịch học cùng gia sư.
                                 </p>
                                 <a href="{{ route('giasu.moi', $ho_so->id) }}" class="btn btn-primary" style="padding:0.85rem 2rem; border-radius:12px; font-weight:800; font-size:0.95rem; display:inline-flex; align-items:center; gap:0.5rem; box-shadow:0 4px 15px rgba(37,99,235,0.3);">
                                     <i class="fas fa-sign-in-alt"></i> Đăng Nhập Tài Khoản Học Viên Ngay

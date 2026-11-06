@@ -53,7 +53,7 @@ class AuthController extends Controller
             if ($user->isHocVien()) {
                 session()->forget(['moi_gia_su_id', 'moi_gia_su_name', 'moi_gia_su_mon']);
                 return redirect(route('chi-tiet-gia-su', $giaSuId) . '#dang-ky-lich-day')
-                    ->with('success', 'Đăng nhập thành công! Hệ thống đã đưa bạn đến trang gia sư để xem phong cách giảng dạy và đăng ký lịch học.');
+                    ->with('success', 'Đăng nhập thành công! Chào mừng bạn.');
             }
         }
 
@@ -100,7 +100,7 @@ class AuthController extends Controller
             if ($user->isHocVien()) {
                 session()->forget(['moi_gia_su_id', 'moi_gia_su_name', 'moi_gia_su_mon']);
                 return redirect(route('chi-tiet-gia-su', $giaSuId) . '#dang-ky-lich-day')
-                    ->with('success', 'Đăng ký tài khoản thành công! Bạn có thể xem chi tiết phong cách dạy và đăng ký lịch học với gia sư.');
+                    ->with('success', 'Đăng ký tài khoản thành công! Chào mừng bạn.');
             }
         }
 
