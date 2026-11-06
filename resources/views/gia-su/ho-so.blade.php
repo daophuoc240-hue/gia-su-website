@@ -200,10 +200,24 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">📍 Khu Vực Nhận Dạy (Quận / Huyện)</label>
-                <input type="text" name="khu_vuc_nhan_day" class="form-control {{ $errors->has('khu_vuc_nhan_day') ? 'is-invalid' : '' }}"
+                <label class="form-label">📍 Khu Vực Nhận Dạy (Tỉnh / Thành & Quận / Huyện) <span style="color:#ef4444;">*</span></label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem;">
+                    <select class="form-select select-tinh-thanh" id="gs_tinh_thanh">
+                        <option value="">-- Chọn nhanh Tỉnh / Thành --</option>
+                        @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                            <option value="{{ $tinh }}">{{ $tinh }}</option>
+                        @endforeach
+                    </select>
+                    <select class="form-select select-quan-huyen" id="gs_quan_huyen">
+                        <option value="">-- Chọn Quận / Huyện / TP --</option>
+                    </select>
+                </div>
+                <input type="text" name="khu_vuc_nhan_day" id="khu_vuc_nhan_day" class="form-control {{ $errors->has('khu_vuc_nhan_day') ? 'is-invalid' : '' }}"
                        value="{{ old('khu_vuc_nhan_day', $ho_so->khu_vuc_nhan_day ?? '') }}" required
-                       placeholder="Ví dụ: Quận 1, Quận 3, Thủ Đức, Bình Thạnh...">
+                       placeholder="Ví dụ: Quận 1, Quận 3, Bình Thạnh, TP. Hồ Chí Minh (hoặc chọn ở trên để thêm)">
+                <small style="color: #64748b; font-size: 0.8rem; display: block; margin-top: 0.3rem;">
+                    💡 Bạn có thể chọn Tỉnh/Thành & Quận/Huyện ở trên để tự động chèn vào danh sách khu vực nhận dạy của bạn.
+                </small>
                 @error('khu_vuc_nhan_day')<span class="error-msg">{{ $message }}</span>@enderror
             </div>
 
@@ -381,4 +395,23 @@ function quickSelectSchedule(type) {
 }
 </script>
 @endpush
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const gsTinh = document.getElementById('gs_tinh_thanh');
+    const gsQuan = document.getElementById('gs_quan_huyen');
+    const kvInput = document.getElementById('khu_vuc_nhan_day');
+    if (gsQuan && kvInput) {
+        gsQuan.addEventListener('change', function() {
+            if (this.value) {
+                const addStr = this.value + (gsTinh.value ? (', ' + gsTinh.value) : '');
+                if (!kvInput.value.trim()) {
+                    kvInput.value = addStr;
+                } else if (!kvInput.value.includes(this.value)) {
+                    kvInput.value = kvInput.value + '; ' + addStr;
+                }
+            }
+        });
+    }
+});
+</script>
 @endsection

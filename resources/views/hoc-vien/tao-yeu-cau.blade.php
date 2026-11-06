@@ -135,40 +135,23 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.8rem;">
                     <div>
                         <label class="form-label" style="font-size: 0.82rem; margin-bottom: 0.3rem;">Tỉnh / Thành phố <span style="color:#ef4444;">*</span></label>
-                        <select name="tinh_thanh" class="form-select" required style="font-size: 0.88rem;">
-                            <option value="TP. Hồ Chí Minh" {{ old('tinh_thanh') === 'TP. Hồ Chí Minh' ? 'selected' : '' }}>TP. Hồ Chí Minh</option>
-                            <option value="Hà Nội" {{ old('tinh_thanh') === 'Hà Nội' ? 'selected' : '' }}>Hà Nội</option>
-                            <option value="Đà Nẵng" {{ old('tinh_thanh') === 'Đà Nẵng' ? 'selected' : '' }}>Đà Nẵng</option>
-                            <option value="Hải Phòng" {{ old('tinh_thanh') === 'Hải Phòng' ? 'selected' : '' }}>Hải Phòng</option>
-                            <option value="Cần Thơ" {{ old('tinh_thanh') === 'Cần Thơ' ? 'selected' : '' }}>Cần Thơ</option>
-                            <option value="Thừa Thiên Huế" {{ old('tinh_thanh') === 'Thừa Thiên Huế' ? 'selected' : '' }}>Thừa Thiên Huế</option>
-                            <option value="Bình Dương" {{ old('tinh_thanh') === 'Bình Dương' ? 'selected' : '' }}>Bình Dương</option>
-                            <option value="Đồng Nai" {{ old('tinh_thanh') === 'Đồng Nai' ? 'selected' : '' }}>Đồng Nai</option>
-                            <option value="Tỉnh / Thành khác" {{ old('tinh_thanh') === 'Tỉnh / Thành khác' ? 'selected' : '' }}>Tỉnh / Thành khác</option>
+                        <select name="tinh_thanh" class="form-select select-tinh-thanh" required style="font-size: 0.88rem;" data-selected-tinh="{{ old('tinh_thanh', 'Thừa Thiên Huế') }}">
+                            <option value="">-- Chọn Tỉnh / Thành phố (Toàn quốc) --</option>
+                            @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                            <option value="{{ $tinh }}" {{ old('tinh_thanh', 'Thừa Thiên Huế') === $tinh ? 'selected' : '' }}>{{ $tinh }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div>
-                        <label class="form-label" style="font-size: 0.82rem; margin-bottom: 0.3rem;">Quận / Huyện <span style="color:#ef4444;">*</span></label>
-                        <input type="text" name="quan_huyen" list="quan-huyen-goi-y" class="form-control" value="{{ old('quan_huyen') }}" required placeholder="Ví dụ: Quận 1, Bình Thạnh, Cầu Giấy..." style="font-size: 0.88rem;">
-                        <datalist id="quan-huyen-goi-y">
-                            <option value="Quận 1">
-                            <option value="Quận 3">
-                            <option value="Quận 5">
-                            <option value="Quận 7">
-                            <option value="Quận 10">
-                            <option value="Quận Bình Thạnh">
-                            <option value="Quận Gò Vấp">
-                            <option value="Quận Tân Bình">
-                            <option value="Quận Phú Nhuận">
-                            <option value="TP. Thủ Đức">
-                            <option value="Quận Cầu Giấy">
-                            <option value="Quận Ba Đình">
-                            <option value="Quận Đống Đa">
-                            <option value="Quận Thanh Xuân">
-                            <option value="Quận Hải Châu">
-                            <option value="Quận Ninh Kiều">
-                            <option value="TP. Huế">
-                        </datalist>
+                        <label class="form-label" style="font-size: 0.82rem; margin-bottom: 0.3rem;">Quận / Huyện / Thành phố <span style="color:#ef4444;">*</span></label>
+                        <select name="quan_huyen" class="form-select select-quan-huyen" required style="font-size: 0.88rem;" data-selected-quan="{{ old('quan_huyen') }}">
+                            <option value="">-- Chọn Quận / Huyện / TP --</option>
+                            @if(old('tinh_thanh'))
+                                @foreach(\App\Helpers\DiaDiem::getQuanHuyenByTinh(old('tinh_thanh')) as $quan)
+                                    <option value="{{ $quan }}" {{ old('quan_huyen') === $quan ? 'selected' : '' }}>{{ $quan }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                 </div>
                 <div>

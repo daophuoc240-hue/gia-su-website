@@ -214,5 +214,6 @@
         </div>
     </footer>
 
+    <script src="{{ asset('js/dia-diem.js') }}"></script>
 </body>
 </html>

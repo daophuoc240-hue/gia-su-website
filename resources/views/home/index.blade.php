@@ -20,7 +20,7 @@
 
             <!-- Quick Search Form Card -->
             <div style="background: #ffffff; padding: 1.4rem; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-bottom: 2rem;">
-                <form action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.8rem; align-items: center;">
+                <form action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: grid; grid-template-columns: 1.2fr 1fr 1.2fr 1.2fr auto; gap: 0.8rem; align-items: end;">
                     <div>
                         <label style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem; display: block;">Môn Học</label>
                         <input type="text" name="mon_hoc" class="form-control" placeholder="Toán, Tiếng Anh, Lý..." style="padding: 0.6rem 0.8rem; font-size: 0.88rem;">
@@ -35,34 +35,23 @@
                         </select>
                     </div>
                     <div>
-                        <label style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem; display: block;">Khu Vực (Huyện / Tỉnh)</label>
-                        <input type="text" name="dia_chi" list="danh-sach-khu-vuc" class="form-control" placeholder="Quận/Huyện, Tỉnh/Thành..." style="padding: 0.6rem 0.8rem; font-size: 0.88rem;">
-                        <datalist id="danh-sach-khu-vuc">
-                            <option value="Quận 1">TP. Hồ Chí Minh - Quận 1</option>
-                            <option value="Quận 3">TP. Hồ Chí Minh - Quận 3</option>
-                            <option value="Quận 5">TP. Hồ Chí Minh - Quận 5</option>
-                            <option value="Quận 7">TP. Hồ Chí Minh - Quận 7</option>
-                            <option value="Quận 10">TP. Hồ Chí Minh - Quận 10</option>
-                            <option value="Bình Thạnh">TP. Hồ Chí Minh - Bình Thạnh</option>
-                            <option value="Gò Vấp">TP. Hồ Chí Minh - Gò Vấp</option>
-                            <option value="Tân Bình">TP. Hồ Chí Minh - Tân Bình</option>
-                            <option value="Phú Nhuận">TP. Hồ Chí Minh - Phú Nhuận</option>
-                            <option value="Thủ Đức">TP. Hồ Chí Minh - TP. Thủ Đức</option>
-                            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh (Toàn thành phố)</option>
-                            <option value="Cầu Giấy">Hà Nội - Quận Cầu Giấy</option>
-                            <option value="Ba Đình">Hà Nội - Quận Ba Đình</option>
-                            <option value="Đống Đa">Hà Nội - Quận Đống Đa</option>
-                            <option value="Thanh Xuân">Hà Nội - Quận Thanh Xuân</option>
-                            <option value="Hà Nội">Hà Nội (Toàn thành phố)</option>
-                            <option value="Hải Châu">Đà Nẵng - Quận Hải Châu</option>
-                            <option value="Ninh Kiều">Cần Thơ - Quận Ninh Kiều</option>
-                            <option value="Huế">Thừa Thiên Huế - TP. Huế</option>
-                            <option value="Hải Phòng">Hải Phòng</option>
-                        </datalist>
+                        <label style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem; display: block;">Tỉnh / Thành Phố</label>
+                        <select name="tinh_thanh" class="form-select select-tinh-thanh" style="padding: 0.6rem 0.8rem; font-size: 0.88rem;">
+                            <option value="">-- Tất cả 63 Tỉnh/Thành --</option>
+                            @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                                <option value="{{ $tinh }}">{{ $tinh }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div style="align-self: end;">
-                        <button type="submit" class="btn btn-primary" style="padding: 0.68rem 1.2rem; font-size: 0.9rem;">
-                            <i class="fas fa-search"></i> Tìm Lớp
+                    <div>
+                        <label style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem; display: block;">Quận / Huyện / TP</label>
+                        <select name="quan_huyen" class="form-select select-quan-huyen" style="padding: 0.6rem 0.8rem; font-size: 0.88rem;">
+                            <option value="">-- Tất cả Quận/Huyện --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.4rem; font-size: 0.9rem; font-weight: 700; width: 100%;">
+                            <i class="fas fa-search"></i> Tìm
                         </button>
                     </div>
                 </form>

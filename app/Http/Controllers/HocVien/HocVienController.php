@@ -8,6 +8,7 @@ use App\Models\DanhGia;
 use App\Models\DangKyNhanLop;
 use App\Models\ThongBao;
 use App\Models\HoSoGiaSu;
+use App\Helpers\DiaDiem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,8 +54,27 @@ class HocVienController extends Controller
             $query->where('mon_day', 'like', "%{$request->mon_day}%");
         }
 
-        if ($request->filled('khu_vuc')) {
-            $query->where('khu_vuc_nhan_day', 'like', "%{$request->khu_vuc}%");
+        if ($request->filled('tinh_thanh') || $request->filled('quan_huyen') || $request->filled('khu_vuc')) {
+            $terms = DiaDiem::buildSearchTerms($request->tinh_thanh, $request->quan_huyen, $request->khu_vuc);
+            if (!empty($terms)) {
+                if ($request->filled('tinh_thanh') && $request->filled('quan_huyen')) {
+                    $tinhTerms = DiaDiem::buildSearchTerms($request->tinh_thanh, null, null);
+                    $quanTerms = DiaDiem::buildSearchTerms(null, $request->quan_huyen, null);
+                    $query->where(function($q) use ($tinhTerms, $quanTerms) {
+                        $q->where(function($sq) use ($tinhTerms) {
+                            foreach ($tinhTerms as $tt) $sq->orWhere('khu_vuc_nhan_day', 'like', "%{$tt}%");
+                        })->where(function($sq2) use ($quanTerms) {
+                            foreach ($quanTerms as $qt) $sq2->orWhere('khu_vuc_nhan_day', 'like', "%{$qt}%");
+                        });
+                    });
+                } else {
+                    $query->where(function($q) use ($terms) {
+                        foreach ($terms as $t) {
+                            $q->orWhere('khu_vuc_nhan_day', 'like', "%{$t}%");
+                        }
+                    });
+                }
+            }
         }
 
         $gia_sus = $query->latest()->paginate(9);

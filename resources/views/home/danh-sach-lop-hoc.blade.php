@@ -21,29 +21,20 @@
                 <option value="{{ $kl }}" {{ request('khoi_lop') === $kl ? 'selected' : '' }}>{{ $kl }}</option>
             @endforeach
         </select>
-        <input type="text" name="dia_chi" list="danh-sach-khu-vuc-lop" class="form-control" placeholder="Quận/Huyện, Tỉnh/Thành..." value="{{ request('dia_chi') }}" style="max-width: 250px;">
-        <datalist id="danh-sach-khu-vuc-lop">
-            <option value="Quận 1">TP. Hồ Chí Minh - Quận 1</option>
-            <option value="Quận 3">TP. Hồ Chí Minh - Quận 3</option>
-            <option value="Quận 5">TP. Hồ Chí Minh - Quận 5</option>
-            <option value="Quận 7">TP. Hồ Chí Minh - Quận 7</option>
-            <option value="Quận 10">TP. Hồ Chí Minh - Quận 10</option>
-            <option value="Bình Thạnh">TP. Hồ Chí Minh - Bình Thạnh</option>
-            <option value="Gò Vấp">TP. Hồ Chí Minh - Gò Vấp</option>
-            <option value="Tân Bình">TP. Hồ Chí Minh - Tân Bình</option>
-            <option value="Phú Nhuận">TP. Hồ Chí Minh - Phú Nhuận</option>
-            <option value="Thủ Đức">TP. Hồ Chí Minh - TP. Thủ Đức</option>
-            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh (Toàn thành phố)</option>
-            <option value="Cầu Giấy">Hà Nội - Quận Cầu Giấy</option>
-            <option value="Ba Đình">Hà Nội - Quận Ba Đình</option>
-            <option value="Đống Đa">Hà Nội - Quận Đống Đa</option>
-            <option value="Thanh Xuân">Hà Nội - Quận Thanh Xuân</option>
-            <option value="Hà Nội">Hà Nội (Toàn thành phố)</option>
-            <option value="Hải Châu">Đà Nẵng - Quận Hải Châu</option>
-            <option value="Ninh Kiều">Cần Thơ - Quận Ninh Kiều</option>
-            <option value="Huế">Thừa Thiên Huế - TP. Huế</option>
-            <option value="Hải Phòng">Hải Phòng</option>
-        </datalist>
+        <select name="tinh_thanh" class="form-select select-tinh-thanh" data-selected-tinh="{{ request('tinh_thanh') }}" style="max-width: 195px;">
+            <option value="">-- Tất cả Tỉnh / Thành --</option>
+            @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                <option value="{{ $tinh }}" {{ request('tinh_thanh') === $tinh ? 'selected' : '' }}>{{ $tinh }}</option>
+            @endforeach
+        </select>
+        <select name="quan_huyen" class="form-select select-quan-huyen" data-selected-quan="{{ request('quan_huyen') }}" style="max-width: 205px;">
+            <option value="">-- Tất cả Quận / Huyện / TP --</option>
+            @if(request('tinh_thanh'))
+                @foreach(\App\Helpers\DiaDiem::getQuanHuyenByTinh(request('tinh_thanh')) as $quan)
+                    <option value="{{ $quan }}" {{ request('quan_huyen') === $quan ? 'selected' : '' }}>{{ $quan }}</option>
+                @endforeach
+            @endif
+        </select>
         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm Lớp</button>
         <a href="{{ route('danh-sach-lop-hoc') }}" class="btn btn-outline"><i class="fas fa-times"></i> Xóa lọc</a>
     </form>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HoSoGiaSu;
 use App\Models\LopHoc;
 use App\Models\DangKyNhanLop;
+use App\Helpers\DiaDiem;
 use App\Models\ThongBao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -208,36 +209,35 @@ class GiaSuController extends Controller
         if ($request->filled('khoi_lop')) {
             $query->where('khoi_lop', $request->khoi_lop);
         }
-        if ($request->filled('dia_chi')) {
-            $raw = trim($request->dia_chi);
-            $terms = [$raw];
-            if (str_contains($raw, '-')) {
-                foreach (explode('-', $raw) as $part) {
-                    if (trim($part)) $terms[] = trim($part);
+        if ($request->filled('tinh_thanh') || $request->filled('quan_huyen') || $request->filled('dia_chi')) {
+            $tinhThanh = $request->input('tinh_thanh');
+            $quanHuyen = $request->input('quan_huyen');
+            $diaChi    = $request->input('dia_chi');
+            $terms     = DiaDiem::buildSearchTerms($tinhThanh, $quanHuyen, $diaChi);
+
+            if (!empty($terms)) {
+                if (!empty($tinhThanh) && !empty($quanHuyen)) {
+                    $tinhTerms = DiaDiem::buildSearchTerms($tinhThanh, null, null);
+                    $quanTerms = DiaDiem::buildSearchTerms(null, $quanHuyen, null);
+                    $query->where(function($q) use ($tinhTerms, $quanTerms) {
+                        $q->where(function($subQ) use ($tinhTerms) {
+                            foreach ($tinhTerms as $tt) {
+                                $subQ->orWhere('dia_chi_day', 'like', "%{$tt}%");
+                            }
+                        })->where(function($subQ2) use ($quanTerms) {
+                            foreach ($quanTerms as $qt) {
+                                $subQ2->orWhere('dia_chi_day', 'like', "%{$qt}%");
+                            }
+                        });
+                    });
+                } else {
+                    $query->where(function($q) use ($terms) {
+                        foreach ($terms as $t) {
+                            $q->orWhere('dia_chi_day', 'like', "%{$t}%");
+                        }
+                    });
                 }
             }
-            if (preg_match('/(?:quận|q\.?)\s*(\d+)/ui', $raw, $m)) {
-                $terms[] = 'Quận ' . $m[1];
-                $terms[] = 'Q.' . $m[1];
-                $terms[] = 'Q' . $m[1];
-            }
-            if (preg_match('/(?:hồ chí minh|hcm|tp\.?hcm|sài gòn)/ui', $raw)) {
-                $terms[] = 'Hồ Chí Minh';
-                $terms[] = 'TP.HCM';
-                $terms[] = 'TP. Hồ Chí Minh';
-            }
-            if (preg_match('/(?:hà nội|hn)/ui', $raw)) {
-                $terms[] = 'Hà Nội';
-            }
-            if (preg_match('/(?:đà nẵng|dn)/ui', $raw)) {
-                $terms[] = 'Đà Nẵng';
-            }
-            $terms = array_unique(array_filter($terms));
-            $query->where(function($q) use ($terms) {
-                foreach ($terms as $t) {
-                    $q->orWhere('dia_chi_day', 'like', "%{$t}%");
-                }
-            });
         }
 
         $da_dang_ky_ids = DangKyNhanLop::where('gia_su_id', $user->id)->pluck('lop_hoc_id')->toArray();

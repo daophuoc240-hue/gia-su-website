@@ -8,6 +8,7 @@ use App\Models\TaiKhoan;
 use App\Models\DanhGia;
 use App\Models\DangKyNhanLop;
 use App\Models\ThongBao;
+use App\Helpers\DiaDiem;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -57,8 +58,14 @@ class HomeController extends Controller
             });
         }
 
-        if ($request->filled('khu_vuc')) {
-            $this->applyLocationFilter($query, 'khu_vuc_nhan_day', $request->khu_vuc);
+        if ($request->filled('tinh_thanh') || $request->filled('quan_huyen') || $request->filled('khu_vuc')) {
+            $this->applyLocationFilter(
+                $query,
+                'khu_vuc_nhan_day',
+                $request->input('tinh_thanh'),
+                $request->input('quan_huyen'),
+                $request->input('khu_vuc')
+            );
         }
 
         // Sắp xếp gia sư theo tiêu chí
@@ -172,6 +179,15 @@ class HomeController extends Controller
         $diaChi      = ($request->hinh_thuc === 'online')
             ? 'Học Online (Qua Zoom / Google Meet)'
             : ($request->dia_chi_day ?: 'Thỏa thuận trực tiếp với gia sư');
+
+        if ($request->hinh_thuc === 'tai_nha' && $request->filled('dk_quan_huyen') && $request->filled('dk_tinh_thanh')) {
+            $street = trim($request->dia_chi_day ?? '');
+            if ($street !== '' && !str_contains($street, $request->dk_quan_huyen)) {
+                $diaChi = "{$street}, {$request->dk_quan_huyen}, {$request->dk_tinh_thanh}";
+            } elseif ($street === '') {
+                $diaChi = "{$request->dk_quan_huyen}, {$request->dk_tinh_thanh}";
+            }
+        }
         $mucHocPhi   = $ho_so->hoc_phi_theo_gio ?: 200000;
 
         // Tạo lớp học mới gắn với yêu cầu của học viên (trạng thái chờ gia sư xác nhận lịch)
@@ -220,8 +236,14 @@ class HomeController extends Controller
         if ($request->filled('khoi_lop')) {
             $query->where('khoi_lop', $request->khoi_lop);
         }
-        if ($request->filled('dia_chi')) {
-            $this->applyLocationFilter($query, 'dia_chi_day', $request->dia_chi);
+        if ($request->filled('tinh_thanh') || $request->filled('quan_huyen') || $request->filled('dia_chi')) {
+            $this->applyLocationFilter(
+                $query,
+                'dia_chi_day',
+                $request->input('tinh_thanh'),
+                $request->input('quan_huyen'),
+                $request->input('dia_chi')
+            );
         }
 
         $lop_hocs = $query->latest()->paginate(9);
@@ -232,48 +254,28 @@ class HomeController extends Controller
     /**
      * Bộ lọc địa điểm thông minh: Tự động chuẩn hóa Huyện/Quận và Tỉnh/Thành
      */
-    private function applyLocationFilter($query, string $column, string $input): void
+    private function applyLocationFilter($query, string $column, ?string $tinhThanh = null, ?string $quanHuyen = null, ?string $rawInput = null): void
     {
-        $raw = trim($input);
-        if ($raw === '') return;
+        $terms = DiaDiem::buildSearchTerms($tinhThanh, $quanHuyen, $rawInput);
+        if (empty($terms)) return;
 
-        $terms = [$raw];
-
-        // 1. Tách nếu người dùng chọn định dạng "TP. Hồ Chí Minh - Quận 1"
-        if (str_contains($raw, '-')) {
-            $parts = explode('-', $raw);
-            foreach ($parts as $part) {
-                $p = trim($part);
-                if ($p !== '') {
-                    $terms[] = $p;
-                }
-            }
+        // Nếu có cả Tỉnh và Quận/Huyện, tìm bản ghi khớp cả 2
+        if (!empty($tinhThanh) && !empty($quanHuyen)) {
+            $tinhTerms = DiaDiem::buildSearchTerms($tinhThanh, null, null);
+            $quanTerms = DiaDiem::buildSearchTerms(null, $quanHuyen, null);
+            $query->where(function($q) use ($column, $tinhTerms, $quanTerms) {
+                $q->where(function($subQ) use ($column, $tinhTerms) {
+                    foreach ($tinhTerms as $tt) {
+                        $subQ->orWhere($column, 'like', "%{$tt}%");
+                    }
+                })->where(function($subQ2) use ($column, $quanTerms) {
+                    foreach ($quanTerms as $qt) {
+                        $subQ2->orWhere($column, 'like', "%{$qt}%");
+                    }
+                });
+            });
+            return;
         }
-
-        // 2. Xử lý viết tắt Quận / Q: "Quận 1" <-> "Q.1" <-> "Q1"
-        foreach ([$raw, ...$terms] as $t) {
-            if (preg_match('/(?:quận|q\.?)\s*(\d+)/ui', $t, $m)) {
-                $num = $m[1];
-                $terms[] = "Quận " . $num;
-                $terms[] = "Q." . $num;
-                $terms[] = "Q" . $num;
-            }
-        }
-
-        // 3. Xử lý Tỉnh / Thành phố đồng nghĩa
-        if (preg_match('/(?:hồ chí minh|hcm|tp\.?hcm|sài gòn)/ui', $raw)) {
-            $terms[] = "Hồ Chí Minh";
-            $terms[] = "TP.HCM";
-            $terms[] = "TP. Hồ Chí Minh";
-        }
-        if (preg_match('/(?:hà nội|hn)/ui', $raw)) {
-            $terms[] = "Hà Nội";
-        }
-        if (preg_match('/(?:đà nẵng|dn)/ui', $raw)) {
-            $terms[] = "Đà Nẵng";
-        }
-
-        $terms = array_unique(array_filter($terms));
 
         $query->where(function($q) use ($column, $terms) {
             foreach ($terms as $term) {

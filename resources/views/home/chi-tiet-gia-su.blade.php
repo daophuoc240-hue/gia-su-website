@@ -344,13 +344,31 @@
                         </div>
 
                         {{-- Địa chỉ học --}}
-                        <div id="wrap-dia-chi" style="margin-bottom: 1rem; {{ old('hinh_thuc') === 'online' ? 'display:none;' : '' }}">
-                            <label style="font-size:0.88rem; font-weight:700; color:#334155; margin-bottom:0.3rem; display:block;">
-                                📍 Địa Chỉ Học Cụ Thể (Số nhà, đường, Quận/Huyện) <span style="color:#ef4444;">*</span>
+                        <div id="wrap-dia-chi" style="margin-bottom: 1.2rem; {{ old('hinh_thuc') === 'online' ? 'display:none;' : '' }}">
+                            <label style="font-size:0.88rem; font-weight:700; color:#334155; margin-bottom:0.4rem; display:block;">
+                                📍 Khu Vực & Địa Chỉ Học Tại Nhà <span style="color:#ef4444;">*</span>
                             </label>
-                            <input type="text" name="dia_chi_day" class="form-control"
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem;">
+                                <div>
+                                    <label style="font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.2rem; display: block;">Tỉnh / Thành phố</label>
+                                    <select name="dk_tinh_thanh" id="dk_tinh_thanh" class="form-select select-tinh-thanh" style="font-size:0.88rem;">
+                                        <option value="">-- Chọn Tỉnh / Thành phố --</option>
+                                        @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                                            <option value="{{ $tinh }}">{{ $tinh }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.2rem; display: block;">Quận / Huyện / TP</label>
+                                    <select name="dk_quan_huyen" id="dk_quan_huyen" class="form-select select-quan-huyen" style="font-size:0.88rem;">
+                                        <option value="">-- Chọn Quận / Huyện / TP --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label style="font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.2rem; display: block;">Số nhà, tên đường, thôn xóm (nếu có)</label>
+                            <input type="text" name="dia_chi_day" id="dk_dia_chi_day" class="form-control"
                                    value="{{ old('dia_chi_day') }}"
-                                   placeholder="Ví dụ: 123 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM...">
+                                   placeholder="Ví dụ: 123 Nguyễn Huệ, Phường Vĩnh Ninh...">
                         </div>
 
                         {{-- Ghi chú yêu cầu thêm --}}

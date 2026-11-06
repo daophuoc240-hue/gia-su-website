@@ -35,7 +35,7 @@
 
 {{-- Bộ lọc gia sư --}}
 <div class="glass-card" style="padding: 1.4rem; border-radius: 16px; background:#fff; margin-bottom: 1.8rem;">
-    <form method="GET" action="{{ route('hocvien.gia-su') }}" style="display: grid; grid-template-columns: 2fr 1.2fr 1.2fr auto auto; gap: 0.8rem; align-items: center;">
+    <form method="GET" action="{{ route('hocvien.gia-su') }}" style="display: grid; grid-template-columns: 1.8fr 1.2fr 1.2fr 1.2fr auto auto; gap: 0.8rem; align-items: center;">
         <div>
             <input type="text" name="search" class="form-control" placeholder="Tìm theo tên gia sư, trường học, chuyên ngành..." value="{{ request('search') }}">
         </div>
@@ -52,12 +52,27 @@
             </select>
         </div>
         <div>
-            <input type="text" name="khu_vuc" class="form-control" placeholder="Khu vực / Quận Huyện..." value="{{ request('khu_vuc') }}">
+            <select name="tinh_thanh" class="form-control select-tinh-thanh" data-selected-tinh="{{ request('tinh_thanh') }}">
+                <option value="">-- Tỉnh / Thành phố --</option>
+                @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                    <option value="{{ $tinh }}" {{ request('tinh_thanh') === $tinh ? 'selected' : '' }}>{{ $tinh }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <select name="quan_huyen" class="form-control select-quan-huyen" data-selected-quan="{{ request('quan_huyen') }}">
+                <option value="">-- Quận / Huyện / TP --</option>
+                @if(request('tinh_thanh'))
+                    @foreach(\App\Helpers\DiaDiem::getQuanHuyenByTinh(request('tinh_thanh')) as $quan)
+                        <option value="{{ $quan }}" {{ request('quan_huyen') === $quan ? 'selected' : '' }}>{{ $quan }}</option>
+                    @endforeach
+                @endif
+            </select>
         </div>
         <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.2rem; border-radius: 10px;">
             <i class="fas fa-search"></i> Lọc
         </button>
-        @if(request()->anyFilled(['search', 'mon_day', 'khu_vuc']))
+        @if(request()->anyFilled(['search', 'mon_day', 'khu_vuc', 'tinh_thanh', 'quan_huyen']))
         <a href="{{ route('hocvien.gia-su') }}" class="btn btn-outline" style="padding: 0.75rem 1rem; border-radius: 10px;" title="Xóa bộ lọc">
             <i class="fas fa-times"></i>
         </a>

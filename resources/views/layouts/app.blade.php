@@ -130,6 +130,7 @@ setTimeout(() => {
     });
 }, 5000);
 </script>
+<script src="{{ asset('js/dia-diem.js') }}"></script>
 @stack('scripts')
 </body>
 </html>
