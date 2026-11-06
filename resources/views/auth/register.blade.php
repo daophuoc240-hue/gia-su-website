@@ -68,6 +68,8 @@
 
             <form method="POST" action="{{ route('register.post') }}">
                 @csrf
+                <input type="hidden" name="redirect" value="{{ request('redirect') ?? session('url.intended') ?? (session('moi_gia_su_id') ? (route('chi-tiet-gia-su', session('moi_gia_su_id')) . '#dang-ky-lich-day') : '') }}">
+                <input type="hidden" name="moi_gia_su" value="{{ request('moi_gia_su') ?? session('moi_gia_su_id') }}">
 
                 <!-- Chọn Vai Trò -->
                 <div style="margin-bottom:1.4rem;">

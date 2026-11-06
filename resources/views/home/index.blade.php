@@ -18,40 +18,57 @@
                 Hệ thống hỗ trợ Phụ huynh / Học viên tìm gia sư sư phạm chất lượng cao và giúp Giáo viên / Sinh viên nhận lớp dạy kèm nhanh chóng, an toàn.
             </p>
 
-            <!-- Quick Search Form Card -->
-            <div style="background: #ffffff; padding: 1.4rem; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-bottom: 2rem;">
-                <form action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: grid; grid-template-columns: 1.4fr 1.1fr 1.3fr 1.3fr 140px; gap: 1.2rem; align-items: end;">
-                    <div>
-                        <label style="font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 0.4rem; display: block;">Môn Học</label>
-                        <input type="text" name="mon_hoc" class="form-control" placeholder="Toán, Tiếng Anh, Lý..." style="padding: 0.7rem 0.9rem; font-size: 0.9rem; border-radius: 10px;">
+            <!-- Quick Search Form Card (2 hàng cân đối, rộng rãi, không bị chồng chéo) -->
+            <div style="background: #ffffff; padding: 1.6rem; border-radius: 20px; border: 1px solid #cbd5e1; box-shadow: 0 12px 35px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+                <form action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: flex; flex-direction: column; gap: 1.1rem;">
+                    <!-- Hàng 1: Môn Học (1.2fr) & Khối Lớp (1fr) -->
+                    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                                <span>📚</span> Môn Học
+                            </label>
+                            <input type="text" name="mon_hoc" class="form-control" placeholder="Toán, Tiếng Anh, Vật Lý..." style="padding: 0.75rem 1rem; font-size: 0.92rem; border-radius: 10px; width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                                <span>🎯</span> Khối Lớp
+                            </label>
+                            <select name="khoi_lop" class="form-select" style="padding: 0.75rem 1rem; font-size: 0.92rem; border-radius: 10px; width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1;">
+                                <option value="">Tất cả khối lớp</option>
+                                @foreach(['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5','Lớp 6','Lớp 7','Lớp 8','Lớp 9','Lớp 10','Lớp 11','Lớp 12','Luyện Thi Đại Học'] as $kl)
+                                    <option value="{{ $kl }}">{{ $kl }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label style="font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 0.4rem; display: block;">Khối Lớp</label>
-                        <select name="khoi_lop" class="form-select" style="padding: 0.7rem 0.9rem; font-size: 0.9rem; border-radius: 10px;">
-                            <option value="">Tất cả khối</option>
-                            @foreach(['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5','Lớp 6','Lớp 7','Lớp 8','Lớp 9','Lớp 10','Lớp 11','Lớp 12'] as $kl)
-                                <option value="{{ $kl }}">{{ $kl }}</option>
-                            @endforeach
-                        </select>
+
+                    <!-- Hàng 2: Tỉnh / Thành Phố (1fr) & Quận / Huyện / TP (1fr) -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                                <span>🏙️</span> Tỉnh / Thành Phố
+                            </label>
+                            <select name="tinh_thanh" class="form-select select-tinh-thanh" style="padding: 0.75rem 1rem; font-size: 0.92rem; border-radius: 10px; width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1;">
+                                <option value="">-- Chọn Tỉnh / Thành Phố --</option>
+                                @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                                    <option value="{{ $tinh }}">{{ $tinh }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                                <span>📍</span> Quận / Huyện / TP
+                            </label>
+                            <select name="quan_huyen" class="form-select select-quan-huyen" style="padding: 0.75rem 1rem; font-size: 0.92rem; border-radius: 10px; width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1;">
+                                <option value="">-- Tất cả Quận / Huyện --</option>
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label style="font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 0.4rem; display: block;">Tỉnh / Thành Phố</label>
-                        <select name="tinh_thanh" class="form-select select-tinh-thanh" style="padding: 0.7rem 0.9rem; font-size: 0.9rem; border-radius: 10px;">
-                            <option value="">-- Tất cả Tỉnh / Thành --</option>
-                            @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
-                                <option value="{{ $tinh }}">{{ $tinh }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label style="font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 0.4rem; display: block;">Quận / Huyện / TP</label>
-                        <select name="quan_huyen" class="form-select select-quan-huyen" style="padding: 0.7rem 0.9rem; font-size: 0.9rem; border-radius: 10px;">
-                            <option value="">-- Tất cả Quận/Huyện --</option>
-                        </select>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary" style="padding: 0.72rem 1.4rem; font-size: 0.92rem; font-weight: 700; width: 100%; min-width: 130px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 0.4rem; white-space: nowrap;">
-                            <i class="fas fa-search"></i> Tìm Kiếm
+
+                    <!-- Hàng 3: Nút Tìm Kiếm nổi bật, full width -->
+                    <div style="margin-top: 0.2rem;">
+                        <button type="submit" class="btn btn-primary" style="padding: 0.85rem 1.5rem; font-size: 0.98rem; font-weight: 700; width: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35); border: none;">
+                            <i class="fas fa-search"></i> Tìm Kiếm Lớp Học & Gia Sư Ngay
                         </button>
                     </div>
                 </form>

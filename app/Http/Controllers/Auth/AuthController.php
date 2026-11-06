@@ -47,14 +47,15 @@ class AuthController extends Controller
 
         Auth::login($user, $request->boolean('remember'));
 
-        // Tự động kiểm tra lời mời gia sư đang lưu trong session
-        if (session()->has('moi_gia_su_id')) {
-            $giaSuId = session()->get('moi_gia_su_id');
-            if ($user->isHocVien()) {
-                session()->forget(['moi_gia_su_id', 'moi_gia_su_name', 'moi_gia_su_mon']);
-                return redirect(route('chi-tiet-gia-su', $giaSuId) . '#dang-ky-lich-day')
-                    ->with('success', 'Đăng nhập thành công! Chào mừng bạn.');
-            }
+        // Kiểm tra chuyển hướng sau khi đăng nhập (ưu tiên URL redirect hoặc gia sư được mời)
+        $targetRedirect = $request->input('redirect') 
+            ?? session('url.intended') 
+            ?? ($request->filled('moi_gia_su') ? (route('chi-tiet-gia-su', $request->moi_gia_su) . '#dang-ky-lich-day') : null)
+            ?? (session('moi_gia_su_id') ? (route('chi-tiet-gia-su', session('moi_gia_su_id')) . '#dang-ky-lich-day') : null);
+
+        if ($targetRedirect && $user->isHocVien()) {
+            session()->forget(['moi_gia_su_id', 'moi_gia_su_name', 'moi_gia_su_mon', 'url.intended']);
+            return redirect($targetRedirect)->with('success', 'Đăng nhập thành công! Chào mừng ' . $user->ho_ten);
         }
 
         return $this->redirectByRole($user);
@@ -94,14 +95,14 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        // Tự động kiểm tra lời mời gia sư đang lưu trong session
-        if (session()->has('moi_gia_su_id')) {
-            $giaSuId = session()->get('moi_gia_su_id');
-            if ($user->isHocVien()) {
-                session()->forget(['moi_gia_su_id', 'moi_gia_su_name', 'moi_gia_su_mon']);
-                return redirect(route('chi-tiet-gia-su', $giaSuId) . '#dang-ky-lich-day')
-                    ->with('success', 'Đăng ký tài khoản thành công! Chào mừng bạn.');
-            }
+        $targetRedirect = $request->input('redirect') 
+            ?? session('url.intended') 
+            ?? ($request->filled('moi_gia_su') ? (route('chi-tiet-gia-su', $request->moi_gia_su) . '#dang-ky-lich-day') : null)
+            ?? (session('moi_gia_su_id') ? (route('chi-tiet-gia-su', session('moi_gia_su_id')) . '#dang-ky-lich-day') : null);
+
+        if ($targetRedirect && $user->isHocVien()) {
+            session()->forget(['moi_gia_su_id', 'moi_gia_su_name', 'moi_gia_su_mon', 'url.intended']);
+            return redirect($targetRedirect)->with('success', 'Đăng ký tài khoản thành công! Chào mừng ' . $user->ho_ten);
         }
 
         return $this->redirectByRole($user)->with('success', 'Đăng ký thành công! Chào mừng ' . $user->ho_ten);

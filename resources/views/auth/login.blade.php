@@ -75,6 +75,8 @@
 
             <form method="POST" action="{{ route('login.post') }}">
                 @csrf
+                <input type="hidden" name="redirect" value="{{ request('redirect') ?? session('url.intended') ?? (session('moi_gia_su_id') ? (route('chi-tiet-gia-su', session('moi_gia_su_id')) . '#dang-ky-lich-day') : '') }}">
+                <input type="hidden" name="moi_gia_su" value="{{ request('moi_gia_su') ?? session('moi_gia_su_id') }}">
 
                 <div style="margin-bottom:1.3rem;">
                     <label for="email" style="display:block; font-size:0.88rem; font-weight:700; color:#1e293b; margin-bottom:0.45rem;">

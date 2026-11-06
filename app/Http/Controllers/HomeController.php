@@ -127,7 +127,10 @@ class HomeController extends Controller
             'url.intended'    => route('chi-tiet-gia-su', $ho_so->id) . '#dang-ky-lich-day',
         ]);
 
-        return redirect()->route('login');
+        return redirect()->route('login', [
+            'moi_gia_su' => $ho_so->id,
+            'redirect'   => route('chi-tiet-gia-su', $ho_so->id) . '#dang-ky-lich-day',
+        ]);
     }
 
     /**
@@ -140,7 +143,10 @@ class HomeController extends Controller
                 'moi_gia_su_id' => $id,
                 'url.intended'  => route('chi-tiet-gia-su', $id) . '#dang-ky-lich-day',
             ]);
-            return redirect()->route('login');
+            return redirect()->route('login', [
+                'moi_gia_su' => $id,
+                'redirect'   => route('chi-tiet-gia-su', $id) . '#dang-ky-lich-day',
+            ]);
         }
 
         $user = auth()->user();
