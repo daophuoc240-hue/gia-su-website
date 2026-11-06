@@ -26,7 +26,7 @@
 
 <!-- Filter Bar -->
 <div class="glass-card" style="padding: 1.5rem; margin-bottom: 2rem;">
-    <form method="GET" style="display: grid; grid-template-columns: 1.5fr 1fr 1.3fr 1.3fr 110px 90px; gap: 1rem; align-items: center;">
+    <form method="GET" style="display: grid; grid-template-columns: 1.5fr 1.1fr 1.3fr 1.3fr auto; gap: 1.2rem; align-items: center;">
         <input type="text" name="mon_hoc" class="form-control" placeholder="🔍 Tên môn học..." value="{{ request('mon_hoc') }}">
         <select name="khoi_lop" class="form-select">
             <option value="">Tất cả khối lớp</option>
@@ -48,8 +48,14 @@
                 @endforeach
             @endif
         </select>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm kiếm</button>
-        <a href="{{ route('giasu.tim-kiem-lop') }}" class="btn btn-outline">Xóa lọc</a>
+        <div style="display: flex; gap: 0.6rem; align-items: center; white-space: nowrap;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.72rem 1.4rem; white-space: nowrap; border-radius: 10px;">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+            <a href="{{ route('giasu.tim-kiem-lop') }}" class="btn btn-outline" style="padding: 0.72rem 1.1rem; white-space: nowrap; border-radius: 10px;">
+                Xóa lọc
+            </a>
+        </div>
     </form>
 </div>
 
@@ -62,7 +68,7 @@
 @else
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
     @foreach($lop_hocs as $lop)
-    <div class="glass-card" style="padding: 0; overflow: hidden; border-radius: 18px; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+    <div class="glass-card" style="padding: 0; overflow: hidden; border-radius: 18px; transition: transform 0.2s; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
         <div style="position: relative; height: 130px; background: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80') center/cover;">
             <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);"></div>
             <div style="position: absolute; top: 0.8rem; right: 0.8rem; background: #10b981; color: #fff; font-weight: 800; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.78rem;">
@@ -74,7 +80,7 @@
             </div>
         </div>
 
-        <div style="padding: 1.4rem;">
+        <div style="padding: 1.4rem; display: flex; flex-direction: column; flex: 1 1 auto;">
             <div style="font-size: 0.88rem; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: flex-start; gap: 0.5rem;">
                 <span style="color: #ef4444; font-size: 1rem;">📍</span>
                 <span><strong>Địa điểm:</strong> {{ $lop->dia_chi_day }}</span>
@@ -91,7 +97,7 @@
             </div>
             @endif
 
-            <div class="divider" style="margin: 1rem 0;"></div>
+            <div class="divider" style="margin-top: auto; margin-bottom: 1rem;"></div>
 
             @if(in_array($lop->id, $da_dang_ky_ids))
             <button class="btn btn-outline btn-block" disabled style="background: #f1f5f9; color: #94a3b8;">

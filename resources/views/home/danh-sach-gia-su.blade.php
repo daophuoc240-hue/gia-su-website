@@ -13,15 +13,15 @@
 
 <div class="container" style="margin-bottom: 4rem;">
     <!-- Filter Bar -->
-    <form method="GET" action="{{ route('danh-sach-gia-su') }}" class="filter-bar" style="box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
-        <input type="text" name="keyword" class="form-control" placeholder="Tìm theo tên gia sư, trường học, chuyên ngành, môn dạy..." value="{{ request('keyword') }}">
-        <select name="tinh_thanh" class="form-select select-tinh-thanh" data-selected-tinh="{{ request('tinh_thanh') }}" style="max-width: 195px;">
+    <form method="GET" action="{{ route('danh-sach-gia-su') }}" class="filter-bar" style="box-shadow: 0 4px 20px rgba(0,0,0,0.04); display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; padding: 1.2rem 1.4rem; border-radius: 14px;">
+        <input type="text" name="keyword" class="form-control" placeholder="Tìm theo tên gia sư, trường học, chuyên ngành, môn dạy..." value="{{ request('keyword') }}" style="min-width: 220px; flex: 2;">
+        <select name="tinh_thanh" class="form-select select-tinh-thanh" data-selected-tinh="{{ request('tinh_thanh') }}" style="min-width: 175px; flex: 1;">
             <option value="">-- Tất cả Tỉnh / Thành --</option>
             @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
                 <option value="{{ $tinh }}" {{ request('tinh_thanh') === $tinh ? 'selected' : '' }}>{{ $tinh }}</option>
             @endforeach
         </select>
-        <select name="quan_huyen" class="form-select select-quan-huyen" data-selected-quan="{{ request('quan_huyen') }}" style="max-width: 205px;">
+        <select name="quan_huyen" class="form-select select-quan-huyen" data-selected-quan="{{ request('quan_huyen') }}" style="min-width: 175px; flex: 1;">
             <option value="">-- Tất cả Quận / Huyện / TP --</option>
             @if(request('tinh_thanh'))
                 @foreach(\App\Helpers\DiaDiem::getQuanHuyenByTinh(request('tinh_thanh')) as $quan)
@@ -29,7 +29,7 @@
                 @endforeach
             @endif
         </select>
-        <select name="sort" class="form-select" style="max-width: 210px;" onchange="this.form.submit()">
+        <select name="sort" class="form-select" style="min-width: 180px; flex: 1;" onchange="this.form.submit()">
             <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Sắp xếp: Mới nhất</option>
             <option value="rating_desc" {{ request('sort') === 'rating_desc' ? 'selected' : '' }}>⭐ Đánh giá cao nhất</option>
             <option value="rating_count" {{ request('sort') === 'rating_count' ? 'selected' : '' }}>💬 Nhiều nhận xét nhất</option>
@@ -37,8 +37,14 @@
             <option value="fee_asc" {{ request('sort') === 'fee_asc' ? 'selected' : '' }}>💰 Học phí: Thấp → Cao</option>
             <option value="fee_desc" {{ request('sort') === 'fee_desc' ? 'selected' : '' }}>💰 Học phí: Cao → Thấp</option>
         </select>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm</button>
-        <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline"><i class="fas fa-times"></i> Xóa</a>
+        <div style="display: flex; gap: 0.6rem; align-items: center; margin-left: auto; flex-shrink: 0;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; border-radius: 10px;">
+                <i class="fas fa-search"></i> Tìm Kiếm
+            </button>
+            <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline" style="padding: 0.65rem 1.1rem; white-space: nowrap; border-radius: 10px;">
+                <i class="fas fa-times"></i> Xóa Lọc
+            </a>
+        </div>
     </form>
 
     @if($gia_sus->count() > 0)
@@ -54,9 +60,9 @@
     </div>
     @endif
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem;">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; align-items: stretch;">
         @forelse($gia_sus as $hs)
-        <div class="glass-card" style="border-radius: 18px; padding: 1.8rem; background: #ffffff; transition: transform 0.2s ease, box-shadow 0.2s ease; position:relative; overflow:hidden;"
+        <div class="glass-card" style="border-radius: 18px; padding: 1.8rem; background: #ffffff; transition: transform 0.2s ease, box-shadow 0.2s ease; position:relative; overflow:hidden; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;"
              onmouseenter="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 16px 40px rgba(37,99,235,0.13)'"
              onmouseleave="this.style.transform=''; this.style.boxShadow=''">
 

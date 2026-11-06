@@ -35,7 +35,7 @@
 
 {{-- Bộ lọc gia sư --}}
 <div class="glass-card" style="padding: 1.4rem; border-radius: 16px; background:#fff; margin-bottom: 1.8rem;">
-    <form method="GET" action="{{ route('hocvien.gia-su') }}" style="display: grid; grid-template-columns: 1.8fr 1.2fr 1.2fr 1.2fr auto auto; gap: 0.8rem; align-items: center;">
+    <form method="GET" action="{{ route('hocvien.gia-su') }}" style="display: grid; grid-template-columns: 1.8fr 1.1fr 1.2fr 1.2fr auto; gap: 1rem; align-items: center;">
         <div>
             <input type="text" name="search" class="form-control" placeholder="Tìm theo tên gia sư, trường học, chuyên ngành..." value="{{ request('search') }}">
         </div>
@@ -69,14 +69,16 @@
                 @endif
             </select>
         </div>
-        <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.2rem; border-radius: 10px;">
-            <i class="fas fa-search"></i> Lọc
-        </button>
-        @if(request()->anyFilled(['search', 'mon_day', 'khu_vuc', 'tinh_thanh', 'quan_huyen']))
-        <a href="{{ route('hocvien.gia-su') }}" class="btn btn-outline" style="padding: 0.75rem 1rem; border-radius: 10px;" title="Xóa bộ lọc">
-            <i class="fas fa-times"></i>
-        </a>
-        @endif
+        <div style="display: flex; gap: 0.6rem; align-items: center; white-space: nowrap;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.3rem; border-radius: 10px; white-space: nowrap;">
+                <i class="fas fa-search"></i> Lọc
+            </button>
+            @if(request()->anyFilled(['search', 'mon_day', 'khu_vuc', 'tinh_thanh', 'quan_huyen']))
+            <a href="{{ route('hocvien.gia-su') }}" class="btn btn-outline" style="padding: 0.75rem 1rem; border-radius: 10px;" title="Xóa bộ lọc">
+                <i class="fas fa-times"></i>
+            </a>
+            @endif
+        </div>
     </form>
 </div>
 
@@ -90,7 +92,7 @@
 {{-- Lưới thẻ Gia sư --}}
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
     @forelse($gia_sus as $hs)
-    <div class="glass-card" style="border-radius: 18px; padding: 1.6rem; background: #ffffff; border: 1px solid #e2e8f0; display:flex; flex-direction:column; justify-content:space-between; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(37,99,235,0.1)';" onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
+    <div class="glass-card" style="border-radius: 18px; padding: 1.6rem; background: #ffffff; border: 1px solid #e2e8f0; display:flex; flex-direction:column; height: 100%; box-sizing: border-box; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(37,99,235,0.1)';" onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
         <div>
             {{-- Header card --}}
             <div style="display: flex; gap: 1.1rem; align-items: center; margin-bottom: 1.1rem;">
@@ -114,7 +116,7 @@
             </div>
 
             {{-- Body info --}}
-            <div style="font-size: 0.86rem; color: #475569; line-height: 1.8; margin-bottom: 1rem; border-top: 1px solid #f1f5f9; padding-top: 0.8rem;">
+            <div style="font-size: 0.86rem; color: #475569; line-height: 1.8; margin-bottom: 1rem; border-top: 1px solid #f1f5f9; padding-top: 0.8rem; flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; gap: 0.25rem;">
                 <div>🎓 <strong>Trường:</strong> <span style="color:#0f172a; font-weight:600;">{{ $hs->truong_hoc }}</span></div>
                 <div>📖 <strong>Chuyên ngành:</strong> <span style="color:#0f172a; font-weight:600;">{{ $hs->chuyen_nganh }}</span></div>
                 <div>📍 <strong>Khu vực dạy:</strong> <span style="color:#0f172a; font-weight:600;">{{ $hs->khu_vuc_nhan_day }}</span></div>

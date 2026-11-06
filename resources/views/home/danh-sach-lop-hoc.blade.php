@@ -35,29 +35,37 @@
                 @endforeach
             @endif
         </select>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Tìm Lớp</button>
-        <a href="{{ route('danh-sach-lop-hoc') }}" class="btn btn-outline"><i class="fas fa-times"></i> Xóa lọc</a>
+        <div style="display: flex; gap: 0.6rem; align-items: center; margin-left: auto; flex-shrink: 0;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; border-radius: 10px;">
+                <i class="fas fa-search"></i> Tìm Lớp
+            </button>
+            <a href="{{ route('danh-sach-lop-hoc') }}" class="btn btn-outline" style="padding: 0.65rem 1.1rem; white-space: nowrap; border-radius: 10px;">
+                <i class="fas fa-times"></i> Xóa Lọc
+            </a>
+        </div>
     </form>
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem;">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; align-items: stretch;">
         @forelse($lop_hocs as $lop)
-        <div class="glass-card" style="border-radius: 18px; padding: 1.8rem; background: #ffffff;">
+        <div class="glass-card" style="border-radius: 18px; padding: 1.8rem; background: #ffffff; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <span class="badge badge-info" style="font-size: 0.85rem;">{{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}</span>
-                <span style="font-weight: 800; color: #2563eb; font-size: 1.1rem;">{{ number_format($lop->hoc_phi) }} đ/tháng</span>
+                <span style="font-weight: 800; color: #2563eb; font-size: 1.1rem; white-space: nowrap;">{{ number_format($lop->hoc_phi) }} đ/tháng</span>
             </div>
-            <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 0.8rem; line-height: 1.4;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 0.8rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.8em;">
                 Tuyển gia sư dạy {{ $lop->mon_hoc }} {{ $lop->khoi_lop }}
             </h3>
-            <div style="font-size: 0.88rem; color: #64748b; line-height: 1.8; margin-bottom: 1.4rem;">
-                <div>📍 <strong>Địa chỉ:</strong> {{ $lop->dia_chi_day }}</div>
+            <div style="font-size: 0.88rem; color: #64748b; line-height: 1.8; margin-bottom: 1.4rem; flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; gap: 0.25rem;">
+                <div style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.85em; line-height: 1.45;" title="{{ $lop->dia_chi_day }}">📍 <strong>Địa chỉ:</strong> {{ $lop->dia_chi_day }}</div>
                 <div>🗓️ <strong>Số buổi:</strong> {{ $lop->so_buoi_trung_binh }} buổi/tuần</div>
                 <div>⏰ <strong>Thời gian:</strong> {{ $lop->thoi_gian_day }}</div>
-                <div>📝 <strong>Yêu cầu:</strong> {{ Str::limit($lop->yeu_cau_gia_su, 65) }}</div>
+                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $lop->yeu_cau_gia_su }}">📝 <strong>Yêu cầu:</strong> {{ Str::limit($lop->yeu_cau_gia_su, 65) }}</div>
             </div>
-            <a href="{{ route('chi-tiet-lop-hoc', $lop->id) }}" class="btn btn-primary btn-sm btn-block" style="border-radius: 10px;">
-                <i class="fas fa-paper-plane"></i> Xem Chi Tiết & Đăng Ký Dạy
-            </a>
+            <div style="margin-top: auto; padding-top: 0.8rem; border-top: 1px solid #f1f5f9;">
+                <a href="{{ route('chi-tiet-lop-hoc', $lop->id) }}" class="btn btn-primary btn-sm btn-block" style="border-radius: 10px; width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Xem Chi Tiết & Đăng Ký Dạy
+                </a>
+            </div>
         </div>
         @empty
         <div style="grid-column: span 3; text-align: center; padding: 4rem 2rem; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0;">
