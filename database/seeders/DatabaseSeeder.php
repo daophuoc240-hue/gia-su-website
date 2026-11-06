@@ -54,6 +54,22 @@ class DatabaseSeeder extends Seeder
             ['ho_ten' => 'Vũ Quốc Khánh',       'email' => 'giasu18@giasu.com',  'sdt' => '0901000019', 'truong' => 'ĐH Khoa Học Huế',                'nganh' => 'Hóa Học',                  'mon' => 'Hóa Học', 'khu_vuc' => 'TP. Huế, Thị xã Hương Thủy, Thừa Thiên Huế', 'phi' => 145000, 'kinh_nghiem' => 'Nghiên cứu sinh Hóa học. Dạy Hóa THPT và ĐH theo hướng hiểu bản chất, không học thuộc lòng.'],
             ['ho_ten' => 'Huỳnh Thị Nga',       'email' => 'giasu19@giasu.com',  'sdt' => '0901000020', 'truong' => 'ĐH Ngoại Ngữ Đà Nẵng',           'nganh' => 'Thương Mại Quốc Tế',       'mon' => 'Tiếng Anh', 'khu_vuc' => 'Quận Hải Châu, Quận Thanh Khê, Đà Nẵng', 'phi' => 180000, 'kinh_nghiem' => 'TOEIC 920. Dạy Tiếng Anh thương mại và giao tiếp doanh nghiệp, luyện thi TOEIC cấp tốc.'],
             ['ho_ten' => 'Cao Đức Minh',        'email' => 'giasu20@giasu.com',  'sdt' => '0901000021', 'truong' => 'ĐH Bách Khoa Hà Nội',            'nganh' => 'Công Nghệ Thông Tin',      'mon' => 'Tin Học', 'khu_vuc' => 'Quận Cầu Giấy, Quận Nam Từ Liêm, Hà Nội', 'phi' => 210000, 'kinh_nghiem' => 'Kỹ sư phần mềm 3 năm. Dạy lập trình web, Python, Java cho học sinh THPT và sinh viên.'],
+
+            // ==================== GIA SƯ NGHỆ AN (14 người) ====================
+            ['ho_ten' => 'Nguyễn Thị Quỳnh Trang', 'email' => 'giasu_na1@giasu.com',  'sdt' => '0912111001', 'truong' => 'ĐH Sư Phạm Vinh',            'nganh' => 'Sư Phạm Toán Học',         'mon' => 'Toán', 'khu_vuc' => 'TP. Vinh, Huyện Hưng Nguyên, Nghệ An', 'phi' => 150000, 'kinh_nghiem' => 'Cựu học sinh Chuyên Phan Bội Châu - Nghệ An, tốt nghiệp ĐH Sư Phạm Vinh loại Giỏi. Hơn 4 năm kinh nghiệm luyện thi vào lớp 10 chuyên và THPT Quốc gia.'],
+            ['ho_ten' => 'Phan Văn Hoàng Nam',     'email' => 'giasu_na2@giasu.com',  'sdt' => '0912111002', 'truong' => 'ĐH Vinh',                    'nganh' => 'Sư Phạm Tiếng Anh',         'mon' => 'Tiếng Anh', 'khu_vuc' => 'TP. Vinh, Thị xã Cửa Lò, Nghệ An', 'phi' => 180000, 'kinh_nghiem' => 'IELTS 8.0, giảng viên trẻ tại Trung tâm Anh ngữ TP. Vinh. Chuyên luyện thi chứng chỉ IELTS, TOEIC và kèm tiếng Anh học thuật cho học sinh cấp 2, cấp 3.'],
+            ['ho_ten' => 'Trần Thị Thu Hằng',      'email' => 'giasu_na3@giasu.com',  'sdt' => '0912111003', 'truong' => 'ĐH Y Khoa Vinh',              'nganh' => 'Bác Sĩ Đa Khoa',           'mon' => 'Hóa Học', 'khu_vuc' => 'TP. Vinh, Huyện Nghi Lộc, Nghệ An', 'phi' => 160000, 'kinh_nghiem' => 'Đạt 28.5 điểm khối B kỳ thi Đại học. Kinh nghiệm 3 năm gia sư Hóa THPT và ôn thi chuyên sâu khối B, phương pháp ghi nhớ nhanh và phản xạ làm trắc nghiệm.'],
+            ['ho_ten' => 'Lê Đình Mạnh',           'email' => 'giasu_na4@giasu.com',  'sdt' => '0912111004', 'truong' => 'ĐH Sư Phạm Kỹ Thuật Vinh',   'nganh' => 'Công Nghệ Thông Tin',       'mon' => 'Tin Học', 'khu_vuc' => 'TP. Vinh, Huyện Đô Lương, Nghệ An', 'phi' => 170000, 'kinh_nghiem' => 'Kỹ sư CNTT, từng đạt giải Nhất Hội thi Tin học trẻ tỉnh Nghệ An. Dạy kèm lập trình Python, C++ và Tin học cơ bản cho học sinh THCS, THPT.'],
+            ['ho_ten' => 'Ngô Thị Ánh Tuyết',      'email' => 'giasu_na5@giasu.com',  'sdt' => '0912111005', 'truong' => 'ĐH Vinh',                    'nganh' => 'Sư Phạm Ngữ Văn',           'mon' => 'Ngữ Văn', 'khu_vuc' => 'TP. Vinh, Huyện Nam Đàn, Nghệ An', 'phi' => 140000, 'kinh_nghiem' => 'Giáo viên Ngữ Văn THPT tại Nghệ An, chuyên bồi dưỡng học sinh thi vào lớp 10 và kỳ thi tốt nghiệp THPT với kỹ năng làm văn nghị luận đạt điểm cao.'],
+            ['ho_ten' => 'Đặng Thái Sơn',          'email' => 'giasu_na6@giasu.com',  'sdt' => '0912111006', 'truong' => 'ĐH Sư Phạm Vinh',            'nganh' => 'Sư Phạm Vật Lý',           'mon' => 'Vật Lý', 'khu_vuc' => 'Huyện Diễn Châu, Huyện Yên Thành, Nghệ An', 'phi' => 150000, 'kinh_nghiem' => 'Giải Nhì Vật lý cấp tỉnh Nghệ An. Tận tâm, nhiệt tình, chuyên củng cố kiến thức từ cơ bản đến nâng cao cho học sinh mất gốc hoặc chuẩn bị thi tuyển sinh.'],
+            ['ho_ten' => 'Võ Thị Thanh Thảo',      'email' => 'giasu_na7@giasu.com',  'sdt' => '0912111007', 'truong' => 'ĐH Vinh',                    'nganh' => 'Giáo Dục Tiểu Học',         'mon' => 'Tiểu Học', 'khu_vuc' => 'TP. Vinh, Huyện Hưng Nguyên, Nghệ An', 'phi' => 120000, 'kinh_nghiem' => 'Tốt nghiệp ngành Sư phạm Tiểu học ĐH Vinh. Rèn chữ đẹp, dạy Toán tư duy và Tiếng Việt cho các bé lớp 1 đến lớp 5, kiên nhẫn và được học trò yêu quý.'],
+            ['ho_ten' => 'Hoàng Văn Đức',          'email' => 'giasu_na8@giasu.com',  'sdt' => '0912111008', 'truong' => 'ĐH Sư Phạm Vinh',            'nganh' => 'Sư Phạm Toán Học',         'mon' => 'Toán', 'khu_vuc' => 'Huyện Quỳnh Lưu, Thị xã Hoàng Mai, Nghệ An', 'phi' => 145000, 'kinh_nghiem' => 'Kinh nghiệm 5 năm dạy kèm Toán THCS và THPT khu vực Quỳnh Lưu, Hoàng Mai. Ôn thi vào 10 và bám sát ma trận đề thi các năm.'],
+            ['ho_ten' => 'Bùi Thị Ngọc Mai',       'email' => 'giasu_na9@giasu.com',  'sdt' => '0912111009', 'truong' => 'ĐH Y Khoa Vinh',              'nganh' => 'Y Khoa',                   'mon' => 'Sinh Học', 'khu_vuc' => 'TP. Vinh, Thị xã Cửa Lò, Nghệ An', 'phi' => 160000, 'kinh_nghiem' => 'Sinh viên năm cuối ĐH Y Khoa Vinh. Đam mê môn Sinh, dạy kèm Sinh 10, 11, 12 và luyện đề thi THPT Quốc Gia với sơ đồ tư duy sinh động.'],
+            ['ho_ten' => 'Dương Quốc Bảo',         'email' => 'giasu_na10@giasu.com', 'sdt' => '0912111010', 'truong' => 'ĐH Ngoại Ngữ Hà Nội',        'nganh' => 'Tiếng Trung Quốc',         'mon' => 'Tiếng Trung', 'khu_vuc' => 'TP. Vinh, Huyện Nghi Lộc, Nghệ An', 'phi' => 190000, 'kinh_nghiem' => 'Chứng chỉ HSK6 và HSKK Cao cấp. Dạy Tiếng Trung giao tiếp, chuẩn bị du học và thi lấy chứng chỉ cho học sinh, sinh viên và người đi làm tại TP. Vinh.'],
+            ['ho_ten' => 'Phạm Quang Huy',         'email' => 'giasu_na11@giasu.com', 'sdt' => '0912111011', 'truong' => 'ĐH Sư Phạm Vinh',            'nganh' => 'Sư Phạm Hóa Học',          'mon' => 'Hóa Học', 'khu_vuc' => 'Huyện Thanh Chương, Huyện Đô Lương, Nghệ An', 'phi' => 140000, 'kinh_nghiem' => 'Giáo viên Hóa trẻ trung, tâm huyết. Chuyên lấy lại căn bản Hóa học cho học sinh THCS và THPT, dạy trực quan dễ tiếp thu.'],
+            ['ho_ten' => 'Nguyễn Đăng Khoa',       'email' => 'giasu_na12@giasu.com', 'sdt' => '0912111012', 'truong' => 'ĐH Bách Khoa Hà Nội',        'nganh' => 'Kỹ Thuật Điện Tử',         'mon' => 'Toán', 'khu_vuc' => 'Thị xã Thái Hòa, Huyện Nghĩa Đàn, Nghệ An', 'phi' => 155000, 'kinh_nghiem' => 'Cựu sinh viên Bách Khoa, có tư duy logic sắc bén. Kèm Toán từ lớp 8 đến 12 khu vực Thái Hòa, Nghĩa Đàn và dạy online toàn tỉnh Nghệ An.'],
+            ['ho_ten' => 'Lê Thị Bích Hạnh',       'email' => 'giasu_na13@giasu.com', 'sdt' => '0912111013', 'truong' => 'ĐH Vinh',                    'nganh' => 'Sư Phạm Lịch Sử',          'mon' => 'Lịch Sử', 'khu_vuc' => 'TP. Vinh, Huyện Nam Đàn, Nghệ An', 'phi' => 130000, 'kinh_nghiem' => 'Dạy Lịch Sử theo hệ thống mốc thời gian và sơ đồ hóa sự kiện, giúp học sinh nhớ lâu và đạt điểm 8+ trong kỳ thi tốt nghiệp THPT.'],
+            ['ho_ten' => 'Chu Thị Cẩm Tú',         'email' => 'giasu_na14@giasu.com', 'sdt' => '0912111014', 'truong' => 'ĐH Vinh',                    'nganh' => 'Sư Phạm Tiếng Anh',         'mon' => 'Tiếng Anh', 'khu_vuc' => 'Huyện Diễn Châu, Huyện Quỳnh Lưu, Nghệ An', 'phi' => 160000, 'kinh_nghiem' => 'Chứng chỉ C1 Châu Âu (CEFR). Hơn 3 năm kinh nghiệm kèm ngữ pháp và phát âm tiếng Anh cho học sinh cấp 2, 3 khu vực Diễn Châu, Quỳnh Lưu.'],
         ];
 
         $giaSuAccounts = [];
@@ -82,7 +98,7 @@ class DatabaseSeeder extends Seeder
                 'kinh_nghiem'       => $gs['kinh_nghiem'],
                 'khu_vuc_nhan_day'  => $gs['khu_vuc'],
                 'hoc_phi_theo_gio'  => $gs['phi'],
-                'trang_thai_duyet'  => ($i < 15) ? 'da_duyet' : 'cho_duyet',
+                'trang_thai_duyet'  => ($i < 15 || str_contains($gs['email'], 'giasu_na')) ? 'da_duyet' : 'cho_duyet',
                 'so_lop_da_day'     => rand(2, 20),
                 'lich_day'          => $sampleLichDay[$i % count($sampleLichDay)],
             ]);
@@ -149,6 +165,16 @@ class DatabaseSeeder extends Seeder
             ['mon' => 'Sinh Học', 'khoi' => 'Lớp 11', 'buoi' => 2, 'lich' => 'Thứ 5, Chủ Nhật (17:00 - 18:30)', 'dia_chi' => '77 Nguyễn Thị Minh Khai, Quận 1 (Q.1), TP. Hồ Chí Minh', 'phi' => 1100000, 'yc' => 'Luyện thi ĐH khối B', 'tt' => 'da_co_gia_su', 'hv_idx' => 7, 'gs_idx' => 5],
             ['mon' => 'Toán Lý Hóa', 'khoi' => 'Lớp 12', 'buoi' => 6, 'lich' => 'Thứ 2 đến Thứ 7 (19:00 - 20:30)', 'dia_chi' => '88 Xô Viết Nghệ Tĩnh, Quận Bình Thạnh, TP. Hồ Chí Minh', 'phi' => 3500000, 'yc' => 'Cần gia sư tốt luyện thi ĐH 3 môn', 'tt' => 'da_co_gia_su', 'hv_idx' => 8, 'gs_idx' => 0],
             ['mon' => 'Tiếng Nhật Giao Tiếp', 'khoi' => 'Đại học', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 6 (19:30 - 21:00)', 'dia_chi' => '99 Đinh Bộ Lĩnh, Quận Bình Thạnh, TP. Hồ Chí Minh', 'phi' => 1600000, 'yc' => 'Học để đi du học Nhật', 'tt' => 'da_co_gia_su', 'hv_idx' => 9, 'gs_idx' => 10],
+
+            // ===== LỚP HỌC NGHỆ AN (8 lớp) =====
+            ['mon' => 'Toán Luyện Thi Vào 10 Chuyên', 'khoi' => 'Lớp 9', 'buoi' => 3, 'lich' => 'Thứ 2, Thứ 4, Thứ 6 (19:00 - 20:30)', 'dia_chi' => '68 Đinh Công Tráng, Phường Lê Mao, TP. Vinh, Nghệ An', 'phi' => 1200000, 'yc' => 'Mục tiêu thi đậu chuyên Toán trường THPT Chuyên Phan Bội Châu.', 'tt' => 'dang_tim', 'hv_idx' => 0],
+            ['mon' => 'Tiếng Anh IELTS 6.5+', 'khoi' => 'Lớp 11', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 5 (18:30 - 20:00)', 'dia_chi' => '152 Nguyễn Văn Cừ, Phường Hưng Bình, TP. Vinh, Nghệ An', 'phi' => 1600000, 'yc' => 'Cần gia sư phát âm chuẩn, có chứng chỉ IELTS 7.5 trở lên.', 'tt' => 'dang_tim', 'hv_idx' => 1],
+            ['mon' => 'Hóa Học THPT Khối B', 'khoi' => 'Lớp 12', 'buoi' => 3, 'lich' => 'Thứ 2, Thứ 5, Thứ 7 (18:00 - 19:30)', 'dia_chi' => '24 Mai Hắc Đế, Phường Quán Bàu, TP. Vinh, Nghệ An', 'phi' => 1400000, 'yc' => 'Ôn thi tốt nghiệp và xét tuyển đại học Y Dược.', 'tt' => 'dang_tim', 'hv_idx' => 2],
+            ['mon' => 'Toán & Tiếng Việt Tiểu Học', 'khoi' => 'Lớp 3', 'buoi' => 3, 'lich' => 'Thứ 2, Thứ 4, Thứ 6 (17:30 - 19:00)', 'dia_chi' => 'Khối 1, Phường Nghi Hương, Thị xã Cửa Lò, Nghệ An', 'phi' => 800000, 'yc' => 'Dạy kèm bé gái lớp 3, gia sư kiên nhẫn, yêu trẻ.', 'tt' => 'dang_tim', 'hv_idx' => 3],
+            ['mon' => 'Vật Lý 11', 'khoi' => 'Lớp 11', 'buoi' => 2, 'lich' => 'Thứ 4, Chủ Nhật (19:00 - 20:30)', 'dia_chi' => 'Khối 3, Thị trấn Quán Hành, Huyện Nghi Lộc, Nghệ An', 'phi' => 1100000, 'yc' => 'Học sinh cần củng cố kiến thức học kỳ, nâng cao điểm số.', 'tt' => 'dang_tim', 'hv_idx' => 4],
+            ['mon' => 'Toán Nâng Cao Lớp 8', 'khoi' => 'Lớp 8', 'buoi' => 2, 'lich' => 'Thứ 3, Thứ 7 (18:00 - 19:30)', 'dia_chi' => 'Xã Diễn Hồng, Huyện Diễn Châu, Nghệ An', 'phi' => 950000, 'yc' => 'Con học khá, muốn học nâng cao để thi HSG huyện.', 'tt' => 'dang_tim', 'hv_idx' => 5],
+            ['mon' => 'Tiếng Anh Giao Tiếp Cơ Bản', 'khoi' => 'Lớp 6', 'buoi' => 2, 'lich' => 'Thứ 5, Thứ 7 (17:30 - 19:00)', 'dia_chi' => 'Thị trấn Đô Lương, Huyện Đô Lương, Nghệ An', 'phi' => 900000, 'yc' => 'Tập trung phản xạ nghe nói và từ vựng cơ bản.', 'tt' => 'dang_tim', 'hv_idx' => 6],
+            ['mon' => 'Hóa Học Lớp 10', 'khoi' => 'Lớp 10', 'buoi' => 2, 'lich' => 'Thứ 2, Thứ 6 (19:30 - 21:00)', 'dia_chi' => 'Thị trấn Nam Đàn, Huyện Nam Đàn, Nghệ An', 'phi' => 1000000, 'yc' => 'Mới lên cấp 3 bỡ ngỡ môn Hóa, cần gia sư nhiệt tình.', 'tt' => 'dang_tim', 'hv_idx' => 7],
         ];
 
         $lopDaCapNhat = [];
@@ -172,11 +198,14 @@ class DatabaseSeeder extends Seeder
             $lopDaCapNhat[] = ['lop' => $lopMoi, 'gs_idx' => $lop['gs_idx'] ?? null, 'hv_idx' => $lop['hv_idx']];
         }
 
-        // ==================== ĐĂNG KÝ NHẬN LỚP (20 đơn) ====================
+        // ==================== ĐĂNG KÝ NHẬN LỚP (28 đơn) ====================
         $danhSachDangKy = [
             [0, 0], [0, 7], [1, 1], [2, 2], [3, 4], [4, 3],
             [5, 5], [6, 12], [7, 1], [8, 7], [9, 2],
             [10, 10], [11, 6], [12, 0], [13, 4], [14, 1],
+            // Đăng ký nhận lớp khu vực Nghệ An
+            [30, 20], [31, 21], [32, 22], [33, 26], [34, 25],
+            [35, 27], [36, 23], [37, 30],
         ];
         foreach ($danhSachDangKy as $idx => $pair) {
             [$lopIdx, $gsIdx] = $pair;
@@ -215,6 +244,10 @@ class DatabaseSeeder extends Seeder
             [20, 0, 0, 5], [21, 1, 1, 5], [22, 2, 2, 4], [23, 3, 3, 5],
             [24, 4, 4, 5], [25, 5, 5, 4], [26, 6, 6, 5], [27, 7, 7, 4],
             [28, 8, 8, 5], [29, 9, 9, 5], [23, 10, 0, 5], [24, 11, 1, 4],
+            // Đánh giá gia sư Nghệ An
+            [30, 0, 20, 5], [31, 1, 21, 5], [32, 2, 22, 5], [33, 3, 26, 5],
+            [34, 4, 25, 4], [35, 5, 27, 5], [36, 6, 33, 5], [37, 7, 30, 5],
+            [30, 8, 31, 5], [31, 9, 29, 5], [32, 10, 28, 5], [33, 11, 24, 5],
         ];
 
         foreach ($danhGiaData as $idx => [$lopIdx, $nxIdx, $gsIdx, $sao]) {
