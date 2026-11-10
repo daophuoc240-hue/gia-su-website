@@ -139,6 +139,14 @@
 
             <div style="display: flex; align-items: center; gap: 0.8rem;">
                 @auth
+                    <a href="{{ route('chat.index') }}" class="btn btn-outline btn-sm" title="Tin nhắn" style="position:relative; display:inline-flex; align-items:center; gap:0.4rem;">
+                        <i class="fas fa-comments"></i> Chat
+                        @php $unreadPub = auth()->user()->tinNhanChuaDocCount(); @endphp
+                        @if($unreadPub > 0)
+                            <span style="background:#ef4444; color:#fff; font-size:0.68rem; font-weight:800; border-radius:50%; min-width:16px; height:16px; display:inline-flex; align-items:center; justify-content:center; padding:0 2px;">{{ $unreadPub }}</span>
+                        @endif
+                    </a>
+
                     @if(auth()->user()->vai_tro === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-sm"><i class="fas fa-user-shield"></i> Trang Quản Trị</a>
                     @elseif(auth()->user()->vai_tro === 'giasu')

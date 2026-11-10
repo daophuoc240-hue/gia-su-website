@@ -147,7 +147,7 @@
                     📚 Môn: {{ $lm->lopHoc->mon_hoc }} - {{ $lm->lopHoc->khoi_lop }}
                 </div>
                 <div style="font-size:0.88rem; color:#334155; line-height:1.75;">
-                    <div>👤 <strong>Học viên / Phụ huynh:</strong> <span style="color:#0f172a; font-weight:700;">{{ $lm->lopHoc->hocVien->ho_ten ?? 'Học viên' }}</span> (📞 {{ $lm->lopHoc->hocVien->so_dien_thoai ?? 'Chưa cập nhật' }})</div>
+                    <div>👤 <strong>Học viên / Phụ huynh:</strong> <span style="color:#0f172a; font-weight:700;">{{ $lm->lopHoc->hocVien->ho_ten ?? 'Học viên' }}</span> <a href="{{ route('chat.conversation', $lm->lopHoc->hoc_vien_id) }}" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.25rem 0.65rem; border-radius:6px; color:#2563eb; border-color:#bfdbfe; margin-left:0.5rem; text-decoration:none;"><i class="fas fa-comment-dots"></i> Chat với học viên</a> (📞 {{ $lm->lopHoc->hocVien->so_dien_thoai ?? 'Chưa cập nhật' }})</div>
                     <div>📍 <strong>Địa chỉ / Hình thức:</strong> <span style="font-weight:600;">{{ $lm->lopHoc->dia_chi_day }}</span></div>
                     <div>💰 <strong>Mức học phí:</strong> <span style="color:#10b981; font-weight:800; font-size:0.95rem;">{{ number_format($lm->lopHoc->muc_hoc_phi) }}đ / buổi</span></div>
                     @if($studentNote)

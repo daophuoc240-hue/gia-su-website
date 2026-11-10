@@ -71,6 +71,20 @@
             </div>
             <div class="topbar-actions" style="display:flex; align-items:center; gap:0.9rem;">
                 @auth
+                                {{-- Nút Chat Trực Tuyến --}}
+                @php
+                    $unreadChatCount = auth()->user()->tinNhanChuaDocCount();
+                @endphp
+                <a href="{{ route('chat.index') }}" title="Hộp thư tin nhắn"
+                   style="position:relative; width:40px; height:40px; border-radius:12px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; color:#334155; text-decoration:none; border:1px solid #e2e8f0; transition:all 0.2s;">
+                    <i class="fas fa-comments" style="font-size:1.15rem; color:{{ $unreadChatCount > 0 ? '#2563eb' : '#64748b' }};"></i>
+                    @if($unreadChatCount > 0)
+                    <span style="position:absolute; top:-4px; right:-4px; background:#2563eb; color:#fff; font-size:0.7rem; font-weight:800; border-radius:50%; min-width:18px; height:18px; display:flex; align-items:center; justify-content:center; padding:0 3px; box-shadow:0 2px 5px rgba(37,99,235,0.4);">
+                        {{ $unreadChatCount }}
+                    </span>
+                    @endif
+                </a>
+
                 {{-- Chuông thông báo --}}
                 @php
                     $unreadCount = auth()->user()->thongBaoChuaDocCount();

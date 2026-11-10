@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\GiaSu\GiaSuController;
 use App\Http\Controllers\HocVien\HocVienController;
 use App\Http\Controllers\TaiKhoanController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/thong-bao',              [TaiKhoanController::class, 'danhSachThongBao'])->name('thong-bao.index');
     Route::post('/thong-bao/{id}/da-doc', [TaiKhoanController::class, 'danhDauDaDoc'])->name('thong-bao.da-doc');
     Route::post('/thong-bao/doc-tat-ca',  [TaiKhoanController::class, 'docTatCa'])->name('thong-bao.doc-tat-ca');
+
+    // ==================== HỆ THỐNG TIN NHẮN (CHAT) ====================
+    Route::get('/chat',                          [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/{user_id}',                [ChatController::class, 'conversation'])->whereNumber('user_id')->name('chat.conversation');
+    Route::post('/chat/send',                    [ChatController::class, 'sendMessage'])->name('chat.send');
+    Route::get('/chat/api/messages/{partnerId}', [ChatController::class, 'getMessages'])->whereNumber('partnerId')->name('chat.api.messages');
+    Route::get('/chat/api/unread-count',         [ChatController::class, 'unreadCount'])->name('chat.api.unread-count');
+
 });
 
 // ==================== ADMIN ROUTES ====================

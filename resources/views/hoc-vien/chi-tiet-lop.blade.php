@@ -49,7 +49,7 @@
                      alt="{{ $lop->giaSu->ho_ten }}"
                      style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:2px solid #2563eb;">
                 <div>
-                    <div style="font-weight:700; font-size:1.1rem; color:#0f172a;">{{ $lop->giaSu->ho_ten }}</div>
+                    <div style="font-weight:700; font-size:1.1rem; color:#0f172a;">{{ $lop->giaSu->ho_ten }}</div><div style="margin-top:0.4rem;"><a href="{{ route('chat.conversation', $lop->giaSu->id) }}" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.25rem 0.65rem; border-radius:6px; color:#2563eb; border-color:#bfdbfe; text-decoration:none;"><i class="fas fa-comment-dots"></i> Nhắn tin trực tiếp</a></div>
                     <div style="font-size:0.82rem; color:#64748b;">📧 {{ $lop->giaSu->email }} • 📞 {{ $lop->giaSu->so_dien_thoai }}</div>
                 </div>
             </div>

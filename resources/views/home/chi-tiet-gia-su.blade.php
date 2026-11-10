@@ -91,6 +91,9 @@
             <a href="#dang-ky-lich-day" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; border-radius: 12px; font-weight: 800; padding: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(37,99,235,0.3);">
                 <i class="fas fa-calendar-alt"></i> Đăng Ký Giờ Dạy Ngay
             </a>
+            <a href="{{ route('chat.conversation', $ho_so->tai_khoan_id) }}" class="btn btn-outline" style="width: 100%; margin-top: 0.7rem; border-radius: 12px; font-weight: 700; padding: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: #2563eb; border: 1.5px solid #bfdbfe; background: #ffffff; text-decoration: none;">
+                <i class="fas fa-comments"></i> Nhắn Tin Trực Tiếp Với Gia Sư
+            </a>
         </div>
 
         <!-- Right Info Details -->

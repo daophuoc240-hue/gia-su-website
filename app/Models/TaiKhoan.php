@@ -16,6 +16,7 @@ class TaiKhoan extends Authenticatable
         'email',
         'password',
         'so_dien_thoai',
+        'avatar',
         'vai_tro',
         'trang_thai',
     ];
@@ -63,6 +64,45 @@ class TaiKhoan extends Authenticatable
     public function thongBaoChuaDocCount(): int
     {
         return $this->thongBaos()->where('da_doc', false)->count();
+    }
+
+    public function tinNhanNhan()
+    {
+        return $this->hasMany(TinNhan::class, 'nguoi_nhan_id');
+    }
+
+    public function tinNhanGui()
+    {
+        return $this->hasMany(TinNhan::class, 'nguoi_gui_id');
+    }
+
+    public function tinNhanChuaDocCount(): int
+    {
+        return $this->tinNhanNhan()->where('da_xem', false)->count();
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if (!empty($this->avatar)) {
+            if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://')) {
+                return $this->avatar;
+            }
+            return asset('storage/' . $this->avatar);
+        }
+        if ($this->hoSoGiaSu && !empty($this->hoSoGiaSu->avatar)) {
+            if (str_starts_with($this->hoSoGiaSu->avatar, 'http://') || str_starts_with($this->hoSoGiaSu->avatar, 'https://')) {
+                return $this->hoSoGiaSu->avatar;
+            }
+            return asset('storage/' . $this->hoSoGiaSu->avatar);
+        }
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->ho_ten ?? 'User') . '&background=2563eb&color=fff&bold=true';
+    }
+
+    public function getVaiTroLabelAttribute(): string
+    {
+        if ($this->vai_tro === 'admin') return 'Quản Trị Viên';
+        if ($this->vai_tro === 'giasu') return 'Gia Sư';
+        return 'Học Viên / Phụ Huynh';
     }
 
     // Helper methods

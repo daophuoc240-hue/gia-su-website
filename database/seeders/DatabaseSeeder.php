@@ -9,6 +9,7 @@ use App\Models\HoSoGiaSu;
 use App\Models\LopHoc;
 use App\Models\DangKyNhanLop;
 use App\Models\DanhGia;
+use App\Models\TinNhan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -275,6 +276,28 @@ class DatabaseSeeder extends Seeder
                 'diem_danh_gia'    => $count > 0 ? round($avg, 1) : 5.0,
                 'so_luot_danh_gia' => $count,
             ]);
+        }
+        // ==================== TIN NHẮN MẪU (CHAT) ====================
+        $sampleChats = [
+            ['hocvien_idx' => 0, 'giasu_idx' => 0, 'is_hv' => true,  'msg' => 'Chào thầy An ạ, em thấy thầy có kinh nghiệm dạy Toán 12 rất tốt, em muốn hỏi thêm về phương pháp luyện thi ĐH khối A ạ.'],
+            ['hocvien_idx' => 0, 'giasu_idx' => 0, 'is_hv' => false, 'msg' => 'Chào em! Thầy chuyên bám sát cấu trúc đề Bộ Giáo Dục, chia chuyên đề từ cơ bản đến vận dụng cao. Em hiện tại đang yếu phần nào nhất?'],
+            ['hocvien_idx' => 0, 'giasu_idx' => 0, 'is_hv' => true,  'msg' => 'Dạ em hay bị vướng phần Hình học không gian và Tích phân ạ.'],
+            ['hocvien_idx' => 0, 'giasu_idx' => 0, 'is_hv' => false, 'msg' => 'Không sao em nhé, phần đó thầy có bộ mẹo tư duy hình và công thức giải nhanh rất dễ hiểu. Lịch tối thứ 2 và thứ 4 thầy đã xác nhận rồi nhé!'],
+            ['hocvien_idx' => 1, 'giasu_idx' => 1, 'is_hv' => true,  'msg' => 'Chào cô Bích, em muốn kèm Tiếng Anh giao tiếp và chuẩn bị thi IELTS 6.5 ạ.'],
+            ['hocvien_idx' => 1, 'giasu_idx' => 1, 'is_hv' => false, 'msg' => 'Chào em! Cô sẽ kiểm tra trình độ đầu vào miễn phí ở buổi đầu tiên để lên lộ trình học cá nhân hóa cho em nhé.'],
+            ['hocvien_idx' => 1, 'giasu_idx' => 1, 'is_hv' => true,  'msg' => 'Dạ tuyệt quá, em cảm ơn cô nhiều ạ!'],
+        ];
+        foreach ($sampleChats as $sc) {
+            if (isset($hocVienAccounts[$sc['hocvien_idx']]) && isset($giaSuAccounts[$sc['giasu_idx']])) {
+                $senderId   = $sc['is_hv'] ? $hocVienAccounts[$sc['hocvien_idx']]->id : $giaSuAccounts[$sc['giasu_idx']]['acc']->id;
+                $receiverId = $sc['is_hv'] ? $giaSuAccounts[$sc['giasu_idx']]['acc']->id : $hocVienAccounts[$sc['hocvien_idx']]->id;
+                TinNhan::create([
+                    'nguoi_gui_id'  => $senderId,
+                    'nguoi_nhan_id' => $receiverId,
+                    'noi_dung'      => $sc['msg'],
+                    'da_xem'        => true,
+                ]);
+            }
         }
     }
 }
