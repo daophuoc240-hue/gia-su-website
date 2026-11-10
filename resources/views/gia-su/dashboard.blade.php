@@ -223,12 +223,13 @@
 
                 {{-- Action buttons --}}
                 <div style="border-top: 1px dashed #bfdbfe; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
-                    <button type="button" class="btn btn-outline btn-sm" style="color: #ef4444; border-color: #fca5a5; background: #ffffff;" onclick="toggleDeclineForm({{ $lm->id }})">
-                        <i class="fas fa-calendar-times"></i> Tôi Bận Hết / Từ Chối
+                    <button type="button" class="btn btn-outline" style="color: #64748b; border: 1.5px solid #cbd5e1; background: #ffffff; padding: 0.65rem 1.2rem; border-radius: 10px; font-weight: 600; font-size: 0.88rem; transition: all 0.2s;" onmouseover="this.style.color='#ef4444'; this.style.borderColor='#fca5a5'; this.style.background='#fef2f2';" onmouseout="this.style.color='#64748b'; this.style.borderColor='#cbd5e1'; this.style.background='#ffffff';" onclick="toggleDeclineForm({{ $lm->id }})">
+                        <i class="fas fa-calendar-times" style="margin-right: 0.35rem;"></i> Báo Bận / Từ Chối
                     </button>
 
-                    <button type="submit" class="btn btn-success btn-sm" style="font-weight: 800; padding: 0.65rem 1.4rem; background: #10b981; border: none; box-shadow: 0 4px 12px rgba(16,185,129,0.3); font-size: 0.92rem; border-radius: 10px;">
-                        <i class="fas fa-check-circle"></i> Đồng Ý Lịch Đã Chọn & Gửi Trung Tâm Duyệt
+                    <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important; color: #ffffff !important; font-weight: 600; padding: 0.7rem 1.6rem; border: none; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); font-size: 0.92rem; border-radius: 10px; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: all 0.2s ease;">
+                        <i class="fas fa-check-circle" style="font-size: 1rem; color: #93c5fd;"></i>
+                        <span>Xác Nhận Lịch Đã Chọn & Gửi Duyệt</span>
                     </button>
                 </div>
             </form>
