@@ -101,6 +101,10 @@
             margin: 0 auto;
         }
     </style>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ secure_asset('favicon.svg') }}">
+    <link rel="alternate icon" type="image/png" href="{{ secure_asset('favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ secure_asset('apple-touch-icon.png') }}">
 </head>
 <body style="background-color: #f8fafc; color: #0f172a; margin: 0; font-family: 'Be Vietnam Pro', 'Inter', sans-serif;">
 

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Modern Rounded Square Background -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#bgGrad)"/>
+
+  <!-- Cap Diamond Top -->
+  <polygon points="32,15 54,25 32,35 10,25" fill="#ffffff"/>
+
+  <!-- Cap Skull Base -->
+  <path d="M19,29.5 L19,39 C19,43.5 24.8,47 32,47 C39.2,47 45,43.5 45,39 L45,29.5 C41.2,32.8 36.8,34.2 32,34.2 C27.2,34.2 22.8,32.8 19,29.5 Z" fill="#e2e8f0"/>
+
+  <!-- Center Pin Button -->
+  <circle cx="32" cy="25" r="2.8" fill="url(#goldGrad)"/>
+
+  <!-- Gold Tassel Ribbon -->
+  <path d="M32,25 Q46,27 47,37" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  
+  <!-- Tassel Bobble -->
+  <circle cx="47" cy="38" r="2.4" fill="url(#goldGrad)"/>
+  <polygon points="47,39 44,46 50,46" fill="url(#goldGrad)"/>
+
+  <!-- Bottom Diploma / Book Line -->
+  <rect x="22" y="49" width="20" height="3" rx="1.5" fill="#93c5fd" opacity="0.8"/>
+</svg>

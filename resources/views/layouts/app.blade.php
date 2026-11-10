@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}?v={{ file_exists(public_path('css/app.css')) ? filemtime(public_path('css/app.css')) : time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @stack('styles')
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ secure_asset('favicon.svg') }}">
+    <link rel="alternate icon" type="image/png" href="{{ secure_asset('favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ secure_asset('apple-touch-icon.png') }}">
 </head>
 <body style="background-color: #f8fafc !important; color: #0f172a !important; margin:0; padding:0; font-family: 'Be Vietnam Pro', 'Inter', sans-serif !important;">
 <div class="dashboard-wrapper">

@@ -9,6 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ secure_asset('favicon.svg') }}">
+    <link rel="alternate icon" type="image/png" href="{{ secure_asset('favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ secure_asset('apple-touch-icon.png') }}">
 </head>
 <body style="background:#f8fafc; color:#0f172a; font-family:'Be Vietnam Pro', 'Inter', sans-serif;">
 <div style="min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:2rem;">
