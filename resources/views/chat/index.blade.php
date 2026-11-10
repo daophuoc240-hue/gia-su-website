@@ -34,13 +34,13 @@
 @endsection
 
 @section('content')
-<div class="glass-card" style="background:#ffffff; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.04); overflow:hidden; border:1px solid #e2e8f0; height:calc(100vh - 180px); min-height:580px; display:flex;">
+<div style="background:#ffffff; border-radius:18px; box-shadow:0 8px 30px rgba(0,0,0,0.05); overflow:hidden; border:1.5px solid #cbd5e1; height:calc(100vh - 150px); min-height:580px; display:flex !important; flex-direction:row !important; padding:0 !important; margin:0; box-sizing:border-box;">
 
     {{-- CỘT TRÁI: DANH SÁCH HỘI THOẠI (340px) --}}
-    <div style="width:340px; border-right:1px solid #e2e8f0; display:flex; flex-direction:column; background:#ffffff; flex-shrink:0;">
+    <div style="width:340px; min-width:300px; max-width:360px; height:100%; border-right:1.5px solid #e2e8f0; display:flex !important; flex-direction:column !important; background:#ffffff; flex-shrink:0; box-sizing:border-box;">
         {{-- Header tìm kiếm --}}
-        <div style="padding:1.2rem; border-bottom:1px solid #f1f5f9;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.9rem;">
+        <div style="padding:1.1rem 1.2rem; border-bottom:1px solid #f1f5f9; flex-shrink:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
                 <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a; margin:0; display:flex; align-items:center; gap:0.5rem;">
                     <i class="fas fa-comments" style="color:#2563eb;"></i> Hộp Thư Chat
                 </h3>
@@ -59,7 +59,7 @@
         </div>
 
         {{-- Danh sách các cuộc trò chuyện --}}
-        <div id="conversationList" style="flex:1; overflow-y:auto; padding:0.4rem;">
+        <div id="conversationList" style="flex:1; min-height:0; overflow-y:auto; padding:0.5rem;">
             @forelse($conversations as $c)
                 @php
                     $isCur = $activePartner && $activePartner->id === $c->partner->id;
@@ -141,11 +141,11 @@
         </div>
     </div>
 
-    {{-- CỘT PHẢI: KHUNG CHAT CHÍNH --}}
-    <div style="flex:1; display:flex; flex-direction:column; background:#ffffff; min-width:0;">
+    {{-- CỘT PHẢI: KHUNG CHAT CHÍNH (Chiếm toàn bộ không gian còn lại) --}}
+    <div style="flex:1; height:100%; display:flex !important; flex-direction:column !important; background:#ffffff; min-width:0; box-sizing:border-box;">
         @if($activePartner)
-            {{-- 1. Header Khung Chat --}}
-            <div style="padding:1rem 1.5rem; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; background:#ffffff;">
+            {{-- 1. Header Khung Chat (flex-shrink: 0) --}}
+            <div style="padding:0.9rem 1.4rem; border-bottom:1.5px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; background:#ffffff; flex-shrink:0;">
                 <div style="display:flex; align-items:center; gap:0.9rem;">
                     <div style="position:relative;">
                         <img src="{{ $activePartner->avatar_url }}" alt="{{ $activePartner->ho_ten }}" 
@@ -176,10 +176,10 @@
                 </div>
             </div>
 
-            {{-- 2. Vùng Lịch Sử Tin Nhắn --}}
-            <div id="chatMessagesBox" style="flex:1; overflow-y:auto; padding:1.4rem 1.6rem; background:#f8fafc; display:flex; flex-direction:column; gap:0.85rem;">
+            {{-- 2. Vùng Lịch Sử Tin Nhắn (flex: 1, min-height: 0, tự cuộn) --}}
+            <div id="chatMessagesBox" style="flex:1; min-height:0; overflow-y:auto; padding:1.2rem 1.5rem; background:#f8fafc; display:flex; flex-direction:column; gap:0.85rem;">
                 {{-- Thông báo đầu cuộc trò chuyện --}}
-                <div style="text-align:center; margin-bottom:1rem;">
+                <div style="text-align:center; margin-bottom:0.5rem;">
                     <div style="display:inline-block; padding:0.35rem 1rem; background:#e2e8f0; border-radius:20px; font-size:0.75rem; color:#475569; font-weight:600;">
                         🔒 Cuộc trò chuyện được bảo mật trực tiếp giữa {{ auth()->user()->ho_ten }} và {{ $activePartner->ho_ten }}
                     </div>
@@ -205,8 +205,8 @@
                         </div>
                     </div>
                 @empty
-                    <div id="noMessagesPlaceholder" style="text-align:center; padding:3rem 1rem; color:#94a3b8;">
-                        <div style="font-size:3rem; margin-bottom:0.8rem;">👋</div>
+                    <div id="noMessagesPlaceholder" style="text-align:center; padding:2.5rem 1rem; color:#94a3b8;">
+                        <div style="font-size:3rem; margin-bottom:0.6rem;">👋</div>
                         <div style="font-weight:700; font-size:1rem; color:#334155; margin-bottom:0.3rem;">Bắt đầu gửi lời chào!</div>
                         <p style="font-size:0.85rem; max-width:380px; margin:0 auto;">
                             Hãy gửi tin nhắn đầu tiên để cùng trao đổi về lịch học, mục tiêu giảng dạy hoặc mức học phí nhé.
@@ -215,13 +215,13 @@
                 @endforelse
             </div>
 
-            {{-- 3. Khung Nhập Tin Nhắn --}}
-            <form id="chatForm" style="padding:0.9rem 1.4rem; background:#ffffff; border-top:1px solid #e2e8f0; display:flex; gap:0.75rem; align-items:center;">
+            {{-- 3. Khung Nhập Tin Nhắn (Cố định ở đáy, không bao giờ bị che) --}}
+            <form id="chatForm" style="padding:0.85rem 1.2rem; background:#ffffff; border-top:1.5px solid #e2e8f0; display:flex; gap:0.75rem; align-items:center; flex-shrink:0; margin:0;">
                 @csrf
                 <input type="hidden" id="partnerId" value="{{ $activePartner->id }}">
                 
-                <input type="text" id="messageInput" placeholder="Nhập tin nhắn... (Nhấn Enter để gửi)" autocomplete="off"
-                       style="flex:1; padding:0.8rem 1.2rem; border-radius:24px; border:1.5px solid #cbd5e1; font-size:0.92rem; outline:none; transition:border-color 0.2s;"
+                <input type="text" id="messageInput" placeholder="Nhập tin nhắn trao đổi... (Nhấn Enter để gửi)" autocomplete="off"
+                       style="flex:1; padding:0.75rem 1.2rem; border-radius:24px; border:1.5px solid #cbd5e1; font-size:0.92rem; outline:none; transition:border-color 0.2s;"
                        onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#cbd5e1'">
 
                 <button type="submit" id="btnSubmit" 
