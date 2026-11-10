@@ -115,16 +115,37 @@
         <div class="glass-card" style="padding:1.5rem; margin-bottom:1rem;">
             <h3 style="font-size:1rem; font-weight:700; margin-bottom:1rem;">👨‍🏫 Gia Sư Đã Đăng Ký ({{ $lop->dangKyNhanLops->count() }})</h3>
             @forelse($lop->dangKyNhanLops as $dk)
-            <div style="padding:0.7rem 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <div style="font-weight:600; color:var(--text-primary);">{{ $dk->giaSu->ho_ten }}</div>
-                    <div style="font-size:0.78rem; color:var(--text-muted);">Đăng ký: {{ $dk->created_at->format('d/m/Y') }}</div>
+            <div style="padding:0.9rem 0; border-bottom:1px solid #e2e8f0;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+                    <div style="display:flex; align-items:center; gap:0.6rem;">
+                        <span style="font-weight:700; color:#0f172a; font-size:0.95rem;">{{ $dk->giaSu->ho_ten }}</span>
+                        @if($dk->xac_nhan_gia_su === 'cho_xac_nhan')
+                        <span class="badge badge-warning" style="font-size:0.75rem;"><i class="fas fa-hourglass-half"></i> Đang chờ gia sư chọn lịch</span>
+                        @elseif($dk->xac_nhan_gia_su === 'da_xac_nhan')
+                        <span class="badge badge-success" style="font-size:0.75rem;"><i class="fas fa-check-circle"></i> Đã chốt lịch dạy</span>
+                        @elseif($dk->xac_nhan_gia_su === 'tu_choi')
+                        <span class="badge badge-danger" style="font-size:0.75rem;"><i class="fas fa-times-circle"></i> Gia sư báo bận</span>
+                        @endif
+                    </div>
+                    @if($dk->giaSu->hoSoGiaSu)
+                    <span style="font-size:0.8rem; font-weight:700; color:#f59e0b; background:#fffbeb; padding:2px 8px; border-radius:12px; border:1px solid #fef3c7;">
+                        ⭐ {{ number_format($dk->giaSu->hoSoGiaSu->diem_trung_binh, 1) }}
+                    </span>
+                    @endif
                 </div>
-                @if($dk->giaSu->hoSoGiaSu)
-                <span style="font-size:0.8rem; font-weight:700; color:#f59e0b; background:#fffbeb; padding:2px 8px; border-radius:12px; border:1px solid #fef3c7;">
-                    ⭐ {{ number_format($dk->giaSu->hoSoGiaSu->diem_trung_binh, 1) }}
-                </span>
+                @if($dk->xac_nhan_gia_su === 'da_xac_nhan')
+                <div style="font-size:0.82rem; color:#1e40af; background:#eff6ff; padding:0.45rem 0.8rem; border-radius:8px; border-left:3px solid #2563eb; margin-top:0.35rem;">
+                    <strong>🗓️ Lịch gia sư đã chốt:</strong> {{ $lop->thoi_gian_hoc }}
+                    @if(str_contains($dk->gioi_thieu_ban_than, 'Phản hồi từ gia sư:') || str_contains($dk->gioi_thieu_ban_than, 'Lời nhắn từ gia sư:'))
+                    <div style="margin-top:0.2rem; color:#334155; font-style:italic;">{{ $dk->gioi_thieu_ban_than }}</div>
+                    @endif
+                </div>
+                @elseif($dk->xac_nhan_gia_su === 'tu_choi')
+                <div style="font-size:0.82rem; color:#991b1b; background:#fef2f2; padding:0.4rem 0.7rem; border-radius:6px; margin-top:0.35rem;">
+                    💬 Lý do: {{ $dk->gioi_thieu_ban_than ?: 'Gia sư bị trùng lịch dạy khác' }}
+                </div>
                 @endif
+                <div style="font-size:0.75rem; color:#94a3b8; margin-top:0.3rem;">Gửi yêu cầu: {{ $dk->created_at->format('d/m/Y H:i') }}</div>
             </div>
             @empty
             <div class="empty-state" style="padding:1rem;">

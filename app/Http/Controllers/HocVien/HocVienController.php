@@ -153,10 +153,20 @@ class HocVienController extends Controller
                 'gia_su_id' => $giaSuId,
             ]);
 
+            $daysList = (array) ($request->thu_hoc ?? ['Thứ 2', 'Thứ 4', 'Thứ 6']);
+            $caHoc    = $request->ca_hoc ?? '18:00 - 19:30';
+            $schedulePayload = [
+                'type'         => 'loi_moi_truc_tiep',
+                'ngay_de_xuat' => $daysList,
+                'khung_gio'    => $caHoc,
+                'ghi_chu_hv'   => $request->yeu_cau_them ?? '',
+                'mo_ta'        => "Học viên " . Auth::user()->ho_ten . " đề xuất: " . implode(', ', $daysList) . " ({$caHoc})",
+            ];
+
             DangKyNhanLop::create([
                 'lop_hoc_id'          => $lop->id,
                 'gia_su_id'           => $giaSuId,
-                'gioi_thieu_ban_than' => 'Phụ huynh / Học viên gửi lời mời dạy kèm trực tiếp.',
+                'gioi_thieu_ban_than' => json_encode($schedulePayload, JSON_UNESCAPED_UNICODE),
                 'trang_thai'          => 'cho_duyet',
                 'xac_nhan_gia_su'     => 'cho_xac_nhan',
             ]);
@@ -164,7 +174,7 @@ class HocVienController extends Controller
             ThongBao::gui(
                 $giaSuId,
                 "🔔 Lời mời dạy kèm mới từ Học viên " . Auth::user()->ho_ten,
-                "Học viên " . Auth::user()->ho_ten . " vừa gửi lời mời dạy kèm trực tiếp cho lớp {$lop->mon_hoc} ({$lop->khoi_lop}) vào thời gian: {$lop->thoi_gian_hoc}. Vui lòng kiểm tra lịch rảnh và xác nhận trước khi gửi lên trung tâm!",
+                "Học viên " . Auth::user()->ho_ten . " vừa gửi lời mời dạy kèm môn {$lop->mon_hoc} ({$lop->khoi_lop}). Đề xuất các ngày: " . implode(', ', $daysList) . " ({$caHoc}). Vui lòng vào trang tổng quan để chọn lịch dạy bạn rảnh!",
                 route('giasu.dashboard'),
                 'yeu_cau_day'
             );

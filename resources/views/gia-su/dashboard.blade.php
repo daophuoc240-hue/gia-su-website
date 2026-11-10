@@ -134,27 +134,32 @@
     </div>
 
     @foreach($loi_moi_cho_xac_nhan as $lm)
-    <div style="background:#ffffff; border: 1px solid #fed7aa; border-radius: 14px; padding: 1.4rem; margin-bottom: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
+    @php
+        $proposedDays  = $lm->getDanhSachNgayDeXuat();
+        $proposedHours = $lm->getKhungGioDeXuat();
+        $studentNote   = $lm->getGhiChuHocVien();
+    @endphp
+    <div style="background:#ffffff; border: 1.5px solid #fed7aa; border-radius: 16px; padding: 1.6rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(245,158,11,0.08);">
+        {{-- Header: Thông tin lớp & Học viên --}}
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; margin-bottom:1.2rem; border-bottom:1px solid #fef3c7; padding-bottom:1rem;">
             <div>
-                <div style="font-size:1.1rem; font-weight:800; color:#0f172a; margin-bottom:0.4rem;">
+                <div style="font-size:1.15rem; font-weight:800; color:#0f172a; margin-bottom:0.4rem;">
                     📚 Môn: {{ $lm->lopHoc->mon_hoc }} - {{ $lm->lopHoc->khoi_lop }}
                 </div>
-                <div style="font-size:0.88rem; color:#334155; line-height:1.7;">
+                <div style="font-size:0.88rem; color:#334155; line-height:1.75;">
                     <div>👤 <strong>Học viên / Phụ huynh:</strong> <span style="color:#0f172a; font-weight:700;">{{ $lm->lopHoc->hocVien->ho_ten ?? 'Học viên' }}</span> (📞 {{ $lm->lopHoc->hocVien->so_dien_thoai ?? 'Chưa cập nhật' }})</div>
-                    <div>⏰ <strong>Lịch học yêu cầu:</strong> <span style="background:#eff6ff; color:#2563eb; font-weight:800; padding:2px 8px; border-radius:6px; font-size:0.95rem;">🗓️ {{ $lm->lopHoc->thoi_gian_hoc }}</span></div>
                     <div>📍 <strong>Địa chỉ / Hình thức:</strong> <span style="font-weight:600;">{{ $lm->lopHoc->dia_chi_day }}</span></div>
-                    <div>💰 <strong>Mức học phí:</strong> <span style="color:#10b981; font-weight:800;">{{ number_format($lm->lopHoc->muc_hoc_phi) }}đ / buổi</span></div>
-                    @if($lm->lopHoc->yeu_cau_them)
-                    <div style="margin-top:0.4rem; font-style:italic; color:#64748b; background:#f8fafc; padding:0.4rem 0.8rem; border-radius:6px;">
-                        ✍️ Ghi chú từ học viên: "{{ $lm->lopHoc->yeu_cau_them }}"
+                    <div>💰 <strong>Mức học phí:</strong> <span style="color:#10b981; font-weight:800; font-size:0.95rem;">{{ number_format($lm->lopHoc->muc_hoc_phi) }}đ / buổi</span></div>
+                    @if($studentNote)
+                    <div style="margin-top:0.4rem; font-style:italic; color:#475569; background:#f8fafc; padding:0.45rem 0.8rem; border-radius:8px; border-left:3px solid #3b82f6;">
+                        ✍️ <strong>Ghi chú từ học viên:</strong> "{{ $studentNote }}"
                     </div>
                     @endif
                 </div>
             </div>
             <div style="text-align:right;">
-                <span style="background:#fff7ed; color:#c2410c; border:1px solid #ffedd5; font-size:0.8rem; font-weight:700; padding:4px 10px; border-radius:12px;">
-                    Chờ bạn phản hồi
+                <span style="background:#fff7ed; color:#c2410c; border:1px solid #ffedd5; font-size:0.8rem; font-weight:700; padding:4px 12px; border-radius:12px; display:inline-block;">
+                    ⏳ Cần bạn chọn lịch dạy
                 </span>
                 <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">
                     Gửi lúc: {{ $lm->created_at->format('d/m/Y H:i') }}
@@ -162,23 +167,75 @@
             </div>
         </div>
 
-        <div style="border-top:1px dashed #fed7aa; padding-top:1rem; display:flex; justify-content:flex-end; align-items:center; gap:0.8rem; flex-wrap:wrap;">
-            {{-- Form từ chối / báo bận --}}
-            <button type="button" class="btn btn-outline btn-sm" style="color:#ef4444; border-color:#fca5a5;" onclick="toggleDeclineForm({{ $lm->id }})">
-                <i class="fas fa-calendar-times"></i> Báo Bận / Từ Chối
-            </button>
+        {{-- Bảng tương tác: Gia sư chọn ngày học & khung giờ dạy --}}
+        <div style="background:#f0f9ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 1.3rem; margin-bottom: 1rem;">
+            <div style="font-weight: 800; color: #1e40af; font-size: 0.95rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.2rem;">👉</span> 
+                <span>Chọn Lịch Dạy Của Bạn (Từ danh sách ngày học viên rảnh):</span>
+            </div>
 
-            {{-- Form xác nhận rảnh & đồng ý --}}
-            <form method="POST" action="{{ route('giasu.xac-nhan-lich', $lm->id) }}" style="margin:0;" onsubmit="return confirm('Bạn xác nhận RẢNH vào khung giờ này và đồng ý nhận lớp để gửi lên trung tâm xét duyệt?')">
+            <form method="POST" action="{{ route('giasu.xac-nhan-lich', $lm->id) }}">
                 @csrf
-                <button type="submit" class="btn btn-success btn-sm" style="font-weight:800; padding:0.55rem 1.2rem; background:#10b981; border-color:#10b981; box-shadow:0 3px 10px rgba(16,185,129,0.3);">
-                    <i class="fas fa-check-circle"></i> Tôi Rảnh Giờ Này & Đồng Ý Nhận Lớp (Gửi Admin Duyệt)
-                </button>
+
+                {{-- 1. Chọn ngày học từ list của học viên --}}
+                <div style="margin-bottom: 1.1rem;">
+                    <label style="font-size: 0.85rem; font-weight: 700; color: #1e3a8a; display: block; margin-bottom: 0.45rem;">
+                        🗓️ Bước 1: Chọn ngày bạn có thể dạy (tích chọn ngày bạn rảnh trong danh sách đề xuất):
+                    </label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem;">
+                        @foreach($proposedDays as $idx => $d)
+                        <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem; background: #ffffff; border: 1.5px solid #2563eb; padding: 0.5rem 0.95rem; border-radius: 8px; font-weight: 700; color: #1e40af; font-size: 0.88rem; box-shadow: 0 1px 3px rgba(37,99,235,0.12); user-select: none;">
+                            <input type="checkbox" name="ngay_da_chon[]" value="{{ $d }}" checked style="width: 17px; height: 17px; accent-color: #2563eb;">
+                            <span>{{ $d }}</span>
+                        </label>
+                        @endforeach
+                    </div>
+                    <small style="color: #64748b; font-size: 0.78rem; margin-top: 0.35rem; display: block;">
+                        💡 Học viên đề xuất {{ count($proposedDays) }} ngày trên. Bạn có thể bỏ tích những ngày bạn bận để chốt số buổi học phù hợp.
+                    </small>
+                </div>
+
+                {{-- 2. Chọn khung giờ học & Lời nhắn --}}
+                <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: #1e3a8a; display: block; margin-bottom: 0.35rem;">
+                            ⏰ Bước 2: Chọn khung giờ dạy phù hợp:
+                        </label>
+                        <select name="khung_gio_chot" class="form-select" style="font-size: 0.88rem; font-weight: 600; padding: 0.55rem 0.8rem; border-radius: 8px; border: 1.5px solid #cbd5e1; width: 100%;">
+                            <option value="{{ $proposedHours }}" selected>⭐ Khung giờ học viên đề xuất: {{ $proposedHours }}</option>
+                            <option value="Sáng (08:00 - 10:00)">Sáng (08:00 - 10:00)</option>
+                            <option value="Sáng (09:30 - 11:30)">Sáng (09:30 - 11:30)</option>
+                            <option value="Chiều (14:00 - 16:00)">Chiều (14:00 - 16:00)</option>
+                            <option value="Chiều (16:30 - 18:30)">Chiều (16:30 - 18:30)</option>
+                            <option value="Tối (18:00 - 20:00)">Tối (18:00 - 20:00)</option>
+                            <option value="Tối (19:30 - 21:30)">Tối (19:30 - 21:30)</option>
+                            <option value="Thỏa thuận linh hoạt trực tiếp">Thỏa thuận linh hoạt trực tiếp</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: #1e3a8a; display: block; margin-bottom: 0.35rem;">
+                            💬 Lời nhắn gửi học viên (tùy chọn):
+                        </label>
+                        <input type="text" name="ghi_chu_gia_su" class="form-control" placeholder="VD: Thầy rảnh các tối này, tuần sau bắt đầu nhé!" style="font-size: 0.88rem; padding: 0.55rem 0.8rem; border-radius: 8px; border: 1.5px solid #cbd5e1; width: 100%;">
+                    </div>
+                </div>
+
+                {{-- Action buttons --}}
+                <div style="border-top: 1px dashed #bfdbfe; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+                    <button type="button" class="btn btn-outline btn-sm" style="color: #ef4444; border-color: #fca5a5; background: #ffffff;" onclick="toggleDeclineForm({{ $lm->id }})">
+                        <i class="fas fa-calendar-times"></i> Tôi Bận Hết / Từ Chối
+                    </button>
+
+                    <button type="submit" class="btn btn-success btn-sm" style="font-weight: 800; padding: 0.65rem 1.4rem; background: #10b981; border: none; box-shadow: 0 4px 12px rgba(16,185,129,0.3); font-size: 0.92rem; border-radius: 10px;">
+                        <i class="fas fa-check-circle"></i> Đồng Ý Lịch Đã Chọn & Gửi Trung Tâm Duyệt
+                    </button>
+                </div>
             </form>
         </div>
 
         {{-- Hidden Decline Box --}}
-        <div id="decline-box-{{ $lm->id }}" style="display:none; margin-top:1rem; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:0.9rem;">
+        <div id="decline-box-{{ $lm->id }}" style="display:none; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:1rem;">
             <form method="POST" action="{{ route('giasu.tu-choi-lich', $lm->id) }}">
                 @csrf
                 <label style="font-size:0.84rem; font-weight:700; color:#991b1b; display:block; margin-bottom:0.3rem;">

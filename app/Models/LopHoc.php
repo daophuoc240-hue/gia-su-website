@@ -45,6 +45,9 @@ class LopHoc extends Model
         if ($this->trang_thai === 'dang_tim' && $this->gia_su_id && $this->dangKyNhanLops->where('xac_nhan_gia_su', 'cho_xac_nhan')->isNotEmpty()) {
             return 'Chờ gia sư xác nhận lịch';
         }
+        if ($this->trang_thai === 'dang_tim' && $this->gia_su_id && $this->dangKyNhanLops->where('xac_nhan_gia_su', 'da_xac_nhan')->where('trang_thai', 'cho_duyet')->isNotEmpty()) {
+            return 'Gia sư đã chốt lịch (Chờ admin duyệt)';
+        }
 
         return match($this->trang_thai) {
             'dang_tim'      => 'Đang tìm gia sư / Chờ duyệt',
@@ -59,6 +62,9 @@ class LopHoc extends Model
     {
         if ($this->trang_thai === 'dang_tim' && $this->gia_su_id && $this->dangKyNhanLops->where('xac_nhan_gia_su', 'cho_xac_nhan')->isNotEmpty()) {
             return 'badge-warning';
+        }
+        if ($this->trang_thai === 'dang_tim' && $this->gia_su_id && $this->dangKyNhanLops->where('xac_nhan_gia_su', 'da_xac_nhan')->where('trang_thai', 'cho_duyet')->isNotEmpty()) {
+            return 'badge-info';
         }
 
         return match($this->trang_thai) {

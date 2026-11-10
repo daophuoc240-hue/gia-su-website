@@ -208,11 +208,19 @@ class HomeController extends Controller
             'gia_su_id'     => $ho_so->tai_khoan_id,
         ]);
 
-        // Tạo lời mời trực tiếp cho Gia sư để gia sư xem có rảnh vào giờ đó không trước khi gửi lên hệ thống xét duyệt
+        // Đóng gói danh sách ngày và khung giờ học viên đề xuất thành JSON có cấu trúc
+        $schedulePayload = [
+            'type'         => 'loi_moi_truc_tiep',
+            'ngay_de_xuat' => $request->ngay_hoc,
+            'khung_gio'    => $request->khung_gio,
+            'ghi_chu_hv'   => $request->yeu_cau_them ?? '',
+            'mo_ta'        => "Học viên {$user->ho_ten} đề xuất: {$thoiGianHoc}",
+        ];
+
         DangKyNhanLop::create([
             'lop_hoc_id'          => $lop->id,
             'gia_su_id'           => $ho_so->tai_khoan_id,
-            'gioi_thieu_ban_than' => "Học viên {$user->ho_ten} đăng ký lịch học: {$thoiGianHoc}. Lời mời dạy kèm trực tiếp.",
+            'gioi_thieu_ban_than' => json_encode($schedulePayload, JSON_UNESCAPED_UNICODE),
             'trang_thai'          => 'cho_duyet',
             'xac_nhan_gia_su'     => 'cho_xac_nhan',
         ]);
@@ -221,13 +229,13 @@ class HomeController extends Controller
         ThongBao::gui(
             $ho_so->tai_khoan_id,
             "🔔 Lời mời dạy mới từ Học viên {$user->ho_ten}",
-            "Học viên {$user->ho_ten} vừa đăng ký lịch học môn {$request->mon_hoc} ({$request->khoi_lop}) vào khung giờ: {$thoiGianHoc}. Vui lòng kiểm tra lịch rảnh và xác nhận trước khi gửi lên hệ thống xét duyệt!",
+            "Học viên {$user->ho_ten} vừa gửi lời mời dạy môn {$request->mon_hoc} ({$request->khoi_lop}). Đề xuất các ngày: " . implode(', ', (array)$request->ngay_hoc) . " ({$request->khung_gio}). Vui lòng vào trang tổng quan để chọn ngày và giờ bạn rảnh để dạy!",
             route('giasu.dashboard'),
             'yeu_cau_day'
         );
 
         return redirect(route('chi-tiet-gia-su', $id) . '#dang-ky-lich-day')
-            ->with('success', "🎉 Đăng ký giờ dạy thành công! Hệ thống đã gửi thông báo đến Gia sư {$ho_so->taiKhoan->ho_ten} để kiểm tra lịch rảnh. Sau khi gia sư xác nhận rảnh, yêu cầu sẽ được chuyển lên trung tâm xét duyệt.");
+            ->with('success', "🎉 Đăng ký giờ dạy thành công! Danh sách ngày bạn đề xuất đã được gửi đến Gia sư {$ho_so->taiKhoan->ho_ten} để gia sư lựa chọn lịch rảnh phù hợp.");
     }
 
     public function danhSachLopHoc(Request $request)

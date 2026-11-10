@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         TaiKhoan::create([
             'ho_ten'        => 'Ban Quản Trị Hệ Thống',
             'email'         => 'admin@giasu.com',
-            'password'      => Hash::make('password'),
+            'password'      => Hash::make('123456'),
             'so_dien_thoai' => '0394688031',
             'vai_tro'       => 'admin',
         ]);
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
             $acc = TaiKhoan::create([
                 'ho_ten'        => $gs['ho_ten'],
                 'email'         => $gs['email'],
-                'password'      => Hash::make('password'),
+                'password'      => Hash::make('123456'),
                 'so_dien_thoai' => $gs['sdt'],
                 'vai_tro'       => 'giasu',
             ]);
@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
             $hocVienAccounts[] = TaiKhoan::create([
                 'ho_ten'        => $hv['ho_ten'],
                 'email'         => $hv['email'],
-                'password'      => Hash::make('password'),
+                'password'      => Hash::make('123456'),
                 'so_dien_thoai' => $hv['sdt'],
                 'vai_tro'       => 'hocvien',
             ]);

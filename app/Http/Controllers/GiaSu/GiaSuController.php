@@ -48,34 +48,58 @@ class GiaSuController extends Controller
      * Gia sư xác nhận có rảnh vào khung giờ học viên yêu cầu & đồng ý nhận lớp
      * -> Chuyển lên hệ thống Admin trung tâm xét duyệt
      */
-    public function xacNhanLich($id)
+    public function xacNhanLich(Request $request, $id)
     {
         $user = Auth::user();
         $dang_ky = DangKyNhanLop::with('lopHoc.hocVien')
                     ->where('gia_su_id', $user->id)
                     ->findOrFail($id);
 
+        $request->validate([
+            'ngay_da_chon'   => 'required|array|min:1',
+            'khung_gio_chot' => 'required|string|max:150',
+            'ghi_chu_gia_su' => 'nullable|string|max:500',
+        ], [
+            'ngay_da_chon.required'   => 'Vui lòng chọn ít nhất 1 ngày bạn có thể dạy từ danh sách ngày học viên đưa ra.',
+            'ngay_da_chon.min'        => 'Vui lòng chọn ít nhất 1 ngày bạn có thể dạy từ danh sách ngày học viên đưa ra.',
+            'khung_gio_chot.required' => 'Vui lòng chọn hoặc nhập khung giờ dạy phù hợp.',
+        ]);
+
+        $ngayChonList = (array) $request->input('ngay_da_chon');
+        $khungGioChot = trim($request->input('khung_gio_chot'));
+        $soBuoiTuan   = count($ngayChonList);
+        $thoiGianChot = implode(', ', $ngayChonList) . " ({$khungGioChot})";
+        $ghiChu       = trim($request->input('ghi_chu_gia_su', ''));
+
+        // Cập nhật lớp học với lịch dạy gia sư đã chốt
+        $dang_ky->lopHoc->update([
+            'so_buoi_tuan'  => $soBuoiTuan,
+            'thoi_gian_hoc' => $thoiGianChot,
+            'trang_thai'    => 'dang_tim',
+        ]);
+
+        $thongTinChot = "Gia sư {$user->ho_ten} đã chọn lịch dạy: {$thoiGianChot}";
+        if ($ghiChu !== '') {
+            $thongTinChot .= " | Lời nhắn từ gia sư: \"{$ghiChu}\"";
+        }
+
         $dang_ky->update([
             'xac_nhan_gia_su'     => 'da_xac_nhan',
             'trang_thai'          => 'cho_duyet',
-            'gioi_thieu_ban_than' => $dang_ky->gioi_thieu_ban_than . " [Gia sư đã xác nhận rảnh và đồng ý nhận lớp]",
-        ]);
-
-        $dang_ky->lopHoc->update([
-            'trang_thai' => 'dang_tim',
+            'gioi_thieu_ban_than' => $thongTinChot,
         ]);
 
         // Thông báo phản hồi lại cho Học viên
         ThongBao::gui(
             $dang_ky->lopHoc->hoc_vien_id,
-            "🎉 Gia sư {$user->ho_ten} đã xác nhận rảnh lịch học!",
-            "Gia sư {$user->ho_ten} đã kiểm tra lịch và xác nhận RẢNH vào khung giờ ({$dang_ky->lopHoc->thoi_gian_hoc}). Yêu cầu đã được chuyển lên Ban Quản Trị trung tâm để hoàn tất xét duyệt!",
-            route('hocvien.danh-sach-lop'),
+            "🎉 Gia sư {$user->ho_ten} đã chọn lịch dạy cho lớp của bạn!",
+            "Gia sư {$user->ho_ten} đã chọn dạy vào: {$thoiGianChot}." . ($ghiChu ? " Lời nhắn: \"{$ghiChu}\"." : "") . " Hồ sơ ghép lớp đã được chuyển lên Ban Quản Trị trung tâm xét duyệt!",
+            route('hocvien.chi-tiet-lop', $dang_ky->lopHoc->id),
             'xac_nhan'
         );
 
         return redirect()->route('giasu.dashboard')
-            ->with('success', "🎉 Bạn đã xác nhận rảnh khung giờ này và đồng ý nhận lớp! Hệ thống đã gửi hồ sơ lên Ban Quản Trị trung tâm để xét duyệt.");
+            ->with('success', "🎉 Bạn đã chọn lịch dạy ({$thoiGianChot}) và xác nhận nhận lớp thành công! Hồ sơ đã được chuyển lên Ban Quản Trị trung tâm để xét duyệt.");
     }
 
     /**
