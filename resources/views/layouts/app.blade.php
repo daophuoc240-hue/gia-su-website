@@ -9,12 +9,12 @@
     <title>@yield('title', 'Hệ Thống Gia Sư') | Gia Sư Tri Thức</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}?v={{ file_exists(public_path('css/app.css')) ? filemtime(public_path('css/app.css')) : time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @stack('styles')
 </head>
-<body style="background-color: #f8fafc !important; color: #0f172a !important; margin:0; padding:0;">
+<body style="background-color: #f8fafc !important; color: #0f172a !important; margin:0; padding:0; font-family: 'Be Vietnam Pro', 'Inter', sans-serif !important;">
 <div class="dashboard-wrapper">
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
