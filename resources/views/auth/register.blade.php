@@ -7,6 +7,14 @@
     <!-- Cột Trái: Hero Banner Giáo Dục Đăng Ký -->
     <div class="split-hero">
         <div style="position:relative; z-index:2;">
+            <a href="{{ route('home') }}" style="display:inline-flex; align-items:center; gap:0.75rem; text-decoration:none; color:#ffffff; margin-bottom:2.2rem; transition:transform 0.2s;" onmouseover="this.style.transform='translateX(-2px)'" onmouseout="this.style.transform='none'">
+                <div style="width:42px; height:42px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem;">🎓</div>
+                <div>
+                    <div style="font-weight:800; font-size:1.15rem; letter-spacing:-0.01em;">Gia Sư Tri Thức</div>
+                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); display:flex; align-items:center; gap:0.3rem;"><i class="fas fa-arrow-left" style="font-size:0.65rem;"></i> Về trang chủ</div>
+                </div>
+            </a>
+
             <div style="display:inline-flex; align-items:center; gap:0.6rem; background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); padding:0.4rem 1rem; border-radius:30px; font-size:0.85rem; font-weight:600; border:1px solid rgba(255,255,255,0.2); margin-bottom:2rem;">
                 <span style="font-size:1.1rem;">✨</span> TẠO TÀI KHOẢN MIỄN PHÍ
             </div>
@@ -47,13 +55,19 @@
         </div>
 
         <div style="position:relative; z-index:2; margin-top:2rem; font-size:0.82rem; color:rgba(255,255,255,0.5);">
-            © 2026 Gia Sư Connect. Tất cả quyền được bảo lưu.
+            © 2026 Gia Sư Tri Thức. Tất cả quyền được bảo lưu.
         </div>
     </div>
 
     <!-- Cột Phải: Form Đăng Ký Chuyên Nghiệp -->
     <div class="split-form" style="padding: 2.5rem;">
         <div style="width:100%; max-width:460px;">
+            <div style="margin-bottom:1.4rem;">
+                <a href="{{ route('home') }}" class="btn-back-home">
+                    <i class="fas fa-arrow-left" style="font-size:0.8rem; color:#2563eb;"></i> Quay về trang chủ
+                </a>
+            </div>
+
             <div style="margin-bottom:1.8rem;">
                 <h2 style="font-size:1.75rem; font-weight:800; color:#0f172a; margin-bottom:0.4rem; letter-spacing:-0.02em;">Tạo Tài Khoản</h2>
                 <p style="font-size:0.92rem; color:#64748b; font-weight:500;">Điền thông tin bên dưới để bắt đầu sử dụng dịch vụ</p>

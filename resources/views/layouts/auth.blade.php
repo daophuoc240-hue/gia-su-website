@@ -54,6 +54,27 @@
             justify-content: center;
             padding: 3rem 2.5rem;
         }
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #475569;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 0.5rem 0.95rem;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .btn-back-home:hover {
+            background: #eff6ff !important;
+            border-color: #93c5fd !important;
+            color: #1d4ed8 !important;
+            transform: translateX(-3px);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+        }
         @media (max-width: 992px) {
             .split-auth-container { flex-direction: column; }
             .split-hero { padding: 2.5rem 1.5rem; }
