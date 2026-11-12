@@ -20,17 +20,7 @@
 
             <!-- Quick Search Form Card (2 hàng cân đối, rộng rãi, không bị chồng chéo) -->
             <div style="background: #ffffff; padding: 1.6rem; border-radius: 20px; border: 1px solid #cbd5e1; box-shadow: 0 12px 35px rgba(0,0,0,0.08); margin-bottom: 2rem;">
-                {{-- Tabs Chuyển Đổi Tìm Kiếm --}}
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 1.2rem; background: #f1f5f9; padding: 4px; border-radius: 12px; width: fit-content;">
-                    <button type="button" id="tabSearchLop" onclick="switchSearchTab('lop')" style="padding: 0.5rem 1.1rem; border-radius: 10px; border: none; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; background: #2563eb; color: #ffffff; box-shadow: 0 2px 6px rgba(37,99,235,0.3);">
-                        <i class="fas fa-chalkboard-teacher"></i> Tìm Lớp Mới
-                    </button>
-                    <button type="button" id="tabSearchGiaSu" onclick="switchSearchTab('giasu')" style="padding: 0.5rem 1.1rem; border-radius: 10px; border: none; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; background: transparent; color: #64748b;">
-                        <i class="fas fa-user-graduate"></i> Tìm Gia Sư Giỏi
-                    </button>
-                </div>
-
-                <form id="heroSearchForm" action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: flex; flex-direction: column; gap: 1.1rem;">
+                <form action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: flex; flex-direction: column; gap: 1.1rem;">
                     <!-- Hàng 1: Môn Học (1.2fr) & Khối Lớp (1fr) -->
                     <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem;">
                         <div>
@@ -77,8 +67,8 @@
 
                     <!-- Hàng 3: Nút Tìm Kiếm nổi bật, full width -->
                     <div style="margin-top: 0.2rem;">
-                        <button type="submit" id="heroSearchBtn" class="btn btn-primary" style="padding: 0.85rem 1.5rem; font-size: 0.98rem; font-weight: 700; width: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35); border: none;">
-                            <i class="fas fa-search"></i> Tìm Kiếm Lớp Học Phù Hợp
+                        <button type="submit" class="btn btn-primary" style="padding: 0.85rem 1.5rem; font-size: 0.98rem; font-weight: 700; width: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35); border: none;">
+                            <i class="fas fa-search"></i> Tìm Kiếm Lớp Học & Gia Sư Ngay
                         </button>
                     </div>
                 </form>
@@ -276,33 +266,3 @@
 </section>
 
 @endsection
-
-@push('scripts')
-<script>
-function switchSearchTab(type) {
-    const form = document.getElementById('heroSearchForm');
-    const tabLop = document.getElementById('tabSearchLop');
-    const tabGiaSu = document.getElementById('tabSearchGiaSu');
-    const btn = document.getElementById('heroSearchBtn');
-    if (type === 'giasu') {
-        form.action = "{{ route('danh-sach-gia-su') }}";
-        tabGiaSu.style.background = '#2563eb';
-        tabGiaSu.style.color = '#ffffff';
-        tabGiaSu.style.boxShadow = '0 2px 6px rgba(37,99,235,0.3)';
-        tabLop.style.background = 'transparent';
-        tabLop.style.color = '#64748b';
-        tabLop.style.boxShadow = 'none';
-        btn.innerHTML = '<i class="fas fa-search"></i> Tìm Kiếm Gia Sư Phù Hợp';
-    } else {
-        form.action = "{{ route('danh-sach-lop-hoc') }}";
-        tabLop.style.background = '#2563eb';
-        tabLop.style.color = '#ffffff';
-        tabLop.style.boxShadow = '0 2px 6px rgba(37,99,235,0.3)';
-        tabGiaSu.style.background = 'transparent';
-        tabGiaSu.style.color = '#64748b';
-        tabGiaSu.style.boxShadow = 'none';
-        btn.innerHTML = '<i class="fas fa-search"></i> Tìm Kiếm Lớp Học Phù Hợp';
-    }
-}
-</script>
-@endpush
