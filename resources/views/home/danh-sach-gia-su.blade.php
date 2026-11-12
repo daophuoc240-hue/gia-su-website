@@ -13,39 +13,56 @@
 
 <div class="container" style="margin-bottom: 4rem;">
     <!-- Filter Bar -->
-    <form method="GET" action="{{ route('danh-sach-gia-su') }}" class="filter-bar" style="box-shadow: 0 4px 20px rgba(0,0,0,0.04); display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; padding: 1.2rem 1.4rem; border-radius: 14px;">
-        <input type="text" name="keyword" class="form-control" placeholder="Tìm theo tên gia sư, trường học, chuyên ngành, môn dạy..." value="{{ request('keyword') }}" style="min-width: 220px; flex: 2;">
-        <select name="tinh_thanh" class="form-select select-tinh-thanh" data-selected-tinh="{{ request('tinh_thanh') }}" style="min-width: 175px; flex: 1;">
-            <option value="">-- Tất cả Tỉnh / Thành --</option>
-            @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
-                <option value="{{ $tinh }}" {{ request('tinh_thanh') === $tinh ? 'selected' : '' }}>{{ $tinh }}</option>
-            @endforeach
-        </select>
-        <select name="quan_huyen" class="form-select select-quan-huyen" data-selected-quan="{{ request('quan_huyen') }}" style="min-width: 175px; flex: 1;">
-            <option value="">-- Tất cả Quận / Huyện / TP --</option>
-            @if(request('tinh_thanh'))
-                @foreach(\App\Helpers\DiaDiem::getQuanHuyenByTinh(request('tinh_thanh')) as $quan)
-                    <option value="{{ $quan }}" {{ request('quan_huyen') === $quan ? 'selected' : '' }}>{{ $quan }}</option>
-                @endforeach
-            @endif
-        </select>
-        <select name="sort" class="form-select" style="min-width: 180px; flex: 1;" onchange="this.form.submit()">
-            <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Sắp xếp: Mới nhất</option>
-            <option value="rating_desc" {{ request('sort') === 'rating_desc' ? 'selected' : '' }}>⭐ Đánh giá cao nhất</option>
-            <option value="rating_count" {{ request('sort') === 'rating_count' ? 'selected' : '' }}>💬 Nhiều nhận xét nhất</option>
-            <option value="classes_desc" {{ request('sort') === 'classes_desc' ? 'selected' : '' }}>🏫 Dạy nhiều lớp nhất</option>
-            <option value="fee_asc" {{ request('sort') === 'fee_asc' ? 'selected' : '' }}>💰 Học phí: Thấp → Cao</option>
-            <option value="fee_desc" {{ request('sort') === 'fee_desc' ? 'selected' : '' }}>💰 Học phí: Cao → Thấp</option>
-        </select>
-        <div style="display: flex; gap: 0.6rem; align-items: center; margin-left: auto; flex-shrink: 0;">
-            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; border-radius: 10px;">
-                <i class="fas fa-search"></i> Tìm Kiếm
-            </button>
-            <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline" style="padding: 0.65rem 1.1rem; white-space: nowrap; border-radius: 10px;">
-                <i class="fas fa-times"></i> Xóa Lọc
-            </a>
-        </div>
-    </form>
+    <div style="background: #ffffff; padding: 1.4rem; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 4px 20px rgba(0,0,0,0.04); margin-bottom: 2rem;">
+        <form method="GET" action="{{ route('danh-sach-gia-su') }}" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.1fr; gap: 1rem;">
+                <div>
+                    <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">Từ khóa tìm kiếm</label>
+                    <input type="text" name="keyword" class="form-control" placeholder="Tên gia sư, trường học, môn dạy..." value="{{ request('keyword') }}" style="width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.65rem 0.9rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">Tỉnh / Thành Phố</label>
+                    <select name="tinh_thanh" class="form-select select-tinh-thanh" data-selected-tinh="{{ request('tinh_thanh') }}" style="width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.65rem 0.9rem;">
+                        <option value="">-- Tất cả Tỉnh / Thành --</option>
+                        @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                            <option value="{{ $tinh }}" {{ request('tinh_thanh') === $tinh ? 'selected' : '' }}>{{ $tinh }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">Quận / Huyện / TP</label>
+                    <select name="quan_huyen" class="form-select select-quan-huyen" data-selected-quan="{{ request('quan_huyen') }}" style="width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.65rem 0.9rem;">
+                        <option value="">-- Tất cả Quận / Huyện --</option>
+                        @if(request('tinh_thanh'))
+                            @foreach(\App\Helpers\DiaDiem::getQuanHuyenByTinh(request('tinh_thanh')) as $quan)
+                                <option value="{{ $quan }}" {{ request('quan_huyen') === $quan ? 'selected' : '' }}>{{ $quan }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">Sắp xếp theo</label>
+                    <select name="sort" class="form-select" style="width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.65rem 0.9rem;" onchange="this.form.submit()">
+                        <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Mới nhất</option>
+                        <option value="rating_desc" {{ request('sort') === 'rating_desc' ? 'selected' : '' }}>⭐ Đánh giá cao nhất</option>
+                        <option value="rating_count" {{ request('sort') === 'rating_count' ? 'selected' : '' }}>💬 Nhiều nhận xét</option>
+                        <option value="classes_desc" {{ request('sort') === 'classes_desc' ? 'selected' : '' }}>🏫 Dạy nhiều lớp nhất</option>
+                        <option value="fee_asc" {{ request('sort') === 'fee_asc' ? 'selected' : '' }}>💰 Học phí: Thấp → Cao</option>
+                        <option value="fee_desc" {{ request('sort') === 'fee_desc' ? 'selected' : '' }}>💰 Học phí: Cao → Thấp</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center; border-top: 1px dashed #e2e8f0; padding-top: 0.8rem;">
+                <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline" style="padding: 0.65rem 1.3rem; border-radius: 10px; font-size: 0.88rem;">
+                    <i class="fas fa-redo"></i> Xóa Bộ Lọc
+                </a>
+                <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.6rem; border-radius: 10px; font-size: 0.88rem; font-weight: 700;">
+                    <i class="fas fa-search"></i> Tìm Kiếm Gia Sư
+                </button>
+            </div>
+        </form>
+    </div>
 
     @if($gia_sus->count() > 0)
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
@@ -89,14 +106,12 @@
                 </div>
             </div>
 
-            <div style="font-size: 0.88rem; color: #475569; line-height: 1.9; margin-bottom: 1.1rem;">
-                <div>🎓 <strong>Trường:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->truong_hoc }}</span></div>
-                <div>📖 <strong>Chuyên ngành:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->chuyen_nganh }}</span></div>
-                <div>📍 <strong>Khu vực dạy:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->khu_vuc_nhan_day }}</span></div>
-                @if($hs->hoc_phi_theo_gio)
-                <div>💰 <strong>Học phí/buổi:</strong> <span style="color:#2563eb; font-weight:700;">{{ number_format($hs->hoc_phi_theo_gio) }}đ</span></div>
-                @endif
-                <div style="margin-top:0.3rem; color:#64748b; font-size:0.83rem;">💡 {{ Str::limit($hs->kinh_nghiem, 75) }}</div>
+            <div style="font-size: 0.86rem; color: #475569; line-height: 1.6; margin-bottom: 1.1rem; flex: 1 1 auto; display: flex; flex-direction: column; gap: 0.35rem;">
+                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $hs->truong_hoc }}">🎓 <strong>Trường:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->truong_hoc }}</span></div>
+                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $hs->chuyen_nganh }}">📖 <strong>Chuyên ngành:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->chuyen_nganh }}</span></div>
+                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $hs->khu_vuc_nhan_day }}">📍 <strong>Khu vực dạy:</strong> <span style="color: #0f172a; font-weight: 600;">{{ $hs->khu_vuc_nhan_day }}</span></div>
+                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">💰 <strong>Học phí:</strong> <span style="color:#2563eb; font-weight:700;">{{ $hs->hoc_phi_theo_gio ? number_format($hs->hoc_phi_theo_gio) . 'đ/buổi' : 'Thương lượng' }}</span></div>
+                <div style="height: 2.8em; line-height: 1.4; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; color:#64748b; font-size:0.83rem; margin-top:0.2rem;" title="{{ $hs->kinh_nghiem }}">💡 {{ Str::limit($hs->kinh_nghiem, 75) }}</div>
             </div>
 
             {{-- Đánh giá & Thống kê --}}

@@ -81,21 +81,19 @@
         </div>
 
         <div style="padding: 1.4rem; display: flex; flex-direction: column; flex: 1 1 auto;">
-            <div style="font-size: 0.88rem; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: flex-start; gap: 0.5rem;">
-                <span style="color: #ef4444; font-size: 1rem;">📍</span>
-                <span><strong>Địa điểm:</strong> {{ $lop->dia_chi_day }}</span>
+            <div style="font-size: 0.88rem; color: #334155; margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem; height: 2.8em; line-height: 1.4; overflow: hidden;">
+                <span style="color: #ef4444; font-size: 1rem; flex-shrink: 0;">📍</span>
+                <span style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" title="{{ $lop->dia_chi_day }}"><strong>Địa điểm:</strong> {{ $lop->dia_chi_day }}</span>
             </div>
 
-            <div style="font-size: 0.85rem; color: #2563eb; margin-bottom: 0.6rem; display: flex; align-items: flex-start; gap: 0.5rem; background: #eff6ff; padding: 0.35rem 0.6rem; border-radius: 8px;">
+            <div style="font-size: 0.85rem; color: #2563eb; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; background: #eff6ff; padding: 0.35rem 0.6rem; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                 <span>🗓️</span>
-                <span><strong>Lịch học:</strong> {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần') }}</span>
+                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><strong>Lịch học:</strong> {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần') }}</span>
             </div>
 
-            @if($lop->yeu_cau_them)
-            <div style="font-size: 0.82rem; color: #64748b; background: #f8fafc; padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 1.2rem;">
-                📝 <em>{{ Str::limit($lop->yeu_cau_them, 75) }}</em>
+            <div style="font-size: 0.82rem; color: #64748b; background: #f8fafc; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 1rem; height: 3.6em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.4;" title="{{ $lop->yeu_cau_them }}">
+                📝 <em>{{ $lop->yeu_cau_them ? Str::limit($lop->yeu_cau_them, 70) : 'Không có yêu cầu bổ sung từ phụ huynh' }}</em>
             </div>
-            @endif
 
             <div class="divider" style="margin-top: auto; margin-bottom: 1rem;"></div>
 
