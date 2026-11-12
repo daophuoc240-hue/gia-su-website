@@ -85,6 +85,112 @@
 .slot-label.slot-active {
     background: #dcfce7;
 }
+
+/* Area Picker & Pill Tags */
+.area-picker-card {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.25rem 1.4rem;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    transition: all 0.25s ease;
+}
+.area-picker-card:focus-within {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+.area-picker-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.85rem;
+}
+@media (max-width: 640px) {
+    .area-picker-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+.area-pills-box {
+    background: #ffffff;
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    min-height: 56px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    transition: border-color 0.2s ease;
+}
+.area-pills-box:hover {
+    border-color: #94a3b8;
+}
+.area-pill-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    border-radius: 9999px;
+    padding: 0.35rem 0.55rem 0.35rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(30, 64, 175, 0.06);
+    transition: all 0.15s ease;
+    animation: pillPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes pillPop {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+}
+.area-pill-item:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+    transform: translateY(-1px);
+}
+.pill-remove-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #dbeafe;
+    color: #1e40af;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+.pill-remove-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    transform: rotate(90deg);
+}
+.quick-chip-btn {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.quick-chip-btn:hover {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: #1d4ed8;
+    transform: translateY(-1px);
+}
 </style>
 @endpush
 
@@ -200,26 +306,74 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">📍 Khu Vực Nhận Dạy (Tỉnh / Thành & Quận / Huyện) <span style="color:#ef4444;">*</span></label>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem;">
-                    <select class="form-select select-tinh-thanh" id="gs_tinh_thanh">
-                        <option value="">-- Chọn nhanh Tỉnh / Thành --</option>
-                        @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
-                            <option value="{{ $tinh }}">{{ $tinh }}</option>
-                        @endforeach
-                    </select>
-                    <select class="form-select select-quan-huyen" id="gs_quan_huyen">
-                        <option value="">-- Chọn Quận / Huyện / TP --</option>
-                    </select>
+            {{-- Khu Vực Nhận Dạy --}}
+            <div class="form-group" style="margin-bottom: 1.8rem;">
+                <div class="area-picker-card">
+                    {{-- Header with count --}}
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+                        <label class="form-label" style="margin: 0; font-size: 0.95rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 0.45rem;">
+                            <span>📍</span> Khu Vực Nhận Dạy <span style="color:#ef4444;">*</span>
+                        </label>
+                        <span id="areaCountBadge" style="font-size: 0.78rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 9999px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd;">
+                            0 khu vực đã chọn
+                        </span>
+                    </div>
+
+                    {{-- Toolbar: Dropdown Tỉnh/Thành + Dropdown Quận/Huyện + Button Thêm --}}
+                    <div class="area-picker-grid">
+                        <select class="form-select select-tinh-thanh" id="gs_tinh_thanh" style="height: 42px; border-radius: 10px; font-size: 0.88rem; border-color: #cbd5e1;">
+                            <option value="">🏙️ Chọn Tỉnh / Thành Phố --</option>
+                            @foreach(\App\Helpers\DiaDiem::getTinhThanhList() as $tinh)
+                                <option value="{{ $tinh }}">{{ $tinh }}</option>
+                            @endforeach
+                        </select>
+                        <select class="form-select select-quan-huyen" id="gs_quan_huyen" style="height: 42px; border-radius: 10px; font-size: 0.88rem; border-color: #cbd5e1;">
+                            <option value="">📍 Chọn Quận / Huyện / TP --</option>
+                        </select>
+                        <button type="button" id="btnAddArea" class="btn" style="height: 42px; padding: 0 1.25rem; font-size: 0.88rem; font-weight: 700; background: #2563eb; color: #ffffff; border: none; border-radius: 10px; display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(37,99,235,0.22); transition: all 0.2s ease;">
+                            <span style="font-size: 1.15rem; line-height: 1;">+</span> Thêm Khu Vực
+                        </button>
+                    </div>
+
+                    {{-- Tags Pills Container --}}
+                    <div class="area-pills-box" id="areaTagsContainer">
+                        {{-- Injected dynamically via JS --}}
+                    </div>
+
+                    {{-- Quick Suggestion Chips --}}
+                    <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.75rem;">
+                        <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Gợi ý nhanh:</span>
+                        <button type="button" class="quick-chip-btn" data-area="Dạy Online (Toàn quốc)">🌐 Dạy Online (Toàn quốc)</button>
+                        <button type="button" class="quick-chip-btn" data-area="Toàn TP. Hồ Chí Minh">🏙️ Toàn TP. Hồ Chí Minh</button>
+                        <button type="button" class="quick-chip-btn" data-area="Toàn Hà Nội">🏛️ Toàn Hà Nội</button>
+                        <button type="button" class="quick-chip-btn" data-area="Toàn Đà Nẵng">🌉 Toàn Đà Nẵng</button>
+                        <button type="button" class="quick-chip-btn" data-area="Toàn Cần Thơ">🌾 Toàn Cần Thơ</button>
+                    </div>
+
+                    {{-- Manual Input fine-tuning toggle --}}
+                    <div style="margin-top: 0.75rem; padding-top: 0.65rem; border-top: 1px dashed #e2e8f0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                        <small style="color: #64748b; font-size: 0.8rem;">
+                            💡 Bạn có thể chọn nhiều quận/huyện hoặc tỉnh/thành khác nhau mà bạn có thể đến dạy.
+                        </small>
+                        <button type="button" id="btnToggleManualInput" style="background: none; border: none; color: #2563eb; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: underline; white-space: nowrap;">
+                            ✏️ Tùy chỉnh dạng chữ viết
+                        </button>
+                    </div>
+
+                    {{-- The actual form input: hidden field for submission + optional manual input --}}
+                    <input type="hidden" name="khu_vuc_nhan_day" id="khu_vuc_nhan_day"
+                           value="{{ old('khu_vuc_nhan_day', $ho_so->khu_vuc_nhan_day ?? '') }}">
+
+                    <div id="manualInputWrap" style="display: none; margin-top: 0.75rem;">
+                        <label style="font-size: 0.8rem; font-weight: 600; color: #475569; margin-bottom: 0.3rem; display: block;">
+                            Nhập trực tiếp danh sách khu vực (ngăn cách bởi dấu phẩy):
+                        </label>
+                        <input type="text" id="manual_khu_vuc_text" class="form-control"
+                               placeholder="Ví dụ: Quận 1, Quận 3, Bình Thạnh, TP. Hồ Chí Minh">
+                    </div>
+
+                    @error('khu_vuc_nhan_day')<span class="error-msg" style="margin-top: 0.4rem; display: block;">{{ $message }}</span>@enderror
                 </div>
-                <input type="text" name="khu_vuc_nhan_day" id="khu_vuc_nhan_day" class="form-control {{ $errors->has('khu_vuc_nhan_day') ? 'is-invalid' : '' }}"
-                       value="{{ old('khu_vuc_nhan_day', $ho_so->khu_vuc_nhan_day ?? '') }}" required
-                       placeholder="Ví dụ: Quận 1, Quận 3, Bình Thạnh, TP. Hồ Chí Minh (hoặc chọn ở trên để thêm)">
-                <small style="color: #64748b; font-size: 0.8rem; display: block; margin-top: 0.3rem;">
-                    💡 Bạn có thể chọn Tỉnh/Thành & Quận/Huyện ở trên để tự động chèn vào danh sách khu vực nhận dạy của bạn.
-                </small>
-                @error('khu_vuc_nhan_day')<span class="error-msg">{{ $message }}</span>@enderror
             </div>
 
             <div class="form-group" style="margin-bottom: 1.8rem;">
@@ -394,25 +548,196 @@ function quickSelectSchedule(type) {
         document.querySelectorAll('.slot-day-T7, .slot-day-CN').forEach(c => { c.checked = true; toggleSlotBg(c); });
     }
 }
-</script>
-@endpush
-<script>
+
+// ==========================================
+// QUẢN LÝ KHU VỰC NHẬN DẠY (TAG PILLS WIDGET)
+// ==========================================
 document.addEventListener('DOMContentLoaded', function() {
-    const gsTinh = document.getElementById('gs_tinh_thanh');
-    const gsQuan = document.getElementById('gs_quan_huyen');
-    const kvInput = document.getElementById('khu_vuc_nhan_day');
-    if (gsQuan && kvInput) {
-        gsQuan.addEventListener('change', function() {
-            if (this.value) {
-                const addStr = this.value + (gsTinh.value ? (', ' + gsTinh.value) : '');
-                if (!kvInput.value.trim()) {
-                    kvInput.value = addStr;
-                } else if (!kvInput.value.includes(this.value)) {
-                    kvInput.value = kvInput.value + '; ' + addStr;
-                }
+    const rawInitialValue = @json(old('khu_vuc_nhan_day', $ho_so->khu_vuc_nhan_day ?? ''));
+    let areaTags = [];
+
+    function parseInitial(str) {
+        if (!str || typeof str !== 'string') return [];
+        const trimmed = str.trim();
+        if (!trimmed) return [];
+        if (trimmed.includes(';')) {
+            return trimmed.split(';').map(s => s.trim()).filter(Boolean);
+        }
+        return trimmed.split(',').map(s => s.trim()).filter(Boolean);
+    }
+
+    areaTags = parseInitial(rawInitialValue);
+
+    const tagsContainer = document.getElementById('areaTagsContainer');
+    const hiddenInput = document.getElementById('khu_vuc_nhan_day');
+    const manualInput = document.getElementById('manual_khu_vuc_text');
+    const countBadge = document.getElementById('areaCountBadge');
+    const tinhSelect = document.getElementById('gs_tinh_thanh');
+    const quanSelect = document.getElementById('gs_quan_huyen');
+    const btnAdd = document.getElementById('btnAddArea');
+    const btnToggleManual = document.getElementById('btnToggleManualInput');
+    const manualWrap = document.getElementById('manualInputWrap');
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function syncTags() {
+        const combined = areaTags.join(', ');
+        if (hiddenInput) hiddenInput.value = combined;
+        if (manualInput && document.activeElement !== manualInput) {
+            manualInput.value = combined;
+        }
+        if (countBadge) {
+            if (areaTags.length > 0) {
+                countBadge.textContent = areaTags.length + ' khu vực đã chọn';
+                countBadge.style.background = '#e0f2fe';
+                countBadge.style.color = '#0284c7';
+                countBadge.style.borderColor = '#bae6fd';
+            } else {
+                countBadge.textContent = 'Chưa chọn khu vực';
+                countBadge.style.background = '#fef2f2';
+                countBadge.style.color = '#ef4444';
+                countBadge.style.borderColor = '#fecaca';
+            }
+        }
+    }
+
+    function renderTags() {
+        if (!tagsContainer) return;
+        tagsContainer.innerHTML = '';
+
+        if (areaTags.length === 0) {
+            tagsContainer.innerHTML = `
+                <div style="color: #94a3b8; font-size: 0.83rem; font-style: italic; display: flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0;">
+                    <span style="font-size: 1rem;">🔍</span>
+                    <span>Chưa có khu vực nào. Hãy chọn Tỉnh/Thành & Quận/Huyện ở trên rồi bấm <strong>"+ Thêm Khu Vực"</strong>.</span>
+                </div>
+            `;
+            syncTags();
+            return;
+        }
+
+        areaTags.forEach((tag, idx) => {
+            const pill = document.createElement('span');
+            pill.className = 'area-pill-item';
+            pill.innerHTML = `
+                <span>📍</span>
+                <span class="pill-title">${escapeHtml(tag)}</span>
+                <button type="button" class="pill-remove-btn" title="Xóa khu vực này">&times;</button>
+            `;
+            pill.querySelector('.pill-remove-btn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                areaTags.splice(idx, 1);
+                renderTags();
+            });
+            tagsContainer.appendChild(pill);
+        });
+
+        syncTags();
+    }
+
+    function addTag(tagText) {
+        if (!tagText) return;
+        const clean = tagText.trim();
+        if (!clean) return;
+
+        const existsIdx = areaTags.findIndex(t => t.toLowerCase() === clean.toLowerCase());
+        if (existsIdx !== -1) {
+            // Flash existing pill in yellow to inform tutor it already exists
+            const existingPill = tagsContainer.children[existsIdx];
+            if (existingPill) {
+                existingPill.style.transition = 'all 0.2s ease';
+                existingPill.style.background = '#fef08a';
+                existingPill.style.borderColor = '#facc15';
+                existingPill.style.transform = 'scale(1.08)';
+                setTimeout(() => {
+                    existingPill.style.background = '';
+                    existingPill.style.borderColor = '';
+                    existingPill.style.transform = '';
+                }, 450);
+            }
+            return;
+        }
+
+        areaTags.push(clean);
+        renderTags();
+    }
+
+    // Add button handler
+    if (btnAdd) {
+        btnAdd.addEventListener('click', function() {
+            const tVal = tinhSelect ? tinhSelect.value.trim() : '';
+            const qVal = quanSelect ? quanSelect.value.trim() : '';
+
+            if (!tVal && !qVal) {
+                alert('Vui lòng chọn Tỉnh/Thành hoặc Quận/Huyện trước khi thêm!');
+                if (tinhSelect) tinhSelect.focus();
+                return;
+            }
+
+            let newLabel = '';
+            if (qVal && !qVal.startsWith('--')) {
+                newLabel = tVal ? `${qVal} (${tVal})` : qVal;
+            } else if (tVal) {
+                newLabel = `Toàn ${tVal}`;
+            }
+
+            if (newLabel) {
+                addTag(newLabel);
+                // Reset quanSelect for rapid adding of multiple districts
+                if (quanSelect) quanSelect.value = '';
             }
         });
     }
+
+    // Quick suggestion chips
+    document.querySelectorAll('.quick-chip-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const area = this.getAttribute('data-area');
+            if (area) addTag(area);
+        });
+    });
+
+    // Toggle manual input fine-tuning
+    if (btnToggleManual && manualWrap) {
+        btnToggleManual.addEventListener('click', function() {
+            const isHidden = manualWrap.style.display === 'none' || !manualWrap.style.display;
+            manualWrap.style.display = isHidden ? 'block' : 'none';
+            this.textContent = isHidden ? '🔼 Đóng tùy chỉnh chữ viết' : '✏️ Tùy chỉnh dạng chữ viết';
+            if (isHidden && manualInput) {
+                manualInput.focus();
+            }
+        });
+    }
+
+    // Manual input sync
+    if (manualInput) {
+        manualInput.addEventListener('input', function() {
+            areaTags = parseInitial(this.value);
+            renderTags();
+        });
+    }
+
+    // Form submit validation
+    const hoSoForm = document.getElementById('ho-so-form');
+    if (hoSoForm) {
+        hoSoForm.addEventListener('submit', function(e) {
+            syncTags();
+            const val = hiddenInput ? hiddenInput.value.trim() : '';
+            if (!val) {
+                e.preventDefault();
+                alert('Vui lòng chọn hoặc thêm ít nhất 1 khu vực bạn có thể nhận dạy!');
+                if (tinhSelect) tinhSelect.focus();
+            }
+        });
+    }
+
+    // Initial render of existing tags
+    renderTags();
 });
 </script>
+@endpush
 @endsection
