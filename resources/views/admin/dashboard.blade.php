@@ -131,6 +131,52 @@
     </div>
 </div>
 
+{{-- HÀNH ĐỘNG CẦN XỬ LÝ: GIA SƯ ĐÃ CHỐT LỊCH CHỜ ADMIN PHÂN CÔNG --}}
+@if(isset($dang_ky_chot_lich) && $dang_ky_chot_lich->isNotEmpty())
+<div class="glass-card" style="padding: 1.6rem; margin-bottom: 2rem; border: 1.5px solid #bfdbfe; background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%); border-radius: 16px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid #dbeafe; padding-bottom:0.8rem;">
+        <div>
+            <h3 style="font-size:1.1rem; font-weight:800; color:#1e40af; margin:0; display:flex; align-items:center; gap:0.5rem;">
+                <span>⚡</span> Yêu Cầu Cần Phân Công: Gia Sư Đã Chốt Lịch Dạy ({{ $dang_ky_chot_lich->count() }})
+            </h3>
+            <p style="font-size:0.82rem; color:#475569; margin:3px 0 0 0;">Gia sư đã đồng ý lịch học và sẵn sàng dạy. Quản trị viên chỉ cần bấm duyệt để chính thức ghép lớp!</p>
+        </div>
+        <span class="badge badge-warning" style="font-size:0.8rem; padding:0.4rem 0.8rem;">Cần xử lý ngay</span>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1rem;">
+        @foreach($dang_ky_chot_lich as $item)
+        <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:12px; padding:1.1rem; box-shadow:0 2px 8px rgba(0,0,0,0.04); display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.4rem;">
+                    <div style="font-weight:800; font-size:1rem; color:#0f172a;">{{ $item->lopHoc->mon_hoc }} - {{ $item->lopHoc->khoi_lop }}</div>
+                    <span style="font-size:0.75rem; background:#dcfce7; color:#15803d; font-weight:700; padding:2px 8px; border-radius:10px;">Đã chốt lịch</span>
+                </div>
+                <div style="font-size:0.82rem; color:#475569; margin-bottom:0.25rem;">
+                    👤 <strong>Học viên:</strong> {{ $item->lopHoc->hocVien->ho_ten ?? 'Học viên' }}
+                </div>
+                <div style="font-size:0.82rem; color:#1e40af; margin-bottom:0.25rem;">
+                    👨‍🏫 <strong>Gia sư:</strong> {{ $item->giaSu->ho_ten }} 
+                    @if($item->giaSu->hoSoGiaSu)
+                        (⭐ {{ number_format($item->giaSu->hoSoGiaSu->diem_trung_binh, 1) }})
+                    @endif
+                </div>
+                <div style="font-size:0.8rem; color:#059669; background:#f0fdf4; padding:0.35rem 0.6rem; border-radius:6px; margin-top:0.4rem;">
+                    🗓️ <strong>Lịch học:</strong> {{ $item->lopHoc->thoi_gian_hoc }}
+                </div>
+            </div>
+            <div style="margin-top:1rem; padding-top:0.8rem; border-top:1px dashed #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; color:#2563eb; font-size:0.9rem;">{{ number_format($item->lopHoc->muc_hoc_phi) }}đ/b</span>
+                <a href="{{ route('admin.lop-hoc.phan-cong', $item->lop_hoc_id) }}" class="btn btn-primary btn-sm" style="font-size:0.82rem; padding:0.4rem 0.9rem; border-radius:8px;">
+                    <i class="fas fa-check-circle"></i> Duyệt Phân Công Ngay
+                </a>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
+@endif
+
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
     {{-- Lớp mới nhất --}}
     <div class="glass-card" style="padding: 1.8rem;">

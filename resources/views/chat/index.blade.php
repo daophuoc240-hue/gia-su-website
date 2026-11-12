@@ -2,6 +2,55 @@
 @section('title', 'Hộp Thoại Tin Nhắn')
 @section('page-title', 'Tin Nhắn & Trao Đổi Trực Tuyến')
 
+@push('styles')
+<style>
+    /* Khóa scroll trang ngoài, để khung chat ôm trọn 100% màn hình, không bị đè hay đẩy thanh nhập tin */
+    html, body {
+        overflow: hidden !important;
+        height: 100% !important;
+    }
+    .dashboard-wrapper {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
+    }
+    .main-content {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
+    }
+    .page-content {
+        padding: 0.75rem 1rem !important;
+        flex: 1 !important;
+        height: calc(100vh - 70px) !important;
+        max-height: calc(100vh - 70px) !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        box-sizing: border-box !important;
+    }
+    .chat-container-card {
+        flex: 1 !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        border: 1.5px solid #cbd5e1;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+    @media (max-width: 768px) {
+        .page-content {
+            padding: 0.4rem !important;
+        }
+    }
+</style>
+@endpush
+
 @section('sidebar-nav')
 <p class="nav-section-title">Điều Hướng</p>
 @if(auth()->user()->vai_tro === 'admin')
@@ -34,7 +83,7 @@
 @endsection
 
 @section('content')
-<div style="background:#ffffff; border-radius:18px; box-shadow:0 8px 30px rgba(0,0,0,0.05); overflow:hidden; border:1.5px solid #cbd5e1; height:calc(100vh - 150px); min-height:580px; display:flex !important; flex-direction:row !important; padding:0 !important; margin:0; box-sizing:border-box;">
+<div class="chat-container-card">
 
     {{-- CỘT TRÁI: DANH SÁCH HỘI THOẠI (340px) --}}
     <div style="width:340px; min-width:300px; max-width:360px; height:100%; border-right:1.5px solid #e2e8f0; display:flex !important; flex-direction:column !important; background:#ffffff; flex-shrink:0; box-sizing:border-box;">
@@ -168,7 +217,7 @@
 
                 <div style="display:flex; align-items:center; gap:0.6rem;">
                     @if($activePartner->isGiaSu() && $activePartner->hoSoGiaSu)
-                        <a href="{{ route('chi-tiet-gia-su', $activePartner->id) }}" target="_blank" 
+                        <a href="{{ route('chi-tiet-gia-su', $activePartner->hoSoGiaSu->id) }}" target="_blank" 
                            class="btn btn-outline btn-sm" style="font-size:0.8rem; padding:0.45rem 0.9rem; border-radius:8px;">
                             <i class="fas fa-external-link-alt" style="margin-right:4px;"></i> Xem Hồ Sơ Gia Sư
                         </a>

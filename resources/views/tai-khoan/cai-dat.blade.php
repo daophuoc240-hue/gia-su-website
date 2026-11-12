@@ -20,6 +20,16 @@
     <div class="nav-item"><a href="{{ route('hocvien.tao-yeu-cau') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-plus-circle"></i></span> Tạo Yêu Cầu Mới</a></div>
     <div class="nav-item"><a href="{{ route('hocvien.danh-sach-lop') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-list"></i></span> Danh Sách Lớp</a></div>
 @endif
+<div class="nav-item">
+    <a href="{{ route('chat.index') }}" class="nav-link">
+        <span class="nav-icon"><i class="fas fa-comments"></i></span> Tin Nhắn
+        @php $uCount = auth()->user()->tinNhanChuaDocCount(); @endphp
+        @if($uCount > 0)
+            <span class="badge" style="background:#ef4444; color:#fff; border-radius:10px; padding:2px 7px; font-size:0.72rem; margin-left:auto;">{{ $uCount }}</span>
+        @endif
+    </a>
+</div>
+<div class="nav-item"><a href="{{ route('thong-bao.index') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-bell"></i></span> Thông Báo</a></div>
 <div class="nav-item"><a href="{{ route('tai-khoan.cai-dat') }}" class="nav-link active"><span class="nav-icon"><i class="fas fa-cog"></i></span> Cài Đặt Tài Khoản</a></div>
 @endsection
 
@@ -35,8 +45,19 @@
             <p style="font-size: 0.85rem; color: #64748b; margin: 0;">Cập nhật họ tên và số điện thoại liên hệ của bạn</p>
         </div>
 
-        <form method="POST" action="{{ route('tai-khoan.thong-tin') }}">
+        <form method="POST" action="{{ route('tai-khoan.thong-tin') }}" enctype="multipart/form-data">
             @csrf
+
+            {{-- Avatar & Preview --}}
+            <div style="display:flex; align-items:center; gap:1.2rem; margin-bottom:1.5rem; padding:1rem; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0;">
+                <img id="avatarPreview" src="{{ $user->avatar_url }}" alt="Avatar" style="width:68px; height:68px; border-radius:50%; object-fit:cover; border:2.5px solid #2563eb; box-shadow:0 3px 10px rgba(37,99,235,0.2);">
+                <div style="flex:1;">
+                    <label class="form-label" style="margin-bottom:0.3rem;">Ảnh đại diện (Avatar)</label>
+                    <input type="file" name="avatar" id="avatarInput" accept="image/*" class="form-control" style="font-size:0.82rem; padding:0.4rem 0.6rem;">
+                    <span style="font-size:0.72rem; color:#64748b; margin-top:3px; display:block;">Hỗ trợ JPG, PNG, WEBP (Tối đa 2MB)</span>
+                    @error('avatar')<span class="error-msg">{{ $message }}</span>@enderror
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="form-label">Email đăng nhập</label>
@@ -106,3 +127,18 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('avatarInput')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            document.getElementById('avatarPreview').src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+@endpush

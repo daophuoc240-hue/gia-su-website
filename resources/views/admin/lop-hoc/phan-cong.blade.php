@@ -63,7 +63,6 @@
                     </span>
                     @endif
                 </div>
-                </div>
                 <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.3rem;">
                     📧 {{ $dk->giaSu->email }} • 📞 {{ $dk->giaSu->so_dien_thoai }}
                 </div>

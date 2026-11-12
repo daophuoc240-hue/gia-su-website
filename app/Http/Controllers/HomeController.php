@@ -299,7 +299,13 @@ class HomeController extends Controller
     public function chiTietLopHoc($id)
     {
         $lop = LopHoc::with('hocVien')->findOrFail($id);
-        return view('home.chi-tiet-lop-hoc', compact('lop'));
+        $daDangKy = false;
+        if (Auth::check() && Auth::user()->isGiaSu()) {
+            $daDangKy = DangKyNhanLop::where('lop_hoc_id', $id)
+                ->where('gia_su_id', Auth::id())
+                ->exists();
+        }
+        return view('home.chi-tiet-lop-hoc', compact('lop', 'daDangKy'));
     }
 
     public function gioiThieu()

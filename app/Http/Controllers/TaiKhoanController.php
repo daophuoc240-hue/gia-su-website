@@ -23,16 +23,29 @@ class TaiKhoanController extends Controller
         $request->validate([
             'ho_ten'        => 'required|string|max:255',
             'so_dien_thoai' => 'nullable|string|max:15',
+            'avatar'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ], [
             'ho_ten.required' => 'Vui lòng nhập họ và tên.',
+            'avatar.image'    => 'Ảnh đại diện phải là tệp hình ảnh hợp lệ.',
+            'avatar.max'      => 'Kích thước ảnh không vượt quá 2MB.',
         ]);
 
-        $user->update([
+        $data = [
             'ho_ten'        => $request->ho_ten,
             'so_dien_thoai' => $request->so_dien_thoai,
-        ]);
+        ];
 
-        return back()->with('success', 'Đã cập nhật thông tin cá nhân thành công!');
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = $path;
+            if ($user->hoSoGiaSu) {
+                $user->hoSoGiaSu->update(['avatar' => $path]);
+            }
+        }
+
+        $user->update($data);
+
+        return back()->with('success', 'Đã cập nhật thông tin cá nhân và ảnh đại diện thành công!');
     }
 
     public function doiMatKhau(Request $request)

@@ -54,8 +54,14 @@ class AdminController extends Controller
 
         $lop_moi_nhat = LopHoc::with('hocVien')->latest()->take(5)->get();
         $ho_so_moi    = HoSoGiaSu::with('taiKhoan')->where('trang_thai_duyet', 'cho_duyet')->latest()->take(5)->get();
+        $dang_ky_chot_lich = DangKyNhanLop::with(['lopHoc.hocVien', 'giaSu.hoSoGiaSu'])
+            ->where('xac_nhan_gia_su', 'da_xac_nhan')
+            ->where('trang_thai', 'cho_duyet')
+            ->latest()
+            ->take(6)
+            ->get();
 
-        return view('admin.dashboard', compact('stats', 'lop_moi_nhat', 'ho_so_moi', 'chartMonHoc', 'chartTrangThai'));
+        return view('admin.dashboard', compact('stats', 'lop_moi_nhat', 'ho_so_moi', 'dang_ky_chot_lich', 'chartMonHoc', 'chartTrangThai'));
     }
 
     // ===== QUẢN LÝ TÀI KHOẢN =====

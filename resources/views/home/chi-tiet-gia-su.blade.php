@@ -6,7 +6,7 @@
 
 <div class="container" style="padding: 3rem 0;">
     <div style="margin-bottom: 1.5rem; display: flex; gap: 0.8rem; align-items: center;">
-        @if(auth()->check() && auth()->user()->vai_tro === 'hoc_vien')
+        @if(auth()->check() && auth()->user()->isHocVien())
             <a href="{{ route('hocvien.gia-su') }}" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Quay lại danh sách gia sư</a>
             <a href="{{ route('hocvien.dashboard') }}" class="btn btn-outline btn-sm" style="color:#64748b;"><i class="fas fa-home"></i> Trang cá nhân học viên</a>
         @else

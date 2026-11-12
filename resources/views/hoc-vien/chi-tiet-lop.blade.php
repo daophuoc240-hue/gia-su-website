@@ -146,6 +146,16 @@
                 </div>
                 @endif
                 <div style="font-size:0.75rem; color:#94a3b8; margin-top:0.3rem;">Gửi yêu cầu: {{ $dk->created_at->format('d/m/Y H:i') }}</div>
+                <div style="margin-top:0.5rem; display:flex; gap:0.5rem; align-items:center;">
+                    <a href="{{ route('chat.conversation', $dk->gia_su_id) }}" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.25rem 0.65rem; border-radius:6px; color:#2563eb; border-color:#bfdbfe; text-decoration:none;">
+                        <i class="fas fa-comment-dots"></i> Nhắn tin trao đổi
+                    </a>
+                    @if($dk->giaSu->hoSoGiaSu)
+                    <a href="{{ route('chi-tiet-gia-su', $dk->giaSu->hoSoGiaSu->id) }}" target="_blank" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.25rem 0.65rem; border-radius:6px; color:#475569; border-color:#e2e8f0; text-decoration:none;">
+                        <i class="fas fa-id-card"></i> Xem hồ sơ
+                    </a>
+                    @endif
+                </div>
             </div>
             @empty
             <div class="empty-state" style="padding:1rem;">

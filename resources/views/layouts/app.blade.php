@@ -41,7 +41,7 @@
 
         <div class="sidebar-footer">
             <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.8rem; padding:0.6rem; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0;">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
+                <img src="{{ auth()->user()->avatar_url ?? 'https://ui-avatars.com/api/?name=User&background=2563eb&color=fff' }}" alt="Avatar" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:1.5px solid #cbd5e1;">
                 <div style="overflow:hidden;">
                     <div style="font-weight:700; font-size:0.85rem; color:#0f172a; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">{{ auth()->user()->ho_ten ?? 'Người Dùng' }}</div>
                     <div style="font-size:0.72rem; color:#64748b;">{{ auth()->user()->email ?? '' }}</div>

@@ -54,14 +54,51 @@
             </p>
 
             @auth
-                @if(auth()->user()->vai_tro === 'giasu')
-                    <a href="{{ route('giasu.tim-kiem-lop') }}" class="btn btn-primary btn-block" style="padding: 0.95rem; border-radius: 12px; font-size: 1rem;">
-                        <i class="fas fa-paper-plane"></i> Đăng Ký Nhận Lớp Ngay
+                @if(auth()->user()->isGiaSu())
+                    @if($daDangKy)
+                        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:1.2rem; margin-bottom:1rem;">
+                            <div style="font-weight:700; color:#1e40af; font-size:1rem; margin-bottom:0.4rem;">
+                                <i class="fas fa-check-circle" style="color:#2563eb;"></i> Bạn đã đăng ký nhận lớp này
+                            </div>
+                            <p style="font-size:0.85rem; color:#475569; margin:0;">
+                                Hồ sơ của bạn đang được trung tâm và phụ huynh xem xét duyệt.
+                            </p>
+                        </div>
+                        <a href="{{ route('giasu.ket-qua') }}" class="btn btn-outline btn-block" style="padding:0.75rem; border-radius:10px; font-size:0.9rem; margin-bottom:0.8rem;">
+                            <i class="fas fa-clipboard-list"></i> Xem Kết Quả Đăng Ký
+                        </a>
+                    @else
+                        <form method="POST" action="{{ route('giasu.dang-ky-lop', $lop->id) }}" style="margin-bottom:0.8rem;">
+                            @csrf
+                            <div style="margin-bottom:0.8rem; text-align:left;">
+                                <label style="font-size:0.82rem; font-weight:700; color:#334155; display:block; margin-bottom:0.3rem;">Lời giới thiệu của bạn:</label>
+                                <textarea name="gioi_thieu_ban_than" rows="2" class="form-control" style="font-size:0.85rem;" placeholder="Kinh nghiệm, phương pháp dạy hoặc thời gian có thể bắt đầu dạy..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" style="padding: 0.85rem; border-radius: 12px; font-size: 0.95rem;">
+                                <i class="fas fa-paper-plane"></i> Đăng Ký Nhận Lớp Ngay
+                            </button>
+                        </form>
+                    @endif
+                    <a href="{{ route('chat.conversation', $lop->hoc_vien_id) }}" class="btn btn-outline btn-block" style="padding:0.75rem; border-radius:10px; font-size:0.9rem; color:#2563eb; border-color:#bfdbfe;">
+                        <i class="fas fa-comment-dots"></i> Nhắn Tin Với Phụ Huynh
                     </a>
+                @elseif(auth()->user()->isHocVien())
+                    @if(auth()->id() === $lop->hoc_vien_id)
+                        <a href="{{ route('hocvien.chi-tiet-lop', $lop->id) }}" class="btn btn-primary btn-block" style="padding: 0.85rem; border-radius: 12px; font-size: 0.95rem;">
+                            <i class="fas fa-tasks"></i> Quản Lý Lớp Học Của Bạn
+                        </a>
+                    @else
+                        <div class="alert alert-warning" style="font-size: 0.85rem; text-align: left;">
+                            <i class="fas fa-info-circle"></i> Đây là lớp học của phụ huynh khác tạo. Bạn có thể tự đăng ký tạo một lớp học mới cho riêng mình!
+                        </div>
+                        <a href="{{ route('hocvien.tao-yeu-cau') }}" class="btn btn-primary btn-block" style="padding: 0.85rem; border-radius: 12px; font-size: 0.95rem;">
+                            <i class="fas fa-plus-circle"></i> Tạo Yêu Cầu Học Mới
+                        </a>
+                    @endif
                 @else
-                    <div class="alert alert-warning" style="font-size: 0.85rem; text-align: left;">
-                        <i class="fas fa-info-circle"></i> Bạn đang đăng nhập tài khoản Học Viên / Admin. Vui lòng đăng nhập tài khoản Gia Sư để nhận lớp.
-                    </div>
+                    <a href="{{ route('admin.lop-hoc.phan-cong', $lop->id) }}" class="btn btn-primary btn-block" style="padding: 0.85rem; border-radius: 12px; font-size: 0.95rem;">
+                        <i class="fas fa-user-check"></i> Điều Phối / Phân Công Lớp (Admin)
+                    </a>
                 @endif
             @else
                 <a href="{{ route('login') }}" class="btn btn-primary btn-block" style="padding: 0.95rem; border-radius: 12px; font-size: 1rem; margin-bottom: 0.8rem;">
