@@ -53,8 +53,12 @@
             align-items: center;
             justify-content: center;
             padding: 3rem 2.5rem;
+            position: relative;
         }
-        .btn-back-home {
+        .auth-back-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2.5rem;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -62,23 +66,38 @@
             font-size: 0.88rem;
             font-weight: 600;
             text-decoration: none;
-            padding: 0.5rem 0.95rem;
+            padding: 0.5rem 1.15rem;
             background: #f8fafc;
             border: 1.5px solid #e2e8f0;
-            border-radius: 10px;
-            transition: all 0.2s ease;
+            border-radius: 9999px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            z-index: 10;
         }
-        .btn-back-home:hover {
+        .auth-back-btn i {
+            color: #2563eb;
+            transition: transform 0.2s ease;
+        }
+        .auth-back-btn:hover {
             background: #eff6ff !important;
             border-color: #93c5fd !important;
             color: #1d4ed8 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
+        }
+        .auth-back-btn:hover i {
             transform: translateX(-3px);
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
         }
         @media (max-width: 992px) {
             .split-auth-container { flex-direction: column; }
             .split-hero { padding: 2.5rem 1.5rem; }
-            .split-form { padding: 2rem 1.5rem; }
+            .split-form { padding: 2rem 1.5rem; position: relative; }
+            .auth-back-btn {
+                top: 1.2rem;
+                right: 1.2rem;
+                font-size: 0.82rem;
+                padding: 0.4rem 0.85rem;
+            }
         }
     </style>
     <!-- Favicon -->

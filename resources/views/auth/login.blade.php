@@ -7,14 +7,6 @@
     <!-- Cột Trái: Hero Banner Giáo Dục Doanh Nghiệp -->
     <div class="split-hero">
         <div style="position:relative; z-index:2;">
-            <a href="{{ route('home') }}" style="display:inline-flex; align-items:center; gap:0.75rem; text-decoration:none; color:#ffffff; margin-bottom:2.2rem; transition:transform 0.2s;" onmouseover="this.style.transform='translateX(-2px)'" onmouseout="this.style.transform='none'">
-                <div style="width:42px; height:42px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem;">🎓</div>
-                <div>
-                    <div style="font-weight:800; font-size:1.15rem; letter-spacing:-0.01em;">Gia Sư Tri Thức</div>
-                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); display:flex; align-items:center; gap:0.3rem;"><i class="fas fa-arrow-left" style="font-size:0.65rem;"></i> Về trang chủ</div>
-                </div>
-            </a>
-
             <div style="display:inline-flex; align-items:center; gap:0.6rem; background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); padding:0.4rem 1rem; border-radius:30px; font-size:0.85rem; font-weight:600; border:1px solid rgba(255,255,255,0.2); margin-bottom:2rem;">
                 <span style="font-size:1.1rem;">🎓</span> HỆ THỐNG KẾT NỐI GIA SƯ HÀNG ĐẦU
             </div>
@@ -61,13 +53,13 @@
 
     <!-- Cột Phải: Form Đăng Nhập Chuyên Nghiệp -->
     <div class="split-form">
-        <div style="width:100%; max-width:400px;">
-            <div style="margin-bottom:1.5rem;">
-                <a href="{{ route('home') }}" class="btn-back-home">
-                    <i class="fas fa-arrow-left" style="font-size:0.8rem; color:#2563eb;"></i> Quay về trang chủ
-                </a>
-            </div>
+        <!-- Nút Trở Về Trang Chủ Tinh Tế ở Góc Trên -->
+        <a href="{{ route('home') }}" class="auth-back-btn" title="Quay về trang chủ">
+            <i class="fas fa-arrow-left"></i>
+            <span>Trở về</span>
+        </a>
 
+        <div style="width:100%; max-width:400px;">
             <div style="margin-bottom:2rem;">
                 <h2 style="font-size:1.75rem; font-weight:800; color:#0f172a; margin-bottom:0.5rem; letter-spacing:-0.02em;">Đăng Nhập</h2>
                 <p style="font-size:0.92rem; color:#64748b; font-weight:500;">Vui lòng nhập thông tin để truy cập hệ thống</p>
