@@ -61,32 +61,34 @@
             right: 2.5rem;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            color: #475569;
-            font-size: 0.88rem;
-            font-weight: 600;
+            gap: 0.55rem;
+            color: #1e3a8a;
+            font-size: 0.92rem;
+            font-weight: 700;
             text-decoration: none;
-            padding: 0.5rem 1.15rem;
-            background: #f8fafc;
-            border: 1.5px solid #e2e8f0;
+            padding: 0.55rem 1.25rem;
+            background: #eff6ff;
+            border: 1.5px solid #93c5fd;
             border-radius: 9999px;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
             z-index: 10;
         }
         .auth-back-btn i {
             color: #2563eb;
-            transition: transform 0.2s ease;
+            font-size: 0.88rem;
+            transition: transform 0.2s ease, color 0.2s ease;
         }
         .auth-back-btn:hover {
-            background: #eff6ff !important;
-            border-color: #93c5fd !important;
-            color: #1d4ed8 !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
+            background: #2563eb !important;
+            border-color: #2563eb !important;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.32);
         }
         .auth-back-btn:hover i {
-            transform: translateX(-3px);
+            color: #ffffff !important;
+            transform: translateX(-4px);
         }
         @media (max-width: 992px) {
             .split-auth-container { flex-direction: column; }
@@ -95,8 +97,8 @@
             .auth-back-btn {
                 top: 1.2rem;
                 right: 1.2rem;
-                font-size: 0.82rem;
-                padding: 0.4rem 0.85rem;
+                font-size: 0.85rem;
+                padding: 0.45rem 1rem;
             }
         }
     </style>
