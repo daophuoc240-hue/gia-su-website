@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}?v={{ file_exists(public_path('css/app.css')) ? filemtime(public_path('css/app.css')) : time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @stack('styles')
+    @stack('head')
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ secure_asset('favicon.svg') }}">
     <link rel="alternate icon" type="image/png" href="{{ secure_asset('favicon.png') }}">

@@ -11,7 +11,7 @@
 <div class="nav-item"><a href="{{ route('giasu.ket-qua') }}" class="nav-link"><span class="nav-icon"><i class="fas fa-clipboard-list"></i></span> Kết Quả Đăng Ký</a></div>
 @endsection
 
-@push('head')
+@push('styles')
 <style>
 .avatar-wrapper {
     position: relative;
@@ -94,10 +94,11 @@
     {{-- ===== Profile Overview Card ===== --}}
     <div class="glass-card" style="padding: 2rem; text-align: center; border-radius: 20px;">
         {{-- Avatar with upload --}}
-        <div class="avatar-wrapper" onclick="document.getElementById('avatar-input').click()" title="Nhấn để đổi ảnh đại diện">
+        <div class="avatar-wrapper" onclick="document.getElementById('avatar-input').click()" title="Nhấn để đổi ảnh đại diện" style="position: relative; display: inline-block; margin-bottom: 1.2rem; cursor: pointer;">
             <img id="avatar-preview"
                  src="{{ $ho_so?->avatar_url ?? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80' }}"
-                 alt="Ảnh đại diện" class="avatar-img">
+                 alt="Ảnh đại diện" class="avatar-img"
+                 style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 4px solid #2563eb; box-shadow: 0 8px 24px rgba(37,99,235,0.28); display: block; margin: 0 auto;">
             <div class="avatar-overlay">
                 <i class="fas fa-camera"></i>
                 <span>Đổi ảnh</span>
@@ -190,11 +191,11 @@
 
                 <div class="form-group">
                     <label class="form-label">💰 Học Phí (đ / buổi)</label>
-                    <div class="fee-input-wrap">
-                        <span class="prefix">₫</span>
+                    <div class="fee-input-wrap" style="position: relative;">
+                        <span class="prefix" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #64748b; font-weight: 600; font-size: 0.9rem; pointer-events: none;">₫</span>
                         <input type="number" name="hoc_phi_theo_gio" class="form-control"
                                value="{{ old('hoc_phi_theo_gio', $ho_so->hoc_phi_theo_gio ?? '') }}"
-                               placeholder="Ví dụ: 150000" min="0" step="10000">
+                               placeholder="Ví dụ: 150000" min="0" step="10000" style="padding-left: 36px;">
                     </div>
                 </div>
             </div>
