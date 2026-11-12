@@ -5,32 +5,33 @@
 @section('content')
 
 <!-- HERO SECTION -->
-<section style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%); padding: 4rem 0 3.5rem 0; border-bottom: 1px solid #e2e8f0;">
-    <div class="container" style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center;">
+<section style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%); padding: 3.8rem 0 3.2rem 0; border-bottom: 1px solid #e2e8f0;">
+    <div class="container" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3.5rem; align-items: center;">
+        {{-- CỘT TRÁI: TIÊU ĐỀ & KHUNG TÌM KIẾM CÂN ĐỐI --}}
         <div>
-            <span class="badge badge-info" style="font-size: 0.85rem; padding: 0.45rem 1rem; margin-bottom: 1.2rem; border-radius: 20px;">
+            <span class="badge badge-info" style="font-size: 0.85rem; padding: 0.4rem 1rem; margin-bottom: 1rem; border-radius: 20px; display: inline-block;">
                 🚀 Nền Tảng Gia Sư Chuyên Nghiệp #1
             </span>
-            <h1 style="font-size: 2.7rem; font-weight: 800; color: #0f172a; line-height: 1.25; margin-bottom: 1.2rem;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: #0f172a; line-height: 1.25; margin-bottom: 1rem;">
                 Kết Nối Gia Sư Giỏi & <br><span style="color: #2563eb; background: linear-gradient(135deg, #2563eb, #1d4ed8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Tìm Lớp Học Dạy Kèm Uy Tín</span>
             </h1>
-            <p style="font-size: 1.05rem; color: #475569; line-height: 1.7; margin-bottom: 2rem;">
+            <p style="font-size: 1rem; color: #475569; line-height: 1.65; margin-bottom: 1.6rem;">
                 Hệ thống hỗ trợ Phụ huynh / Học viên tìm gia sư sư phạm chất lượng cao và giúp Giáo viên / Sinh viên nhận lớp dạy kèm nhanh chóng, an toàn.
             </p>
 
-            <!-- Quick Search Form Card (2 hàng cân đối, rộng rãi, không bị chồng chéo) -->
-            <div style="background: #ffffff; padding: 1.6rem; border-radius: 20px; border: 1px solid #cbd5e1; box-shadow: 0 12px 35px rgba(0,0,0,0.08); margin-bottom: 2rem;">
-                <form action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: flex; flex-direction: column; gap: 1.1rem;">
-                    <!-- Hàng 1: Môn Học (1.2fr) & Khối Lớp (1fr) -->
-                    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem;">
+            <!-- Quick Search Form Card (Căn chỉnh 1:1 thẳng hàng các ô nhập) -->
+            <div style="background: #ffffff; padding: 1.5rem 1.6rem; border-radius: 20px; border: 1px solid #cbd5e1; box-shadow: 0 12px 35px rgba(0,0,0,0.07);">
+                <form action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Hàng 1: Môn Học (1fr) & Khối Lớp (1fr) thẳng hàng ngang bằng -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div>
-                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
                                 <span>📚</span> Môn Học
                             </label>
                             <input type="text" name="mon_hoc" class="form-control" placeholder="Toán, Tiếng Anh, Vật Lý..." style="padding: 0.75rem 1rem; font-size: 0.92rem; border-radius: 10px; width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1;">
                         </div>
                         <div>
-                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
                                 <span>🎯</span> Khối Lớp
                             </label>
                             <select name="khoi_lop" class="form-select" style="padding: 0.75rem 1rem; font-size: 0.92rem; border-radius: 10px; width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1;">
@@ -42,10 +43,10 @@
                         </div>
                     </div>
 
-                    <!-- Hàng 2: Tỉnh / Thành Phố (1fr) & Quận / Huyện / TP (1fr) -->
+                    <!-- Hàng 2: Tỉnh / Thành Phố (1fr) & Quận / Huyện / TP (1fr) thẳng hàng khớp 100% -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div>
-                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
                                 <span>🏙️</span> Tỉnh / Thành Phố
                             </label>
                             <select name="tinh_thanh" class="form-select select-tinh-thanh" style="padding: 0.75rem 1rem; font-size: 0.92rem; border-radius: 10px; width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1;">
@@ -56,7 +57,7 @@
                             </select>
                         </div>
                         <div>
-                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
                                 <span>📍</span> Quận / Huyện / TP
                             </label>
                             <select name="quan_huyen" class="form-select select-quan-huyen" style="padding: 0.75rem 1rem; font-size: 0.92rem; border-radius: 10px; width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1;">
@@ -71,29 +72,66 @@
                             <i class="fas fa-search"></i> Tìm Kiếm Lớp Học & Gia Sư Ngay
                         </button>
                     </div>
-                </form>
-            </div>
 
-            <div style="display: flex; gap: 1rem;">
-                <a href="{{ route('register') }}" class="btn btn-primary" style="padding: 0.85rem 1.6rem; font-size: 0.95rem;">
-                    <i class="fas fa-user-plus"></i> Đăng Ký Làm Gia Sư
-                </a>
-                <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline" style="padding: 0.85rem 1.6rem; font-size: 0.95rem;">
-                    <i class="fas fa-search"></i> Xem Đội Ngũ Gia Sư
-                </a>
+                    <!-- Hàng 4: Liên kết nhanh cân đối cho Gia sư & Phụ huynh -->
+                    <div style="margin-top: 0.2rem; padding-top: 0.8rem; border-top: 1px dashed #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="color: #64748b;">
+                            👨‍🏫 Bạn muốn dạy kèm? <a href="{{ route('register') }}" style="color: #2563eb; font-weight: 700; text-decoration: none;">Đăng ký làm gia sư →</a>
+                        </span>
+                        <a href="{{ route('danh-sach-gia-su') }}" style="color: #475569; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px;">
+                            <i class="fas fa-user-graduate" style="color: #2563eb;"></i> Xem Đội Ngũ Gia Sư
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
 
+        {{-- CỘT PHẢI: HÌNH ẢNH BANNER & TIỆN ÍCH CÂN ĐỐI CHIỀU CAO --}}
         <div>
-            <div style="position: relative;">
-                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Education Banner" style="width: 100%; border-radius: 24px; box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15); border: 4px solid #ffffff;">
-                <div style="position: absolute; bottom: -20px; left: -20px; background: #ffffff; padding: 1.2rem 1.6rem; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 1rem;">
-                    <div style="width: 48px; height: 48px; background: #dcfce7; color: #16a34a; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+            <div style="position: relative; margin-bottom: 1.8rem;">
+                {{-- Floating Badge Top Right --}}
+                <div style="position: absolute; top: -15px; right: -10px; background: #ffffff; padding: 0.65rem 1.1rem; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 0.6rem; z-index: 2;">
+                    <span style="font-size: 1.3rem;">⭐</span>
+                    <div>
+                        <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">4.9 / 5.0</div>
+                        <div style="font-size: 0.72rem; color: #64748b;">2,500+ phụ huynh tin cậy</div>
+                    </div>
+                </div>
+
+                {{-- Hero Banner Image có chiều cao cân đối chuẩn --}}
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Education Banner" 
+                     style="width: 100%; height: 360px; object-fit: cover; border-radius: 24px; box-shadow: 0 20px 40px rgba(37, 99, 235, 0.12); border: 4px solid #ffffff; display: block;">
+
+                {{-- Floating Badge Bottom Left --}}
+                <div style="position: absolute; bottom: -20px; left: -15px; background: #ffffff; padding: 0.85rem 1.3rem; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 0.85rem; z-index: 2;">
+                    <div style="width: 44px; height: 44px; background: #dcfce7; color: #16a34a; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; flex-shrink: 0;">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <div>
-                        <div style="font-weight: 800; font-size: 1.1rem; color: #0f172a;">100% Hồ Sơ Duyệt</div>
-                        <div style="font-size: 0.8rem; color: #64748b;">Đã xác minh bằng cấp & thẻ sinh viên</div>
+                        <div style="font-weight: 800; font-size: 0.98rem; color: #0f172a;">100% Hồ Sơ Đã Duyệt</div>
+                        <div style="font-size: 0.75rem; color: #64748b;">Xác minh bằng cấp & căn cước</div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- 2 Thẻ tiện ích bên dưới để lấp đầy khoảng trắng và cân bằng chiều cao với cột trái --}}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+                <div style="background: #ffffff; padding: 0.95rem 1.1rem; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 38px; height: 38px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Ghép Lớp Nhanh 24h</div>
+                        <div style="font-size: 0.73rem; color: #64748b;">Chủ động chọn lịch dạy</div>
+                    </div>
+                </div>
+                <div style="background: #ffffff; padding: 0.95rem 1.1rem; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 38px; height: 38px; border-radius: 10px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.88rem; color: #0f172a;">Dạy Thử Buổi Đầu</div>
+                        <div style="font-size: 0.73rem; color: #64748b;">Đổi gia sư nếu không hợp</div>
                     </div>
                 </div>
             </div>
