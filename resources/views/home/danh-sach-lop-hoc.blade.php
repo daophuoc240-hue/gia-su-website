@@ -30,7 +30,7 @@
     <div style="background: #ffffff; padding: 1.5rem; border-radius: 18px; border: 1px solid #cbd5e1; box-shadow: 0 6px 24px rgba(15, 23, 42, 0.04); margin-bottom: 2.2rem;">
         <form method="GET" action="{{ route('danh-sach-lop-hoc') }}" style="display: flex; flex-direction: column; gap: 1rem;">
             <!-- Hàng 1: 4 ô lọc dàn đều chuẩn tỉ lệ 1:1:1:1 -->
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem;">
                 <div>
                     <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">📚 Môn học</label>
                     <input type="text" name="mon_hoc" class="form-control" placeholder="Toán, Lý, Tiếng Anh..." value="{{ request('mon_hoc') }}" style="width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.68rem 0.9rem; font-size: 0.9rem;">
@@ -90,21 +90,21 @@
     </div>
 
     <!-- Danh sách thẻ lớp học đồng đều 100% -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; align-items: stretch;">
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; align-items: stretch;">
         @forelse($lop_hocs as $lop)
         <div class="glass-card" style="border-radius: 20px; padding: 1.7rem; background: #ffffff; border: 1px solid #e2e8f0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.03); transition: all 0.22s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#93c5fd';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0';">
             {{-- Hàng 1: Mã lớp + Khối lớp & Học phí cố định 1 dòng (không bao giờ bị rớt dòng lệch chiều cao) --}}
-            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.85rem; height: 30px;">
-                <div style="display: flex; align-items: center; gap: 0.4rem; overflow: hidden; min-width: 0;">
-                    <span style="font-size: 0.74rem; font-weight: 800; color: #1e40af; background: #dbeafe; padding: 0.22rem 0.55rem; border-radius: 6px; flex-shrink: 0;">
-                        {{ $lop->ma_lop }}
-                    </span>
-                    <span class="badge badge-info" style="font-size: 0.76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block;" title="{{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}">
-                        {{ $lop->khoi_lop }}
-                    </span>
-                </div>
-                <span style="font-weight: 800; color: #2563eb; font-size: 1rem; white-space: nowrap; flex-shrink: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; height: 28px;">
+                <span style="font-size: 0.76rem; font-weight: 800; color: #1e40af; background: #dbeafe; padding: 0.24rem 0.6rem; border-radius: 6px; flex-shrink: 0;">
+                    {{ $lop->ma_lop }}
+                </span>
+                <span style="font-weight: 800; color: #2563eb; font-size: 1.02rem; white-space: nowrap; flex-shrink: 0;">
                     {{ $lop->hoc_phi_hien_thi }}
+                </span>
+            </div>
+            <div style="margin-bottom: 0.75rem; height: 28px; display: flex; align-items: center;">
+                <span class="badge badge-info" style="font-size: 0.78rem; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block;" title="{{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}">
+                    📚 {{ $lop->mon_hoc }} • {{ $lop->khoi_lop }}
                 </span>
             </div>
 

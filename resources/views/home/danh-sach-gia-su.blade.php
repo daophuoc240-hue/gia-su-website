@@ -77,7 +77,7 @@
     </div>
     @endif
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; align-items: stretch;">
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.8rem; align-items: stretch;">
         @forelse($gia_sus as $hs)
         <div class="glass-card" style="border-radius: 18px; padding: 1.8rem; background: #ffffff; transition: transform 0.2s ease, box-shadow 0.2s ease; position:relative; overflow:hidden; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;"
              onmouseenter="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 16px 40px rgba(37,99,235,0.13)'"
@@ -127,7 +127,7 @@
                 @endif
             </div>
 
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+            <div style="display:grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem;">
                 <a href="{{ route('chi-tiet-gia-su', $hs->id) }}" class="btn btn-outline btn-sm" style="border-radius: 10px; font-size: 0.82rem; padding: 0.5rem; text-align:center; background:#ffffff;">
                     <i class="fas fa-eye"></i> Xem Hồ Sơ
                 </a>

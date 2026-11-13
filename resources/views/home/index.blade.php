@@ -92,7 +92,7 @@
             grid-template-columns: 1fr !important;
         }
         .home-grid-4 {
-            grid-template-columns: repeat(2, 1fr) !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         }
         .home-grid-3 {
             grid-template-columns: 1fr !important;
@@ -110,7 +110,7 @@
 
 <!-- 1. HERO SECTION -->
 <section style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%); padding: 3.5rem 0 3.2rem 0; border-bottom: 1px solid #e2e8f0;">
-    <div class="container home-hero-grid" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3.2rem; align-items: center;">
+    <div class="container home-hero-grid" style="display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 3.2rem; align-items: center;">
         {{-- CỘT TRÁI: TIÊU ĐỀ & KHUNG TÌM KIẾM CÂN ĐỐI --}}
         <div>
             <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: #dbeafe; color: #1e40af; font-size: 0.82rem; font-weight: 700; padding: 0.4rem 1rem; margin-bottom: 1rem; border-radius: 50px; border: 1px solid #bfdbfe;">
@@ -127,7 +127,7 @@
             <div style="background: #ffffff; padding: 1.5rem 1.6rem; border-radius: 20px; border: 1px solid #cbd5e1; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);">
                 <form action="{{ route('danh-sach-lop-hoc') }}" method="GET" style="display: flex; flex-direction: column; gap: 0.95rem;">
                     <!-- Hàng 1: Môn Học (1fr) & Khối Lớp (1fr) thẳng hàng ngang bằng -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem;">
                         <div>
                             <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
                                 <span>📚</span> Môn Học
@@ -148,7 +148,7 @@
                     </div>
 
                     <!-- Hàng 2: Tỉnh / Thành Phố (1fr) & Quận / Huyện / TP (1fr) thẳng hàng khớp 100% -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem;">
                         <div>
                             <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
                                 <span>🏙️</span> Tỉnh / Thành Phố
@@ -219,7 +219,7 @@
             </div>
 
             {{-- 2 Thẻ tiện ích bên dưới để cân bằng chiều cao --}}
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; margin-top: 2rem;">
                 <div style="background: #ffffff; padding: 0.95rem 1.1rem; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 0.75rem;">
                     <div style="width: 38px; height: 38px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">
                         <i class="fas fa-bolt"></i>
@@ -246,7 +246,7 @@
 <!-- 2. STATS COUNTER BAR -->
 <section style="padding: 2.6rem 0; background: #ffffff; border-bottom: 1px solid #e2e8f0;">
     <div class="container">
-        <div class="home-grid-4" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: center;">
+        <div class="home-grid-4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; text-align: center;">
             <div style="padding: 1.4rem; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;">
                 <div style="font-size: 2.1rem; font-weight: 800; color: #2563eb; margin-bottom: 0.25rem;">{{ number_format($stats['tong_gia_su']) }}+</div>
                 <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">Gia Sư Chất Lượng</div>
@@ -295,7 +295,7 @@
             ];
         @endphp
 
-        <div class="home-grid-4" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; align-items: stretch;">
+        <div class="home-grid-4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch;">
             @foreach($danhMucMon as $mon)
             <a href="{{ route('danh-sach-gia-su', ['keyword' => $mon['kw']]) }}" class="subject-card">
                 <div>
@@ -330,7 +330,7 @@
             <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline btn-sm">Xem Tất Cả Gia Sư <i class="fas fa-arrow-right"></i></a>
         </div>
 
-        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; align-items: stretch;">
+        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; align-items: stretch;">
             @forelse($gia_su_noi_bat as $hs)
             <div class="glass-card" style="border-radius: 20px; padding: 1.65rem; border: 1px solid #e2e8f0; background: #ffffff; transition: all 0.25s ease; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.03);" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#93c5fd';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0';">
                 {{-- Header: Avatar + Tên + Đánh giá sao --}}
@@ -374,7 +374,7 @@
                 </div>
 
                 {{-- Footer Buttons cố định đáy --}}
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-top: auto;">
+                <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.65rem; margin-top: auto;">
                     <a href="{{ route('chi-tiet-gia-su', $hs->id) }}" class="btn btn-outline btn-sm" style="border-radius: 10px; font-size: 0.84rem; padding: 0.6rem; text-align: center; background: #ffffff; font-weight: 700;">
                         <i class="fas fa-id-card"></i> Xem Hồ Sơ
                     </a>
@@ -403,21 +403,21 @@
             <a href="{{ route('danh-sach-lop-hoc') }}" class="btn btn-outline btn-sm">Xem Tất Cả Lớp Mới <i class="fas fa-arrow-right"></i></a>
         </div>
 
-        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; align-items: stretch;">
+        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; align-items: stretch;">
             @forelse($lop_moi as $lop)
             <div class="glass-card" style="border-radius: 20px; padding: 1.65rem; border: 1px solid #e2e8f0; background: #ffffff; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.03); transition: all 0.22s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#93c5fd';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0';">
                 {{-- Hàng 1: Mã lớp + Badge môn khối + Học phí thông minh --}}
-                <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.85rem; min-height: 32px;">
-                    <div style="display: flex; align-items: center; gap: 0.4rem; overflow: hidden;">
-                        <span style="font-size: 0.74rem; font-weight: 800; color: #1e40af; background: #dbeafe; padding: 0.22rem 0.55rem; border-radius: 6px; flex-shrink: 0;">
-                            {{ $lop->ma_lop }}
-                        </span>
-                        <span class="badge badge-info" style="font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}">
-                            {{ $lop->mon_hoc }} • {{ $lop->khoi_lop }}
-                        </span>
-                    </div>
-                    <span style="font-weight: 800; color: #2563eb; font-size: 1rem; white-space: nowrap; flex-shrink: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; height: 28px;">
+                    <span style="font-size: 0.76rem; font-weight: 800; color: #1e40af; background: #dbeafe; padding: 0.24rem 0.6rem; border-radius: 6px; flex-shrink: 0;">
+                        {{ $lop->ma_lop }}
+                    </span>
+                    <span style="font-weight: 800; color: #2563eb; font-size: 1.02rem; white-space: nowrap; flex-shrink: 0;">
                         {{ $lop->hoc_phi_hien_thi }}
+                    </span>
+                </div>
+                <div style="margin-bottom: 0.75rem; height: 28px; display: flex; align-items: center;">
+                    <span class="badge badge-info" style="font-size: 0.78rem; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block;" title="{{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}">
+                        📚 {{ $lop->mon_hoc }} • {{ $lop->khoi_lop }}
                     </span>
                 </div>
 
@@ -466,7 +466,7 @@
             </p>
         </div>
 
-        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; align-items: stretch;">
+        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; align-items: stretch;">
             {{-- Gói 1: Tiểu học --}}
             <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 20px; padding: 1.8rem; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
@@ -574,7 +574,7 @@
             <h2 style="font-size: 1.75rem; font-weight: 800; color: #0f172a; margin-top: 0.3rem;">⚡ Dễ Dàng & Minh Bạch Trong 4 Bước</h2>
         </div>
 
-        <div class="home-grid-4" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: center; align-items: stretch;">
+        <div class="home-grid-4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; text-align: center; align-items: stretch;">
             <div style="background: #ffffff; padding: 1.9rem 1.3rem; border-radius: 18px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column;">
                 <div style="width: 54px; height: 54px; background: #dbeafe; color: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 800; margin: 0 auto 1.1rem auto;">1</div>
                 <h3 style="font-size: 1.02rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">Đăng Ký / Chọn Gia Sư</h3>
@@ -633,7 +633,7 @@
             ];
         @endphp
 
-        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; align-items: stretch;">
+        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; align-items: stretch;">
             @if(isset($danh_gia_noi_bat) && $danh_gia_noi_bat->count() >= 3)
                 @foreach($danh_gia_noi_bat->take(3) as $dg)
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 1.65rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box;">

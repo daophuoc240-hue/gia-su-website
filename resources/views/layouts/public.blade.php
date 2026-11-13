@@ -147,6 +147,9 @@
         .pub-footer a:hover {
             color: #ffffff;
         }
+        .glass-card, .subject-card {
+            min-width: 0;
+        }
         .container {
             width: 90%;
             max-width: 1240px;

@@ -32,7 +32,7 @@
                 Thông qua nền tảng công nghệ số hóa, Phụ huynh có thể trực tiếp xem hồ sơ năng lực, trường đào tạo, điểm đánh giá và khung giờ rảnh của từng gia sư; đồng thời Gia sư chủ động tìm kiếm và ứng tuyển lớp học phù hợp mà không qua trung gian mập mờ.
             </p>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem;">
                 <div style="background: #f8fafc; padding: 1rem 1.2rem; border-radius: 14px; border: 1px solid #e2e8f0;">
                     <div style="font-weight: 800; color: #2563eb; font-size: 1.4rem;">100%</div>
                     <div style="font-weight: 700; color: #0f172a; font-size: 0.88rem;">Hồ Sơ Xác Thực</div>
@@ -58,7 +58,7 @@
             <p style="font-size: 0.92rem; color: #64748b; margin: 0;">Mỗi gia sư trên hệ thống đều phải vượt qua 3 bước thẩm định chặt chẽ trước khi nhận lớp.</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; align-items: stretch;">
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; align-items: stretch;">
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 2rem; display: flex; flex-direction: column;">
                 <div style="width: 52px; height: 52px; border-radius: 14px; background: #dbeafe; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; margin-bottom: 1.2rem;">
                     01

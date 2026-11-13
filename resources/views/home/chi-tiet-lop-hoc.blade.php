@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.8rem;">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; margin-bottom: 1.8rem;">
                 <div style="background: #f8fafc; padding: 1rem 1.2rem; border-radius: 14px; border: 1px solid #e2e8f0;">
                     <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">📍 Địa chỉ / Khu vực giảng dạy</div>
                     <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">{{ $lop->dia_chi_day }}</div>
@@ -58,7 +58,7 @@
             <!-- Quy trình nhận lớp chuẩn -->
             <div style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
                 <h3 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-bottom: 0.9rem;">🛡️ Lưu Ý & Cam Kết Khi Nhận Lớp Tại Gia Sư Tri Thức</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; font-size: 0.86rem; color: #475569;">
+                <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.85rem; font-size: 0.86rem; color: #475569;">
                     <div style="display: flex; align-items: flex-start; gap: 0.55rem;">
                         <i class="fas fa-check-circle" style="color: #10b981; margin-top: 0.2rem;"></i>
                         <span>Thông tin lớp học đã được xác minh trực tiếp với phụ huynh.</span>
@@ -167,7 +167,7 @@
             <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0;">📚 Các Lớp Học Tương Tự Đang Cần Gia Sư</h2>
             <a href="{{ route('danh-sach-lop-hoc') }}" class="btn btn-outline btn-sm">Xem tất cả lớp <i class="fas fa-arrow-right"></i></a>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: stretch;">
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; align-items: stretch;">
             @foreach($lop_tuong_tu as $lt)
             <div class="glass-card" style="border-radius: 18px; padding: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem;">

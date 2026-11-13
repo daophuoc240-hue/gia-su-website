@@ -284,7 +284,7 @@
                     <form method="POST" action="{{ route('giasu.dang-ky-gio-day', $ho_so->id) }}">
                         @csrf
 
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1rem;">
+                        <div style="display:grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; margin-bottom: 1rem;">
                             {{-- Môn học --}}
                             <div>
                                 <label style="font-size:0.88rem; font-weight:700; color:#334155; margin-bottom:0.3rem; display:block;">
@@ -331,7 +331,7 @@
                             </div>
                         </div>
 
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1rem;">
+                        <div style="display:grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; margin-bottom: 1rem;">
                             {{-- Khung giờ học --}}
                             <div>
                                 <label style="font-size:0.88rem; font-weight:700; color:#334155; margin-bottom:0.3rem; display:block;">
@@ -365,7 +365,7 @@
                             <label style="font-size:0.88rem; font-weight:700; color:#334155; margin-bottom:0.4rem; display:block;">
                                 📍 Khu Vực & Địa Chỉ Học Tại Nhà <span style="color:#ef4444;">*</span>
                             </label>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem;">
+                            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.8rem; margin-bottom: 0.6rem;">
                                 <div>
                                     <label style="font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.2rem; display: block;">Tỉnh / Thành phố</label>
                                     <select name="dk_tinh_thanh" id="dk_tinh_thanh" class="form-select select-tinh-thanh" style="font-size:0.88rem;">
@@ -457,7 +457,7 @@
             <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0;">👨‍🏫 Gia Sư Cùng Chuyên Môn Khác</h2>
             <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline btn-sm">Xem tất cả gia sư <i class="fas fa-arrow-right"></i></a>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: stretch;">
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; align-items: stretch;">
             @foreach($gia_su_tuong_tu as $gs)
             <div class="glass-card" style="border-radius: 18px; padding: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
                 <div style="display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1rem;">

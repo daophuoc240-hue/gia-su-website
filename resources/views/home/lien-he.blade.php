@@ -16,7 +16,7 @@
 
 <div class="container" style="margin-bottom: 4rem;">
     <!-- 4 Kênh Liên Hệ Nhanh -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 2.8rem;">
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; margin-bottom: 2.8rem;">
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 1.4rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
             <div style="width: 48px; height: 48px; border-radius: 12px; background: #dbeafe; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;">
                 <i class="fas fa-phone-alt"></i>
@@ -59,13 +59,13 @@
     </div>
 
     <!-- Form Liên Hệ & Thông Tin Trụ Sở -->
-    <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 2.2rem; align-items: stretch;">
+    <div style="display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 2.2rem; align-items: stretch;">
         <div class="glass-card" style="padding: 2.2rem; border-radius: 20px; background: #ffffff; border: 1px solid #e2e8f0;">
             <h3 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin: 0 0 0.4rem 0;">📬 Gửi Yêu Cầu Tư Vấn Nhanh</h3>
             <p style="font-size: 0.88rem; color: #64748b; margin: 0 0 1.5rem 0;">Điền thông tin bên dưới, chuyên viên điều phối sẽ liên hệ lại với bạn trong vòng 15 phút.</p>
 
             <form onsubmit="alert('🎉 Cảm ơn bạn đã gửi yêu cầu! Bộ phận tư vấn Gia Sư Tri Thức sẽ liên hệ hỗ trợ bạn trong thời gian sớm nhất.'); this.reset(); return false;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; margin-bottom: 1rem;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label">Họ và Tên <span style="color:#ef4444;">*</span></label>
                         <input type="text" class="form-control" placeholder="Nhập họ và tên của bạn..." required>
