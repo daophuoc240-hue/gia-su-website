@@ -8,11 +8,33 @@ use App\Models\HoSoGiaSu;
 use App\Models\LopHoc;
 use App\Models\DangKyNhanLop;
 use App\Models\ThongBao;
+use App\Models\LienHe;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     // Dashboard
+    public function danhSachLienHe(Request $request)
+    {
+        $query = LienHe::query();
+        if ($request->filled('trang_thai') && in_array($request->trang_thai, ['moi', 'da_xu_ly'])) {
+            $query->where('trang_thai', $request->trang_thai);
+        }
+        $lien_hes = $query->latest()->paginate(15)->withQueryString();
+        $dem = [
+            'moi'      => LienHe::where('trang_thai', 'moi')->count(),
+            'da_xu_ly' => LienHe::where('trang_thai', 'da_xu_ly')->count(),
+        ];
+        return view('admin.lien-he.index', compact('lien_hes', 'dem'));
+    }
+
+    public function xuLyLienHe($id)
+    {
+        $lh = LienHe::findOrFail($id);
+        $lh->update(['trang_thai' => $lh->trang_thai === 'moi' ? 'da_xu_ly' : 'moi']);
+        return back()->with('success', 'Đã cập nhật trạng thái yêu cầu của ' . $lh->ho_ten . '.');
+    }
+
     public function dashboard()
     {
         $stats = [

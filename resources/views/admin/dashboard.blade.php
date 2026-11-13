@@ -28,6 +28,11 @@
         <span class="nav-icon"><i class="fas fa-chalkboard-teacher"></i></span> Lớp Học
     </a>
 </div>
+<div class="nav-item">
+    <a href="{{ route('admin.lien-he.index') }}" class="nav-link {{ request()->routeIs('admin.lien-he*') ? 'active' : '' }}">
+        <span class="nav-icon"><i class="fas fa-headset"></i></span> Tư Vấn / Liên Hệ
+    </a>
+</div>
 @endsection
 
 @section('content')

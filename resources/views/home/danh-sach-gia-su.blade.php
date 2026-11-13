@@ -53,6 +53,37 @@
                 </div>
             </div>
 
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem;">
+                <div>
+                    <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">Trình độ gia sư</label>
+                    <select name="trinh_do" class="form-select" style="width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.65rem 0.9rem;">
+                        <option value="">-- Tất cả trình độ --</option>
+                        @foreach(\App\Helpers\BangGiaHocPhi::TRINH_DO as $k => $v)
+                            <option value="{{ $k }}" {{ request('trinh_do') === $k ? 'selected' : '' }}>{{ $v }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">Cấp học giảng dạy</label>
+                    <select name="cap_day" class="form-select" style="width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.65rem 0.9rem;">
+                        <option value="">-- Tất cả cấp học --</option>
+                        @foreach(\App\Helpers\BangGiaHocPhi::CAP_DAY as $k => $v)
+                            <option value="{{ $k }}" {{ request('cap_day') === $k ? 'selected' : '' }}>{{ $v }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 0.35rem; display: block;">Học phí tối đa / buổi</label>
+                    <select name="hoc_phi_toi_da" class="form-select" style="width: 100%; box-sizing: border-box; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.65rem 0.9rem;">
+                        <option value="">-- Mọi mức học phí --</option>
+                        <option value="150000" {{ request('hoc_phi_toi_da') == '150000' ? 'selected' : '' }}>≤ 150.000 đ/buổi</option>
+                        <option value="200000" {{ request('hoc_phi_toi_da') == '200000' ? 'selected' : '' }}>≤ 200.000 đ/buổi</option>
+                        <option value="250000" {{ request('hoc_phi_toi_da') == '250000' ? 'selected' : '' }}>≤ 250.000 đ/buổi</option>
+                        <option value="350000" {{ request('hoc_phi_toi_da') == '350000' ? 'selected' : '' }}>≤ 350.000 đ/buổi</option>
+                    </select>
+                </div>
+            </div>
+
             <div style="display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center; border-top: 1px dashed #e2e8f0; padding-top: 0.8rem;">
                 <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline" style="padding: 0.65rem 1.3rem; border-radius: 10px; font-size: 0.88rem;">
                     <i class="fas fa-redo"></i> Xóa Bộ Lọc

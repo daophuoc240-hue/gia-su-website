@@ -745,20 +745,100 @@
     </div>
 </section>
 
-<!-- 10. CALL TO ACTION BANNER -->
-<section style="padding: 4.2rem 0; background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: #ffffff; text-align: center;">
-    <div class="container" style="max-width: 820px;">
-        <h2 style="font-size: 2.1rem; font-weight: 800; margin-bottom: 0.9rem; color: #ffffff;">Sẵn Sàng Nâng Cao Kết Quả Học Tập Ngay Hôm Nay?</h2>
-        <p style="font-size: 1.02rem; color: #bfdbfe; margin-bottom: 2rem; line-height: 1.7;">
-            Đồng hành cùng hệ thống Gia Sư Tri Thức để kết nối gia sư giỏi tận tâm hoặc nhận lớp dạy kèm phù hợp nhất tại khu vực của bạn.
-        </p>
-        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <a href="{{ route('danh-sach-gia-su') }}" class="btn" style="background: #ffffff; color: #1e3a8a; padding: 0.9rem 1.8rem; font-weight: 800; font-size: 0.96rem; border-radius: 12px;">
-                <i class="fas fa-user-graduate"></i> Tìm Gia Sư Giỏi Ngay
+<!-- 10. GÓC KINH NGHIỆM & CẨM NANG CHỌN GIA SƯ -->
+@if(!empty($bai_viets))
+<section style="padding: 4rem 0; background: #ffffff; border-top: 1px solid #e2e8f0;">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.2rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <span style="color: #2563eb; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Cẩm Nang Giáo Dục</span>
+                <h2 style="font-size: 1.75rem; font-weight: 800; color: #0f172a; margin: 0.3rem 0 0 0;">📖 Góc Kinh Nghiệm Chọn Gia Sư & Học Tập</h2>
+            </div>
+            <a href="{{ route('kinh-nghiem') }}" class="btn btn-outline btn-sm">Xem Tất Cả Bài Viết <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="home-grid-3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; align-items: stretch;">
+            @foreach($bai_viets as $slug => $bv)
+            <a href="{{ route('bai-viet', $slug) }}" style="text-decoration: none; color: inherit;">
+                <div class="glass-card" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 1.65rem; height: 100%; display: flex; flex-direction: column; box-sizing: border-box; transition: all 0.22s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#93c5fd'; this.style.background='#ffffff';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem;">
+                        <span style="font-size: 0.76rem; font-weight: 800; color: {{ $bv['mau'][1] }}; background: {{ $bv['mau'][0] }}; padding: 0.25rem 0.75rem; border-radius: 50px;">
+                            {{ $bv['icon'] }} {{ $bv['nhom'] }}
+                        </span>
+                        <span style="font-size: 0.76rem; color: #64748b;">{{ $bv['doc_phut'] }} phút đọc</span>
+                    </div>
+                    <h3 style="font-size: 1.04rem; font-weight: 800; color: #0f172a; margin: 0 0 0.55rem 0; line-height: 1.4;">
+                        {{ $bv['tieu_de'] }}
+                    </h3>
+                    <p style="font-size: 0.86rem; color: #475569; line-height: 1.6; margin: 0 0 1.1rem 0; flex: 1;">
+                        {{ $bv['tom_tat'] }}
+                    </p>
+                    <div style="margin-top: auto; font-size: 0.82rem; font-weight: 700; color: #2563eb;">
+                        Xem chi tiết →
+                    </div>
+                </div>
             </a>
-            <a href="{{ route('register') }}" class="btn btn-outline" style="border: 1.5px solid #ffffff; color: #ffffff; background: rgba(255,255,255,0.1); padding: 0.9rem 1.8rem; font-weight: 700; font-size: 0.96rem; border-radius: 12px;">
-                <i class="fas fa-chalkboard-teacher"></i> Đăng Ký Làm Gia Sư
-            </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+<!-- 11. FORM ĐĂNG KÝ NHẬN TƯ VẤN NHANH TRONG 15 PHÚT (KHÔNG CẦN TẠO TÀI KHOẢN) -->
+<section id="form-tu-van" style="padding: 4.2rem 0; background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: #ffffff;">
+    <div class="container" style="display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 3rem; align-items: center;">
+        <div>
+            <span style="display: inline-block; background: rgba(255,255,255,0.18); color: #ffffff; font-size: 0.78rem; font-weight: 800; padding: 0.35rem 0.9rem; border-radius: 50px; margin-bottom: 0.9rem;">
+                ⚡ HỖ TRỢ NHANH TRONG 15 PHÚT
+            </span>
+            <h2 style="font-size: 2rem; font-weight: 800; margin: 0 0 0.9rem 0; color: #ffffff; line-height: 1.3;">
+                Cần Tìm Gia Sư Gấp? Để Lại Số Điện Thoại Để Được Tư Vấn Ngay!
+            </h2>
+            <p style="font-size: 0.98rem; color: #dbeafe; margin: 0 0 1.5rem 0; line-height: 1.7;">
+                Không cần đăng ký tài khoản phức tạp – chỉ cần để lại thông tin, bộ phận điều phối của Gia Sư Tri Thức sẽ gọi lại tư vấn lộ trình và chọn 2–3 hồ sơ gia sư phù hợp nhất cho con bạn.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="{{ route('danh-sach-gia-su') }}" class="btn" style="background: #ffffff; color: #1e3a8a; padding: 0.85rem 1.6rem; font-weight: 800; font-size: 0.92rem; border-radius: 12px;">
+                    <i class="fas fa-user-graduate"></i> Tự Chọn Gia Sư
+                </a>
+                <a href="{{ route('tuyen-gia-su') }}" class="btn btn-outline" style="border: 1.5px solid #ffffff; color: #ffffff; background: rgba(255,255,255,0.1); padding: 0.85rem 1.6rem; font-weight: 700; font-size: 0.92rem; border-radius: 12px;">
+                    <i class="fas fa-chalkboard-teacher"></i> Đăng Ký Làm Gia Sư
+                </a>
+            </div>
+        </div>
+
+        <div style="background: #ffffff; color: #0f172a; padding: 2rem; border-radius: 22px; box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);">
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin: 0 0 0.35rem 0;">📞 Yêu Cầu Gọi Lại Tư Vấn Miễn Phí</h3>
+            <p style="font-size: 0.84rem; color: #64748b; margin: 0 0 1.2rem 0;">Cam kết bảo mật thông tin phụ huynh 100%.</p>
+
+            @if(session('lien_he_ok'))
+                <div style="background: #ecfdf5; border: 1.5px solid #6ee7b7; color: #065f46; padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1rem; font-size: 0.86rem; font-weight: 700;">
+                    ✅ {{ session('lien_he_ok') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('lien-he.gui') }}" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                @csrf
+                <input type="hidden" name="loai" value="tu_van_nhanh">
+                <input type="text" name="website" value="" style="display:none;" tabindex="-1" autocomplete="off">
+                <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.85rem;">
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.3rem;">Họ tên Phụ huynh / Học viên *</label>
+                        <input type="text" name="ho_ten" class="form-control" placeholder="Ví dụ: Chị Lan..." required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.3rem;">Số điện thoại / Zalo *</label>
+                        <input type="text" name="so_dien_thoai" class="form-control" placeholder="0912345678..." required>
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.3rem;">Môn học, khối lớp & khu vực cần tìm</label>
+                    <input type="text" name="noi_dung" class="form-control" placeholder="Ví dụ: Tìm gia sư Toán lớp 9 tại Quận 3, học 2 buổi/tuần...">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" style="padding: 0.85rem; border-radius: 12px; font-weight: 800; font-size: 0.94rem;">
+                    <i class="fas fa-paper-plane"></i> Gửi Yêu Cầu Tư Vấn Ngay
+                </button>
+            </form>
         </div>
     </div>
 </section>

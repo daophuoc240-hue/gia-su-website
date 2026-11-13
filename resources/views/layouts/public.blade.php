@@ -257,7 +257,8 @@
                 <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="fas fa-home"></i> Trang Chủ</a></li>
                 <li><a href="{{ route('danh-sach-gia-su') }}" class="{{ request()->routeIs('danh-sach-gia-su*') || request()->routeIs('chi-tiet-gia-su*') ? 'active' : '' }}"><i class="fas fa-user-graduate"></i> Gia Sư Uy Tín</a></li>
                 <li><a href="{{ route('danh-sach-lop-hoc') }}" class="{{ request()->routeIs('danh-sach-lop-hoc*') || request()->routeIs('chi-tiet-lop-hoc*') ? 'active' : '' }}"><i class="fas fa-chalkboard-teacher"></i> Lớp Học Mới</a></li>
-                <li><a href="{{ route('gioi-thieu') }}" class="{{ request()->routeIs('gioi-thieu') ? 'active' : '' }}"><i class="fas fa-info-circle"></i> Giới Thiệu</a></li>
+                <li><a href="{{ route('tuyen-gia-su') }}" class="{{ request()->routeIs('tuyen-gia-su') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> Tuyển Gia Sư</a></li>
+                <li><a href="{{ route('kinh-nghiem') }}" class="{{ request()->routeIs('kinh-nghiem*') || request()->routeIs('bai-viet*') ? 'active' : '' }}"><i class="fas fa-book-reader"></i> Kinh Nghiệm</a></li>
                 <li><a href="{{ route('lien-he') }}" class="{{ request()->routeIs('lien-he') ? 'active' : '' }}"><i class="fas fa-phone-alt"></i> Liên Hệ</a></li>
             </ul>
 
@@ -382,10 +383,10 @@
                 <div>
                     <h4>Dành Cho Gia Sư</h4>
                     <ul style="list-style: none; padding: 0; margin: 0; line-height: 2.25; font-size: 0.9rem;">
-                        <li><a href="{{ route('register') }}">Đăng ký làm gia sư</a></li>
+                        <li><a href="{{ route('tuyen-gia-su') }}">Tuyển dụng gia sư</a></li>
                         <li><a href="{{ route('danh-sach-lop-hoc') }}">Danh sách lớp mới nhất</a></li>
-                        <li><a href="{{ route('login') }}">Cập nhật hồ sơ năng lực</a></li>
-                        <li><a href="{{ route('lien-he') }}">Chính sách nhận lớp minh bạch</a></li>
+                        <li><a href="{{ route('kinh-nghiem') }}">Góc kinh nghiệm & Cẩm nang</a></li>
+                        <li><a href="{{ route('chinh-sach') }}">Chính sách & Khung học phí</a></li>
                     </ul>
                 </div>
 

@@ -25,6 +25,12 @@ Route::get('/danh-sach-lop-hoc',[HomeController::class, 'danhSachLopHoc'])->name
 Route::get('/lop-hoc/{id}',     [HomeController::class, 'chiTietLopHoc'])->whereNumber('id')->name('chi-tiet-lop-hoc');
 Route::get('/gioi-thieu',       [HomeController::class, 'gioiThieu'])->name('gioi-thieu');
 Route::get('/lien-he',          [HomeController::class, 'lienHe'])->name('lien-he');
+Route::post('/lien-he/gui',     [HomeController::class, 'lienHeGui'])->middleware('throttle:6,1')->name('lien-he.gui');
+Route::get('/tuyen-gia-su',     [HomeController::class, 'tuyenGiaSu'])->name('tuyen-gia-su');
+Route::get('/chinh-sach',       [HomeController::class, 'chinhSach'])->name('chinh-sach');
+Route::get('/kinh-nghiem',      [HomeController::class, 'kinhNghiem'])->name('kinh-nghiem');
+Route::get('/kinh-nghiem/{slug}', [HomeController::class, 'baiViet'])->name('bai-viet');
+Route::get('/sitemap.xml',      [HomeController::class, 'sitemap'])->name('sitemap');
 
 // ==================== AUTH ROUTES ====================
 Route::middleware('guest')->group(function () {
@@ -59,6 +65,10 @@ Route::middleware('auth')->group(function () {
 // ==================== ADMIN ROUTES ====================
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Yêu cầu tư vấn / liên hệ
+    Route::get('/lien-he',               [AdminController::class, 'danhSachLienHe'])->name('lien-he.index');
+    Route::post('/lien-he/{id}/xu-ly',   [AdminController::class, 'xuLyLienHe'])->whereNumber('id')->name('lien-he.xu-ly');
 
     // Quản lý tài khoản
     Route::get('/tai-khoan',              [AdminController::class, 'danhSachTaiKhoan'])->name('tai-khoan.index');

@@ -59,36 +59,59 @@
     </div>
 
     <!-- Form Liên Hệ & Thông Tin Trụ Sở -->
-    <div style="display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 2.2rem; align-items: stretch;">
+    <div id="form-tu-van" style="display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 2.2rem; align-items: stretch;">
         <div class="glass-card" style="padding: 2.2rem; border-radius: 20px; background: #ffffff; border: 1px solid #e2e8f0;">
             <h3 style="font-size: 1.3rem; font-weight: 800; color: #0f172a; margin: 0 0 0.4rem 0;">📬 Gửi Yêu Cầu Tư Vấn Nhanh</h3>
-            <p style="font-size: 0.88rem; color: #64748b; margin: 0 0 1.5rem 0;">Điền thông tin bên dưới, chuyên viên điều phối sẽ liên hệ lại với bạn trong vòng 15 phút.</p>
+            <p style="font-size: 0.88rem; color: #64748b; margin: 0 0 1.4rem 0;">Điền thông tin bên dưới, yêu cầu sẽ được gửi trực tiếp tới Ban quản lý và tư vấn viên sẽ gọi lại trong 15 phút.</p>
 
-            <form onsubmit="alert('🎉 Cảm ơn bạn đã gửi yêu cầu! Bộ phận tư vấn Gia Sư Tri Thức sẽ liên hệ hỗ trợ bạn trong thời gian sớm nhất.'); this.reset(); return false;">
+            @if(session('lien_he_ok'))
+                <div style="background: #ecfdf5; border: 1.5px solid #6ee7b7; color: #065f46; padding: 1rem 1.2rem; border-radius: 12px; margin-bottom: 1.2rem; font-weight: 700; font-size: 0.9rem;">
+                    ✅ {{ session('lien_he_ok') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div style="background: #fef2f2; border: 1.5px solid #fca5a5; color: #991b1b; padding: 0.9rem 1.1rem; border-radius: 12px; margin-bottom: 1.2rem; font-size: 0.86rem;">
+                    @foreach($errors->all() as $err)
+                        <div>• {{ $err }}</div>
+                    @endforeach
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('lien-he.gui') }}">
+                @csrf
+                <input type="text" name="website" value="" style="display:none;" tabindex="-1" autocomplete="off">
+
                 <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; margin-bottom: 1rem;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label">Họ và Tên <span style="color:#ef4444;">*</span></label>
-                        <input type="text" class="form-control" placeholder="Nhập họ và tên của bạn..." required>
+                        <input type="text" name="ho_ten" value="{{ old('ho_ten', auth()->user()->ho_ten ?? '') }}" class="form-control" placeholder="Nhập họ và tên của bạn..." required>
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label">Số Điện Thoại / Zalo <span style="color:#ef4444;">*</span></label>
-                        <input type="text" class="form-control" placeholder="Ví dụ: 0912.345.678..." required>
+                        <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai', auth()->user()->so_dien_thoai ?? '') }}" class="form-control" placeholder="Ví dụ: 0912345678..." required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Email (Không bắt buộc)</label>
+                        <input type="email" name="email" value="{{ old('email', auth()->user()->email ?? '') }}" class="form-control" placeholder="email@domain.com">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Bạn cần hỗ trợ về vấn đề gì?</label>
+                        <select name="loai" class="form-select">
+                            <option value="phu_huynh" {{ old('loai') === 'phu_huynh' ? 'selected' : '' }}>👨‍👩‍👧 Phụ huynh / Học viên tìm gia sư</option>
+                            <option value="gia_su" {{ old('loai') === 'gia_su' ? 'selected' : '' }}>👨‍🏫 Gia sư cần hỗ trợ hồ sơ / nhận lớp</option>
+                            <option value="doi_gia_su" {{ old('loai') === 'doi_gia_su' ? 'selected' : '' }}>🔄 Đổi lịch học / đổi gia sư</option>
+                            <option value="khac" {{ old('loai') === 'khac' ? 'selected' : '' }}>💬 Góp ý dịch vụ & Hợp tác khác</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Bạn cần hỗ trợ về vấn đề gì?</label>
-                    <select class="form-select">
-                        <option value="phu_huynh">👨‍👩‍👧 Phụ huynh / Học viên cần tư vấn tìm gia sư</option>
-                        <option value="gia_su">👨‍🏫 Giáo viên / Sinh viên cần hỗ trợ duyệt hồ sơ & nhận lớp</option>
-                        <option value="doi_gia_su">🔄 Yêu cầu hỗ trợ đổi lịch học / đổi gia sư</option>
-                        <option value="khac">💬 Góp ý dịch vụ & Hợp tác khác</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Nội dung chi tiết <span style="color:#ef4444;">*</span></label>
-                    <textarea class="form-control" rows="4" placeholder="Mô tả môn học, khối lớp, khu vực hoặc thắc mắc cần giải đáp..." required></textarea>
+                    <label class="form-label">Nội dung chi tiết</label>
+                    <textarea name="noi_dung" class="form-control" rows="4" placeholder="Mô tả môn học, khối lớp, khu vực hoặc thắc mắc cần giải đáp...">{{ old('noi_dung') }}</textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block" style="padding: 0.9rem; border-radius: 12px; font-weight: 800; font-size: 0.95rem;">

@@ -8,6 +8,9 @@ use App\Models\TaiKhoan;
 use App\Models\DanhGia;
 use App\Models\DangKyNhanLop;
 use App\Models\ThongBao;
+use App\Models\LienHe;
+use App\Helpers\BaiViet;
+use App\Helpers\BangGiaHocPhi;
 use App\Helpers\DiaDiem;
 use Illuminate\Http\Request;
 
@@ -39,7 +42,9 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
-        return view('home.index', compact('stats', 'gia_su_noi_bat', 'lop_moi', 'danh_gia_noi_bat'));
+        return view('home.index', compact('stats', 'gia_su_noi_bat', 'lop_moi', 'danh_gia_noi_bat') + [
+            'bai_viets' => array_slice(BaiViet::all(), 0, 3, true),
+        ]);
     }
 
     public function danhSachGiaSu(Request $request)
@@ -67,6 +72,17 @@ class HomeController extends Controller
                 $request->input('quan_huyen'),
                 $request->input('khu_vuc')
             );
+        }
+
+        // Bộ lọc nâng cao: trình độ, cấp học dạy, mức học phí tối đa
+        if ($request->filled('trinh_do') && array_key_exists($request->trinh_do, BangGiaHocPhi::TRINH_DO)) {
+            $query->where('trinh_do', $request->trinh_do);
+        }
+        if ($request->filled('cap_day') && array_key_exists($request->cap_day, BangGiaHocPhi::CAP_DAY)) {
+            $query->where('cap_day', $request->cap_day);
+        }
+        if ($request->filled('hoc_phi_toi_da') && is_numeric($request->hoc_phi_toi_da)) {
+            $query->where('hoc_phi_theo_gio', '<=', (float) $request->hoc_phi_toi_da);
         }
 
         // Sắp xếp gia sư theo tiêu chí
@@ -323,6 +339,108 @@ class HomeController extends Controller
             ->get();
 
         return view('home.chi-tiet-lop-hoc', compact('lop', 'daDangKy', 'lop_tuong_tu'));
+    }
+
+    public function lienHeGui(Request $request)
+    {
+        // Honeypot chống bot: trường ẩn "website" phải để trống
+        if ($request->filled('website')) {
+            return redirect(url()->previous() . '#form-tu-van')->with('lien_he_ok', 'Cảm ơn bạn! Chúng tôi đã nhận được yêu cầu.');
+        }
+
+        $data = $request->validate([
+            'ho_ten'        => 'required|string|max:100',
+            'so_dien_thoai' => ['required', 'string', 'max:20', 'regex:/^(\+84|0)[0-9 .\-]{8,12}$/'],
+            'email'         => 'nullable|email|max:150',
+            'loai'          => 'nullable|in:' . implode(',', array_keys(LienHe::LOAI)),
+            'noi_dung'      => 'nullable|string|max:1500',
+        ], [
+            'ho_ten.required'        => 'Vui lòng nhập họ và tên.',
+            'so_dien_thoai.required' => 'Vui lòng nhập số điện thoại để chúng tôi liên hệ lại.',
+            'so_dien_thoai.regex'    => 'Số điện thoại chưa đúng định dạng (ví dụ: 0912345678).',
+            'email.email'            => 'Email chưa đúng định dạng.',
+        ]);
+
+        $lienHe = LienHe::create([
+            'ho_ten'        => trim($data['ho_ten']),
+            'so_dien_thoai' => preg_replace('/[ .\-]/', '', $data['so_dien_thoai']),
+            'email'         => $data['email'] ?? null,
+            'loai'          => $data['loai'] ?? 'tu_van_nhanh',
+            'noi_dung'      => $data['noi_dung'] ?? null,
+            'trang_thai'    => 'moi',
+        ]);
+
+        foreach (TaiKhoan::where('vai_tro', 'admin')->get() as $admin) {
+            ThongBao::gui(
+                $admin->id,
+                "📩 Yêu cầu tư vấn mới từ {$lienHe->ho_ten}",
+                "{$lienHe->loai_label} – SĐT: {$lienHe->so_dien_thoai}." . ($lienHe->noi_dung ? ' Nội dung: ' . \Illuminate\Support\Str::limit($lienHe->noi_dung, 120) : ''),
+                route('admin.lien-he.index'),
+                'he_thong'
+            );
+        }
+
+        return redirect(url()->previous() . '#form-tu-van')
+            ->with('lien_he_ok', "Cảm ơn {$lienHe->ho_ten}! Tư vấn viên sẽ gọi lại cho bạn qua số {$lienHe->so_dien_thoai} trong thời gian sớm nhất.");
+    }
+
+    public function tuyenGiaSu()
+    {
+        $stats = [
+            'tong_gia_su'  => HoSoGiaSu::where('trang_thai_duyet', 'da_duyet')->count(),
+            'lop_dang_tim' => LopHoc::where('trang_thai', 'dang_tim')->count(),
+        ];
+        return view('home.tuyen-gia-su', compact('stats'));
+    }
+
+    public function chinhSach()
+    {
+        return view('home.chinh-sach');
+    }
+
+    public function kinhNghiem()
+    {
+        return view('home.kinh-nghiem', ['bai_viets' => BaiViet::all()]);
+    }
+
+    public function baiViet(string $slug)
+    {
+        $bai = BaiViet::find($slug);
+        abort_if(!$bai, 404);
+
+        $lien_quan = collect(BaiViet::all())->except($slug)->take(3)->all();
+        return view('home.bai-viet', ['bai' => $bai, 'lien_quan' => $lien_quan]);
+    }
+
+    public function sitemap()
+    {
+        $urls = [
+            [route('home'), '1.0'],
+            [route('danh-sach-gia-su'), '0.9'],
+            [route('danh-sach-lop-hoc'), '0.9'],
+            [route('gioi-thieu'), '0.6'],
+            [route('lien-he'), '0.6'],
+            [route('tuyen-gia-su'), '0.7'],
+            [route('kinh-nghiem'), '0.6'],
+            [route('chinh-sach'), '0.3'],
+        ];
+        foreach (array_keys(BaiViet::all()) as $slug) {
+            $urls[] = [route('bai-viet', $slug), '0.5'];
+        }
+        foreach (HoSoGiaSu::where('trang_thai_duyet', 'da_duyet')->pluck('id') as $id) {
+            $urls[] = [route('chi-tiet-gia-su', $id), '0.7'];
+        }
+        foreach (LopHoc::where('trang_thai', 'dang_tim')->pluck('id') as $id) {
+            $urls[] = [route('chi-tiet-lop-hoc', $id), '0.7'];
+        }
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+        foreach ($urls as [$loc, $priority]) {
+            $xml .= '  <url><loc>' . e($loc) . '</loc><priority>' . $priority . '</priority></url>' . "\n";
+        }
+        $xml .= '</urlset>';
+
+        return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
     }
 
     public function gioiThieu()
