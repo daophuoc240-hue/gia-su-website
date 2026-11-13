@@ -76,6 +76,23 @@ class LopHoc extends Model
         };
     }
 
+    // Mã lớp chuẩn thị trường (#LH0001)
+    public function getMaLopAttribute(): string
+    {
+        return '#LH' . str_pad((string)$this->id, 4, '0', STR_PAD_LEFT);
+    }
+
+    // Tự động nhận diện đơn vị học phí (đ/buổi nếu < 600,000, đ/tháng nếu >= 600,000)
+    public function getDonViHocPhiAttribute(): string
+    {
+        return ((float)$this->muc_hoc_phi >= 600000) ? 'đ/tháng' : 'đ/buổi';
+    }
+
+    public function getHocPhiHienThiAttribute(): string
+    {
+        return number_format((float)$this->muc_hoc_phi) . ' ' . $this->don_vi_hoc_phi;
+    }
+
     // Compatibility Accessors for Public Portal
     public function getHocPhiAttribute() { return $this->muc_hoc_phi; }
     public function getSoBuoiTrungBinhAttribute() { return $this->so_buoi_tuan; }

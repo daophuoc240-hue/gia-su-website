@@ -24,6 +24,7 @@ class HomeController extends Controller
 
         $gia_su_noi_bat = HoSoGiaSu::with('taiKhoan')
             ->where('trang_thai_duyet', 'da_duyet')
+            ->orderByDesc('diem_trung_binh')
             ->latest()
             ->take(6)
             ->get();
@@ -35,7 +36,7 @@ class HomeController extends Controller
 
         $danh_gia_noi_bat = DanhGia::with(['giaSu', 'hocVien'])
             ->latest()
-            ->take(4)
+            ->take(6)
             ->get();
 
         return view('home.index', compact('stats', 'gia_su_noi_bat', 'lop_moi', 'danh_gia_noi_bat'));
@@ -95,7 +96,15 @@ class HomeController extends Controller
             ->latest()
             ->get();
 
-        return view('home.chi-tiet-gia-su', compact('ho_so', 'danh_gias'));
+        $gia_su_tuong_tu = HoSoGiaSu::with('taiKhoan')
+            ->where('trang_thai_duyet', 'da_duyet')
+            ->where('id', '!=', $ho_so->id)
+            ->orderByRaw('CASE WHEN mon_day LIKE ? THEN 0 ELSE 1 END', ['%' . ($ho_so->mon_day ?: 'Toán') . '%'])
+            ->orderByDesc('diem_trung_binh')
+            ->take(3)
+            ->get();
+
+        return view('home.chi-tiet-gia-su', compact('ho_so', 'danh_gias', 'gia_su_tuong_tu'));
     }
 
     /**
@@ -300,17 +309,31 @@ class HomeController extends Controller
     {
         $lop = LopHoc::with('hocVien')->findOrFail($id);
         $daDangKy = false;
-        if (Auth::check() && Auth::user()->isGiaSu()) {
+        if (auth()->check() && auth()->user()->isGiaSu()) {
             $daDangKy = DangKyNhanLop::where('lop_hoc_id', $id)
-                ->where('gia_su_id', Auth::id())
+                ->where('gia_su_id', auth()->id())
                 ->exists();
         }
-        return view('home.chi-tiet-lop-hoc', compact('lop', 'daDangKy'));
+
+        $lop_tuong_tu = LopHoc::where('trang_thai', 'dang_tim')
+            ->where('id', '!=', $lop->id)
+            ->orderByRaw('CASE WHEN mon_hoc LIKE ? THEN 0 ELSE 1 END', ['%' . ($lop->mon_hoc ?: 'Toán') . '%'])
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('home.chi-tiet-lop-hoc', compact('lop', 'daDangKy', 'lop_tuong_tu'));
     }
 
     public function gioiThieu()
     {
-        return view('home.gioi-thieu');
+        $stats = [
+            'tong_gia_su'  => HoSoGiaSu::where('trang_thai_duyet', 'da_duyet')->count(),
+            'tong_lop_hoc' => LopHoc::count(),
+            'thanh_cong'   => LopHoc::where('trang_thai', 'da_co_gia_su')->count(),
+            'phu_huynh'    => TaiKhoan::where('vai_tro', 'hocvien')->count(),
+        ];
+        return view('home.gioi-thieu', compact('stats'));
     }
 
     public function lienHe()

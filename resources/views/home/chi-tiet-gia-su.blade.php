@@ -94,6 +94,20 @@
             <a href="{{ route('chat.conversation', $ho_so->tai_khoan_id) }}" class="btn btn-outline" style="width: 100%; margin-top: 0.7rem; border-radius: 12px; font-weight: 700; padding: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: #2563eb; border: 1.5px solid #bfdbfe; background: #ffffff; text-decoration: none;">
                 <i class="fas fa-comments"></i> Nhắn Tin Trực Tiếp Với Gia Sư
             </a>
+
+            {{-- Checklist Xác Thực Chuẩn Thị Trường --}}
+            <div style="margin-top: 1.4rem; padding: 1rem; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0; text-align: left; font-size: 0.82rem; color: #334155;">
+                <div style="font-weight: 800; color: #0f172a; margin-bottom: 0.5rem; font-size: 0.85rem;">🛡️ Chứng Nhận Xác Thực</div>
+                <div style="display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.35rem;">
+                    <i class="fas fa-check-circle" style="color: #10b981;"></i> <span>Đã xác minh Căn cước công dân</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.35rem;">
+                    <i class="fas fa-check-circle" style="color: #10b981;"></i> <span>Đã đối chiếu Thẻ SV / Bằng cấp</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                    <i class="fas fa-check-circle" style="color: #10b981;"></i> <span>Cam kết dạy thử 2 buổi đầu</span>
+                </div>
+            </div>
         </div>
 
         <!-- Right Info Details -->
@@ -424,7 +438,7 @@
             </div>
 
             <!-- Contact & Hire Banner -->
-            <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding: 2rem; border-radius: 20px; border: 1px solid #bfdbfe; display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding: 2rem; border-radius: 20px; border: 1px solid #bfdbfe; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <div>
                     <h4 style="font-size: 1.15rem; font-weight: 800; color: #1e40af; margin-bottom: 0.4rem;">Bạn Muốn Mời Gia Sư Này Dạy Kèm?</h4>
                     <p style="font-size: 0.88rem; color: #1e3a8a; margin: 0;">Xem lịch rảnh bên trên và đăng ký giờ dạy trực tiếp hoặc gọi hotline trung tâm để được xếp lớp ngay.</p>
@@ -435,6 +449,37 @@
             </div>
         </div>
     </div>
+
+    <!-- GIA SƯ CÙNG CHUYÊN MÔN GỢI Ý -->
+    @if(isset($gia_su_tuong_tu) && $gia_su_tuong_tu->count() > 0)
+    <div style="margin-top: 3.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0;">👨‍🏫 Gia Sư Cùng Chuyên Môn Khác</h2>
+            <a href="{{ route('danh-sach-gia-su') }}" class="btn btn-outline btn-sm">Xem tất cả gia sư <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: stretch;">
+            @foreach($gia_su_tuong_tu as $gs)
+            <div class="glass-card" style="border-radius: 18px; padding: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+                <div style="display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1rem;">
+                    <img src="{{ $gs->avatar_url }}" alt="{{ $gs->taiKhoan->ho_ten }}" style="width: 58px; height: 58px; border-radius: 50%; object-fit: cover; border: 2.5px solid #2563eb; flex-shrink: 0;">
+                    <div style="overflow: hidden;">
+                        <h3 style="font-size: 1.02rem; font-weight: 800; color: #0f172a; margin: 0 0 0.25rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $gs->taiKhoan->ho_ten }}</h3>
+                        <span class="badge badge-info" style="font-size: 0.72rem;">📚 {{ $gs->mon_day ?: 'Đa môn' }}</span>
+                    </div>
+                </div>
+                <div style="font-size: 0.84rem; color: #475569; line-height: 1.6; margin-bottom: 1rem; flex: 1;">
+                    🎓 {{ Str::limit($gs->truong_hoc, 42) }}<br>
+                    📍 {{ Str::limit($gs->khu_vuc_nhan_day, 48) }}<br>
+                    💰 <strong style="color: #2563eb;">{{ number_format($gs->hoc_phi_theo_gio ?: 150000) }} đ/buổi</strong>
+                </div>
+                <a href="{{ route('chi-tiet-gia-su', $gs->id) }}" class="btn btn-outline btn-sm btn-block" style="margin-top: auto; border-radius: 10px; font-weight: 700;">
+                    Xem Hồ Sơ Gia Sư
+                </a>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
 </div>
 
 <script>

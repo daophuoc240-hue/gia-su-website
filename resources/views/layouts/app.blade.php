@@ -23,7 +23,7 @@
 <div class="dashboard-wrapper">
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
-        <div class="sidebar-brand">
+        <a href="{{ route('home') }}" class="sidebar-brand" style="text-decoration:none; display:block;" title="Về Trang Chủ Gia Sư Tri Thức">
             <div class="brand-logo">🎓</div>
             <div class="brand-name">Gia Sư Tri Thức</div>
             <div class="brand-role">
@@ -34,7 +34,7 @@
                     @endif
                 @endauth
             </div>
-        </div>
+        </a>
 
         <nav class="sidebar-nav">
             @yield('sidebar-nav')
@@ -74,9 +74,13 @@
                     <div style="font-size:0.78rem; color:#64748b;">Hệ thống Kết nối & Quản lý Gia sư Chuyên nghiệp</div>
                 </div>
             </div>
-            <div class="topbar-actions" style="display:flex; align-items:center; gap:0.9rem;">
+            <div class="topbar-actions" style="display:flex; align-items:center; gap:0.75rem;">
+                <a href="{{ route('home') }}" title="Quay về Trang Chủ Website"
+                   style="display:inline-flex; align-items:center; gap:0.45rem; padding:0.45rem 0.9rem; border-radius:12px; background:#eff6ff; color:#1d4ed8; font-weight:700; font-size:0.82rem; text-decoration:none; border:1px solid #bfdbfe; transition:all 0.2s;">
+                    <i class="fas fa-globe"></i> Trang Chủ
+                </a>
                 @auth
-                                {{-- Nút Chat Trực Tuyến --}}
+                {{-- Nút Chat Trực Tuyến --}}
                 @php
                     $unreadChatCount = auth()->user()->tinNhanChuaDocCount();
                 @endphp

@@ -121,11 +121,12 @@
         <div style="padding: 1.1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 0.9rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s;" onmouseover="this.style.borderColor='#2563eb'" onmouseout="this.style.borderColor='#e2e8f0'">
             <div>
                 <div style="font-weight: 800; font-size: 1.02rem; color: #0f172a; margin-bottom: 0.3rem;">
+                    <span style="font-size: 0.78rem; color: #1e40af; background: #dbeafe; padding: 0.15rem 0.5rem; border-radius: 6px; margin-right: 0.35rem;">{{ $lop->ma_lop }}</span>
                     📚 {{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}
                 </div>
                 <div style="font-size: 0.85rem; color: #475569; display: flex; gap: 1.2rem; flex-wrap: wrap;">
                     <span>📍 <strong>Địa chỉ:</strong> {{ $lop->dia_chi_day }}</span>
-                    <span>💰 <strong>Học phí:</strong> {{ number_format($lop->muc_hoc_phi) }} đ/buổi</span>
+                    <span>💰 <strong>Học phí:</strong> {{ $lop->hoc_phi_hien_thi }}</span>
                     <span>⏱️ <strong>Số buổi:</strong> {{ $lop->so_buoi_tuan }} buổi/tuần</span>
                 </div>
             </div>

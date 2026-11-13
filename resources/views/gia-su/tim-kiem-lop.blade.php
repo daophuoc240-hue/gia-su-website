@@ -71,8 +71,11 @@
     <div class="glass-card" style="padding: 0; overflow: hidden; border-radius: 18px; transition: transform 0.2s; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
         <div style="position: relative; height: 130px; background: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80') center/cover;">
             <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);"></div>
+            <div style="position: absolute; top: 0.8rem; left: 0.8rem; background: rgba(30, 58, 138, 0.9); color: #fff; font-weight: 800; padding: 0.22rem 0.65rem; border-radius: 8px; font-size: 0.74rem;">
+                {{ $lop->ma_lop }}
+            </div>
             <div style="position: absolute; top: 0.8rem; right: 0.8rem; background: #10b981; color: #fff; font-weight: 800; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.78rem;">
-                {{ number_format($lop->muc_hoc_phi) }} đ/buổi
+                {{ $lop->hoc_phi_hien_thi }}
             </div>
             <div style="position: absolute; bottom: 0.8rem; left: 1rem; color: #ffffff;">
                 <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.1rem;">📚 {{ $lop->mon_hoc }}</h3>
