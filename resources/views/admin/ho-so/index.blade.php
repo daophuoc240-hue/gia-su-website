@@ -41,6 +41,9 @@
                     </td>
                     <td>{{ $hs->khu_vuc_nhan_day }}</td>
                     <td>
+                        @if($hs->vuot_khung_gia)
+                            <div style="margin-bottom:0.3rem;"><span class="badge badge-danger" title="Học phí {{ number_format($hs->hoc_phi_theo_gio) }}đ vượt khung của trung tâm">🚨 Vượt khung giá ×{{ $hs->so_lan_vuot_gia }}</span></div>
+                        @endif
                         @if($hs->trang_thai_duyet === 'cho_duyet')
                             <span class="badge badge-warning">⏳ Chờ duyệt</span>
                         @elseif($hs->trang_thai_duyet === 'da_duyet')

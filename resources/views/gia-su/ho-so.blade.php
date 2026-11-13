@@ -301,9 +301,50 @@
                         <span class="prefix" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #64748b; font-weight: 600; font-size: 0.9rem; pointer-events: none;">₫</span>
                         <input type="number" name="hoc_phi_theo_gio" class="form-control"
                                value="{{ old('hoc_phi_theo_gio', $ho_so->hoc_phi_theo_gio ?? '') }}"
-                               placeholder="Ví dụ: 150000" min="0" step="10000" style="padding-left: 36px;">
+                               id="inputHocPhi" placeholder="Ví dụ: 150000" min="0" step="10000" style="padding-left: 36px;">
                     </div>
                 </div>
+            </div>
+
+            {{-- Khung giá trung tâm & kiểm tra học phí --}}
+            @php
+                $selTrinhDo = old('trinh_do', $ho_so->trinh_do ?? 'sinh_vien');
+                $selCapDay  = old('cap_day', $ho_so->cap_day ?? 'thpt');
+            @endphp
+            <div id="feeGuardCard" style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:16px; padding:1.2rem 1.3rem; margin-bottom:1.6rem; transition: all .2s;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:.6rem; flex-wrap:wrap; margin-bottom:.9rem;">
+                    <div style="font-weight:800; color:#0f172a; font-size:.95rem;">🛡️ Khung Học Phí Trung Tâm Quy Định</div>
+                    <a href="{{ route('home') }}#bang-gia-hoc-phi" target="_blank" style="font-size:.78rem; color:#2563eb; font-weight:700; text-decoration:none;">Xem bảng giá niêm yết →</a>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:.9rem;">
+                    <div>
+                        <label class="form-label" style="font-size:.82rem;">👤 Bạn là</label>
+                        <select name="trinh_do" id="selTrinhDo" class="form-select">
+                            @foreach(\App\Helpers\BangGiaHocPhi::TRINH_DO as $k => $v)
+                                <option value="{{ $k }}" {{ $selTrinhDo === $k ? 'selected' : '' }}>{{ $v }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" style="font-size:.82rem;">🏫 Cấp học dạy chính</label>
+                        <select name="cap_day" id="selCapDay" class="form-select">
+                            @foreach(\App\Helpers\BangGiaHocPhi::CAP_DAY as $k => $v)
+                                <option value="{{ $k }}" {{ $selCapDay === $k ? 'selected' : '' }}>{{ $v }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div id="feeStatus" style="border-radius:12px; padding:.8rem 1rem; font-size:.86rem; line-height:1.55; background:#eff6ff; color:#1e3a8a; border:1px solid #bfdbfe;"></div>
+
+                @error('hoc_phi_theo_gio')
+                    <div style="margin-top:.8rem; padding:.8rem 1rem; background:#fef2f2; border:1.5px solid #ef4444; border-radius:12px; color:#991b1b; font-size:.85rem; font-weight:600; line-height:1.55;">🚫 {{ $message }}</div>
+                @enderror
+
+                <label id="feeConfirmWrap" style="display:none; margin-top:.8rem; padding:.8rem 1rem; background:#fef2f2; border:1.5px solid #fca5a5; border-radius:12px; cursor:pointer; font-size:.84rem; color:#991b1b; line-height:1.55;">
+                    <input type="checkbox" name="xac_nhan_vuot_gia" id="chkVuotGia" value="1" {{ old('xac_nhan_vuot_gia') ? 'checked' : '' }} style="margin-right:.5rem; vertical-align:middle;">
+                    <strong>Tôi hiểu mức giá này vượt khung của trung tâm</strong> và chịu trách nhiệm: hồ sơ sẽ bị tạm ẩn, chuyển cho quản trị viên xem xét lại và ghi nhận vi phạm.
+                </label>
             </div>
 
             {{-- Khu Vực Nhận Dạy --}}
@@ -502,6 +543,78 @@
 </div>
 
 @push('scripts')
+<script>
+(function () {
+    const CFG = @json(\App\Helpers\BangGiaHocPhi::toJs());
+    const fee   = document.getElementById('inputHocPhi');
+    const selTd = document.getElementById('selTrinhDo');
+    const selCd = document.getElementById('selCapDay');
+    const box   = document.getElementById('feeStatus');
+    const card  = document.getElementById('feeGuardCard');
+    const wrap  = document.getElementById('feeConfirmWrap');
+    const chk   = document.getElementById('chkVuotGia');
+    const form  = document.getElementById('ho-so-form');
+    if (!fee || !selTd || !selCd || !box) return;
+
+    const fmt = n => Number(n).toLocaleString('vi-VN');
+    const styles = {
+        trong:     ['#eff6ff', '#1e3a8a', '#bfdbfe', '#cbd5e1'],
+        dung:      ['#ecfdf5', '#065f46', '#a7f3d0', '#6ee7b7'],
+        duoi:      ['#fffbeb', '#92400e', '#fde68a', '#fcd34d'],
+        vuot_nhe:  ['#fff7ed', '#9a3412', '#fdba74', '#fb923c'],
+        vuot_nang: ['#fef2f2', '#991b1b', '#fca5a5', '#ef4444']
+    };
+
+    function evaluate() {
+        const td = selTd.value, cd = selCd.value;
+        const [min, max] = CFG.bang[cd][td];
+        const phi = parseFloat(fee.value) || 0;
+        const label = CFG.trinh_do[td] + ' dạy ' + CFG.cap[cd];
+        const khung = fmt(min) + ' – ' + fmt(max) + ' đ/buổi';
+        let st = 'dung', html = '';
+
+        if (phi <= 0) {
+            st = 'trong';
+            html = '📌 Khung giá cho <strong>' + label + '</strong>: <strong>' + khung + '</strong>.';
+        } else if (phi < min) {
+            st = 'duoi';
+            html = '💡 Mức giá thấp hơn khung tham khảo (<strong>' + khung + '</strong>). Bạn vẫn có thể lưu.';
+        } else if (phi <= max) {
+            html = '✅ Hợp lệ – nằm trong khung trung tâm quy định (<strong>' + khung + '</strong>).';
+        } else {
+            const pct = ((phi - max) / max * 100).toFixed(1);
+            st = phi <= max * (1 + CFG.nguong) ? 'vuot_nhe' : 'vuot_nang';
+            html = '⚠️ <strong>CẢNH CÁO:</strong> ' + fmt(phi) + ' đ/buổi <strong>VƯỢT</strong> khung tối đa ' + fmt(max) + ' đ/buổi thêm <strong>' + fmt(phi - max) + ' đ (' + pct + '%)</strong>.'
+                 + (st === 'vuot_nang' ? ' <strong>Mức vi phạm nghiêm trọng (&gt;10%).</strong>' : '')
+                 + '<br>Khung cho <strong>' + label + '</strong>: ' + khung + '.';
+        }
+
+        const c = styles[st];
+        box.style.background = c[0]; box.style.color = c[1]; box.style.borderColor = c[2];
+        box.innerHTML = html;
+        card.style.borderColor = c[3];
+        const over = st === 'vuot_nhe' || st === 'vuot_nang';
+        wrap.style.display = over ? 'block' : 'none';
+        if (!over && chk) chk.checked = false;
+        return over;
+    }
+
+    ['input', 'change'].forEach(ev => {
+        fee.addEventListener(ev, evaluate);
+        selTd.addEventListener(ev, evaluate);
+        selCd.addEventListener(ev, evaluate);
+    });
+    evaluate();
+
+    form && form.addEventListener('submit', function (e) {
+        if (evaluate() && chk && !chk.checked) {
+            e.preventDefault();
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            alert('⚠️ Học phí bạn đặt đang VƯỢT khung giá của trung tâm.\nVui lòng điều chỉnh giá về trong khung, hoặc tích xác nhận chịu trách nhiệm để tiếp tục.');
+        }
+    });
+})();
+</script>
 <script>
 function previewAvatar(input) {
     if (input.files && input.files[0]) {

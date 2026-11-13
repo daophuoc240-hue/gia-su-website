@@ -26,10 +26,15 @@ class HoSoGiaSu extends Model
         'so_luot_danh_gia',
         'so_lop_da_day',
         'lich_day',
+        'trinh_do',
+        'cap_day',
+        'vuot_khung_gia',
+        'so_lan_vuot_gia',
     ];
 
     protected $casts = [
         'hoc_phi_theo_gio' => 'decimal:0',
+        'vuot_khung_gia'   => 'boolean',
     ];
 
     public function taiKhoan()

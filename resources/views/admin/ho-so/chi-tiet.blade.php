@@ -23,6 +23,17 @@
         <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.82rem;">Trường Học</span><br><strong>{{ $ho_so->truong_hoc }}</strong></div>
         <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.82rem;">Chuyên Ngành</span><br>{{ $ho_so->chuyen_nganh }}</div>
         <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.82rem;">Khu Vực Nhận Dạy</span><br>{{ $ho_so->khu_vuc_nhan_day }}</div>
+        @php
+            $adminKq = \App\Helpers\BangGiaHocPhi::danhGia($ho_so->hoc_phi_theo_gio, $ho_so->trinh_do, $ho_so->cap_day);
+        @endphp
+        <div style="margin-bottom:0.8rem; padding:0.8rem 1rem; border-radius:10px; border:1px solid {{ $adminKq['vi_pham'] ? '#fca5a5' : '#e2e8f0' }}; background:{{ $adminKq['vi_pham'] ? '#fef2f2' : '#f8fafc' }};">
+            <span style="color:var(--text-muted); font-size:0.82rem;">Học Phí / Buổi</span><br>
+            <strong style="font-size:1.05rem; color:{{ $adminKq['vi_pham'] ? '#b91c1c' : '#2563eb' }};">{{ $ho_so->hoc_phi_theo_gio ? number_format($ho_so->hoc_phi_theo_gio) . ' đ' : 'Chưa đặt giá' }}</strong>
+            <div style="font-size:0.8rem; color:#475569; margin-top:0.2rem;">{{ \App\Helpers\BangGiaHocPhi::TRINH_DO[$ho_so->trinh_do] ?? 'Sinh viên' }} · {{ \App\Helpers\BangGiaHocPhi::CAP_DAY[$ho_so->cap_day] ?? '' }}<br>Khung trung tâm: <strong>{{ $adminKq['khung_text'] }}</strong></div>
+            @if($adminKq['vi_pham'])
+                <div style="margin-top:0.4rem; font-size:0.82rem; color:#991b1b; font-weight:600;">🚨 Vượt khung tối đa {{ number_format($adminKq['vuot_tien']) }} đ (+{{ $adminKq['vuot_pct'] }}%) – đã vi phạm {{ $ho_so->so_lan_vuot_gia }} lần. Hãy từ chối hoặc yêu cầu điều chỉnh giá.</div>
+            @endif
+        </div>
         <div><span style="color:var(--text-muted); font-size:0.82rem;">Kinh Nghiệm</span><br><p style="margin-top:0.3rem; font-size:0.9rem;">{{ $ho_so->kinh_nghiem }}</p></div>
     </div>
     <div>

@@ -99,6 +99,8 @@ class DatabaseSeeder extends Seeder
                 'kinh_nghiem'       => $gs['kinh_nghiem'],
                 'khu_vuc_nhan_day'  => $gs['khu_vuc'],
                 'hoc_phi_theo_gio'  => $gs['phi'],
+                'trinh_do'          => 'sinh_vien',
+                'cap_day'           => ($gs['mon'] === 'Tiểu Học') ? 'tieu_hoc' : 'thpt',
                 'trang_thai_duyet'  => ($i < 15 || str_contains($gs['email'], 'giasu_na')) ? 'da_duyet' : 'cho_duyet',
                 'so_lop_da_day'     => rand(2, 20),
                 'lich_day'          => $sampleLichDay[$i % count($sampleLichDay)],

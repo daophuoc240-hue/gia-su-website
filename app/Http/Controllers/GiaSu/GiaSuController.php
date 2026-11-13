@@ -7,6 +7,8 @@ use App\Models\HoSoGiaSu;
 use App\Models\LopHoc;
 use App\Models\DangKyNhanLop;
 use App\Helpers\DiaDiem;
+use App\Helpers\BangGiaHocPhi;
+use App\Models\TaiKhoan;
 use App\Models\ThongBao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -155,6 +157,9 @@ class GiaSuController extends Controller
             'kinh_nghiem'      => 'required|string',
             'khu_vuc_nhan_day' => 'required|string|max:255',
             'hoc_phi_theo_gio' => 'nullable|numeric|min:0',
+            'trinh_do'         => 'nullable|in:sinh_vien,giao_vien',
+            'cap_day'          => 'nullable|in:tieu_hoc,thcs,thpt',
+            'xac_nhan_vuot_gia' => 'nullable|boolean',
             'bang_cap'         => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'the_sinh_vien'    => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'avatar'           => 'nullable|file|mimes:jpg,jpeg,png,gif,webp|max:5120',
@@ -171,9 +176,32 @@ class GiaSuController extends Controller
         $hoSoCu = HoSoGiaSu::where('tai_khoan_id', $user->id)->first();
 
         $data = $request->only(['truong_hoc', 'chuyen_nganh', 'mon_day', 'kinh_nghiem', 'khu_vuc_nhan_day', 'hoc_phi_theo_gio']);
-        
-        // Nếu đã được duyệt trước đó, duy trì trạng thái để không bị ẩn hồ sơ khi gia sư xếp lịch
-        if ($hoSoCu && $hoSoCu->trang_thai_duyet === 'da_duyet') {
+
+        // ===== THUẬT TOÁN KIỂM TRA GIÁ THEO BẢNG GIÁ CỦA TRUNG TÂM =====
+        [$trinhDo, $capDay] = BangGiaHocPhi::chuanHoa($request->input('trinh_do'), $request->input('cap_day'));
+        $data['trinh_do'] = $trinhDo;
+        $data['cap_day']  = $capDay;
+
+        $ketQuaGia = BangGiaHocPhi::danhGia($request->input('hoc_phi_theo_gio'), $trinhDo, $capDay);
+        $viPhamGia = $ketQuaGia['vi_pham'];
+
+        if ($viPhamGia && !$request->boolean('xac_nhan_vuot_gia')) {
+            // Cảnh cáo & chặn lưu cho đến khi gia sư xác nhận rõ ràng việc vượt khung giá
+            return back()->withInput()->withErrors([
+                'hoc_phi_theo_gio' => $ketQuaGia['message'] . ' Vui lòng điều chỉnh về trong khung (' . $ketQuaGia['khung_text'] . ') hoặc tích xác nhận chịu trách nhiệm nếu vẫn muốn giữ mức giá này (hồ sơ sẽ bị tạm ẩn và chuyển cho trung tâm xem xét).',
+            ])->with('vuot_gia_canh_bao', $ketQuaGia);
+        }
+
+        $data['vuot_khung_gia'] = $viPhamGia;
+        if ($viPhamGia) {
+            $data['so_lan_vuot_gia'] = (int) ($hoSoCu->so_lan_vuot_gia ?? 0) + 1;
+        }
+
+        // Nếu đã được duyệt trước đó, duy trì trạng thái để không bị ẩn hồ sơ khi gia sư xếp lịch.
+        // Riêng trường hợp cố tình đặt giá vượt khung: hồ sơ quay về "chờ duyệt" để trung tâm xét lại.
+        if ($viPhamGia) {
+            $data['trang_thai_duyet'] = 'cho_duyet';
+        } elseif ($hoSoCu && $hoSoCu->trang_thai_duyet === 'da_duyet') {
             $data['trang_thai_duyet'] = 'da_duyet';
         } else {
             $data['trang_thai_duyet'] = 'cho_duyet';
@@ -203,10 +231,33 @@ class GiaSuController extends Controller
             $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
         }
 
-        HoSoGiaSu::updateOrCreate(
+        $hoSoMoi = HoSoGiaSu::updateOrCreate(
             ['tai_khoan_id' => $user->id],
             array_merge($data, ['tai_khoan_id' => $user->id])
         );
+
+        if ($viPhamGia) {
+            // Báo cho quản trị viên & gửi cảnh cáo chính thức tới gia sư
+            foreach (TaiKhoan::where('vai_tro', 'admin')->get() as $admin) {
+                ThongBao::gui(
+                    $admin->id,
+                    "🚨 Gia sư {$user->ho_ten} đặt học phí vượt khung giá",
+                    "Gia sư {$user->ho_ten} đặt " . number_format($ketQuaGia['phi']) . " đ/buổi, vượt khung tối đa " . number_format($ketQuaGia['max']) . " đ/buổi (+{$ketQuaGia['vuot_pct']}%) – lần vi phạm thứ {$hoSoMoi->so_lan_vuot_gia}. Hồ sơ đã chuyển về trạng thái chờ duyệt.",
+                    route('admin.ho-so.chi-tiet', $hoSoMoi->id),
+                    'he_thong'
+                );
+            }
+            ThongBao::gui(
+                $user->id,
+                '⚠️ Cảnh cáo: học phí vượt khung giá của trung tâm',
+                $ketQuaGia['message'] . ' Hồ sơ của bạn tạm thời chuyển sang trạng thái chờ duyệt. Vui lòng điều chỉnh về khung ' . $ketQuaGia['khung_text'] . ' để được hiển thị trở lại.',
+                route('giasu.ho-so'),
+                'he_thong'
+            );
+
+            return redirect()->route('giasu.ho-so')
+                ->with('warning', $ketQuaGia['message'] . ' Hồ sơ đã được chuyển cho trung tâm xem xét lại và tạm ẩn khỏi danh sách công khai.');
+        }
 
         $msg = ($hoSoCu && $hoSoCu->trang_thai_duyet === 'da_duyet')
             ? 'Đã cập nhật hồ sơ và lịch dạy thành công!'
