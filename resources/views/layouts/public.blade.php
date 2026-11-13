@@ -72,22 +72,31 @@
         .pub-menu {
             display: flex;
             align-items: center;
-            gap: 0.35rem;
+            gap: 0.25rem;
             list-style: none;
             margin: 0;
             padding: 0;
+            flex-wrap: nowrap;
+        }
+        .pub-menu li {
+            flex-shrink: 0;
         }
         .pub-menu a {
             text-decoration: none;
             color: #475569;
             font-weight: 600;
-            font-size: 0.92rem;
-            padding: 0.5rem 0.9rem;
+            font-size: 0.9rem;
+            padding: 0.48rem 0.8rem;
             border-radius: 10px;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
+            white-space: nowrap;
+        }
+        .pub-nav .btn {
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .pub-menu a:hover {
             color: #2563eb;
@@ -234,10 +243,12 @@
                 <span style="opacity: 0.3;">|</span>
                 <a href="mailto:support@giasutrithuc.vn"><i class="fas fa-envelope" style="color: #60a5fa; margin-right: 0.3rem;"></i> Email: <strong style="color: #fff;">support@giasutrithuc.vn</strong></a>
             </div>
-            <div class="pub-topbar-right" style="display: flex; align-items: center; gap: 1rem;">
-                <span><i class="fas fa-shield-alt" style="color: #10b981; margin-right: 0.3rem;"></i> 100% Hồ sơ kiểm duyệt</span>
+            <div class="pub-topbar-right" style="display: flex; align-items: center; gap: 0.9rem;">
+                <a href="{{ route('tuyen-gia-su') }}"><i class="fas fa-briefcase" style="color: #60a5fa; margin-right: 0.25rem;"></i> Tuyển Gia Sư</a>
                 <span style="opacity: 0.3;">|</span>
-                <span>⏰ Giờ làm việc: 8:00 - 21:00 (T2 - CN)</span>
+                <a href="{{ route('kinh-nghiem') }}"><i class="fas fa-book-reader" style="color: #10b981; margin-right: 0.25rem;"></i> Góc Kinh Nghiệm</a>
+                <span style="opacity: 0.3;">|</span>
+                <span>⏰ 8:00 - 21:00 (T2 - CN)</span>
             </div>
         </div>
     </div>
@@ -257,12 +268,11 @@
                 <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="fas fa-home"></i> Trang Chủ</a></li>
                 <li><a href="{{ route('danh-sach-gia-su') }}" class="{{ request()->routeIs('danh-sach-gia-su*') || request()->routeIs('chi-tiet-gia-su*') ? 'active' : '' }}"><i class="fas fa-user-graduate"></i> Gia Sư Uy Tín</a></li>
                 <li><a href="{{ route('danh-sach-lop-hoc') }}" class="{{ request()->routeIs('danh-sach-lop-hoc*') || request()->routeIs('chi-tiet-lop-hoc*') ? 'active' : '' }}"><i class="fas fa-chalkboard-teacher"></i> Lớp Học Mới</a></li>
-                <li><a href="{{ route('tuyen-gia-su') }}" class="{{ request()->routeIs('tuyen-gia-su') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> Tuyển Gia Sư</a></li>
-                <li><a href="{{ route('kinh-nghiem') }}" class="{{ request()->routeIs('kinh-nghiem*') || request()->routeIs('bai-viet*') ? 'active' : '' }}"><i class="fas fa-book-reader"></i> Kinh Nghiệm</a></li>
+                <li><a href="{{ route('gioi-thieu') }}" class="{{ request()->routeIs('gioi-thieu') ? 'active' : '' }}"><i class="fas fa-info-circle"></i> Giới Thiệu</a></li>
                 <li><a href="{{ route('lien-he') }}" class="{{ request()->routeIs('lien-he') ? 'active' : '' }}"><i class="fas fa-phone-alt"></i> Liên Hệ</a></li>
             </ul>
 
-            <div style="display: flex; align-items: center; gap: 0.65rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0;">
                 @auth
                     <a href="{{ route('chat.index') }}" class="btn btn-outline btn-sm" title="Tin nhắn" style="position:relative; display:inline-flex; align-items:center; gap:0.4rem;">
                         <i class="fas fa-comments"></i> Chat
