@@ -28,7 +28,7 @@
         <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Số Buổi / Tuần</span><br>{{ $lop->so_buoi_tuan }} buổi</div>
         <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Lịch Học Chi Tiết</span><br><strong style="color:#2563eb;">🗓️ {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần (Thoả thuận)') }}</strong></div>
         <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Địa Chỉ Dạy</span><br>{{ $lop->dia_chi_day }}</div>
-        <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Học Phí</span><br><strong style="color:#fda085; font-size:1.1rem;">{{ number_format($lop->muc_hoc_phi) }}đ/buổi</strong></div>
+        <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Học Phí</span><br><strong style="color:#fda085; font-size:1.1rem;">{{ $lop->hoc_phi_hien_thi }}</strong></div>
         <div style="margin-bottom:0.8rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Trạng Thái</span><br><span class="badge badge-{{ $lop->trang_thai_class }}">{{ $lop->trang_thai_label }}</span></div>
         @if($lop->yeu_cau_them)
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Yêu Cầu Thêm</span><br><em>{{ $lop->yeu_cau_them }}</em></div>

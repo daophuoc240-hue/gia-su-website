@@ -641,7 +641,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem;">
                             <div style="color: #f59e0b; font-size: 0.95rem;">
                                 @for($i = 1; $i <= 5; $i++)
-                                    <i class="fas fa-star" style="color: {{ $i <= ($dg->diem_so ?: 5) ? '#f59e0b' : '#cbd5e1' }};"></i>
+                                    <i class="fas fa-star" style="color: {{ $i <= ($dg->so_sao ?: 5) ? '#f59e0b' : '#cbd5e1' }};"></i>
                                 @endfor
                             </div>
                             <span style="font-size: 0.75rem; font-weight: 700; color: #2563eb; background: #eff6ff; padding: 0.2rem 0.65rem; border-radius: 50px;">
@@ -669,8 +669,8 @@
                             <div style="color: #f59e0b; font-size: 0.92rem;">
                                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
-                            <span style="font-size: 0.74rem; font-weight: 700; color: #15803d; background: #dcfce7; padding: 0.2rem 0.65rem; border-radius: 50px;">
-                                <i class="fas fa-check-circle"></i> Phụ huynh xác thực
+                            <span style="font-size: 0.74rem; font-weight: 700; color: #1d4ed8; background: #eff6ff; padding: 0.2rem 0.65rem; border-radius: 50px;">
+                                <i class="fas fa-comment-dots"></i> Phản hồi tiêu biểu
                             </span>
                         </div>
                         <p style="font-size: 0.9rem; color: #334155; line-height: 1.65; font-style: italic; margin: 0 0 1.2rem 0;">

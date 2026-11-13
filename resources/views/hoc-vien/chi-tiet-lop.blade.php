@@ -29,7 +29,7 @@
         <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Số Buổi / Tuần</span><br>{{ $lop->so_buoi_tuan }} buổi</div>
         <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Lịch Học Chi Tiết</span><br><strong style="color:#2563eb; font-size:0.95rem;">🗓️ {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần (Thoả thuận)') }}</strong></div>
         <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Địa Chỉ Dạy</span><br>{{ $lop->dia_chi_day }}</div>
-        <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Mức Học Phí</span><br><strong style="color:#fda085; font-size:1.1rem;">{{ number_format($lop->muc_hoc_phi) }}đ/buổi</strong></div>
+        <div style="margin-bottom:1rem;"><span style="color:var(--text-muted); font-size:0.8rem;">Mức Học Phí</span><br><strong style="color:#fda085; font-size:1.1rem;">{{ $lop->hoc_phi_hien_thi }}</strong></div>
         @if($lop->yeu_cau_them)
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Yêu Cầu Thêm</span><br><em style="font-size:0.9rem;">{{ $lop->yeu_cau_them }}</em></div>
         @endif

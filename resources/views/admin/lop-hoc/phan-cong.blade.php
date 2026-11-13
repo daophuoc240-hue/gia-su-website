@@ -23,7 +23,7 @@
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Số buổi/tuần</span><br><strong>{{ $lop->so_buoi_tuan }} buổi</strong></div>
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Lịch học</span><br><strong style="color:#2563eb;">🗓️ {{ $lop->thoi_gian_hoc ?: ($lop->so_buoi_tuan . ' buổi/tuần') }}</strong></div>
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Địa chỉ dạy</span><br>{{ $lop->dia_chi_day }}</div>
-        <div><span style="color:var(--text-muted); font-size:0.8rem;">Học phí</span><br><strong style="color:#fda085;">{{ number_format($lop->muc_hoc_phi) }}đ/buổi</strong></div>
+        <div><span style="color:var(--text-muted); font-size:0.8rem;">Học phí</span><br><strong style="color:#fda085;">{{ $lop->hoc_phi_hien_thi }}</strong></div>
         <div><span style="color:var(--text-muted); font-size:0.8rem;">Học viên</span><br>{{ $lop->hocVien->ho_ten }}</div>
     </div>
 </div>

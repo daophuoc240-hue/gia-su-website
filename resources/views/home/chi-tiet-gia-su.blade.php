@@ -139,7 +139,7 @@
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
                             <div style="display:flex; align-items:center; gap:0.6rem;">
                                 <div style="width:34px; height:34px; border-radius:50%; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">
-                                    {{ substr($dg->hocVien->ho_ten ?? 'PH', 0, 1) }}
+                                    {{ mb_strtoupper(mb_substr($dg->hocVien->ho_ten ?? 'PH', 0, 1)) }}
                                 </div>
                                 <div>
                                     <span style="font-weight:700; color:#0f172a; font-size:0.92rem;">{{ $dg->hocVien->ho_ten ?? 'Phụ huynh' }}</span>

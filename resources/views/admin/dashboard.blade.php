@@ -191,7 +191,7 @@
         <div style="padding: 0.9rem 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
             <div>
                 <div style="font-size: 0.95rem; font-weight: 700; color: #0f172a;">{{ $lop->mon_hoc }} - {{ $lop->khoi_lop }}</div>
-                <div style="font-size: 0.82rem; color: #64748b;">Học viên: {{ $lop->hocVien->ho_ten ?? '' }} • {{ number_format($lop->muc_hoc_phi) }} đ/buổi</div>
+                <div style="font-size: 0.82rem; color: #64748b;">Học viên: {{ $lop->hocVien->ho_ten ?? '' }} • {{ $lop->hoc_phi_hien_thi }}</div>
             </div>
             <span class="badge badge-{{ $lop->trang_thai === 'dang_tim' ? 'warning' : 'success' }}">
                 {{ $lop->trang_thai_label }}

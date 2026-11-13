@@ -35,7 +35,7 @@
                     @endif
                 </div>
                 <div style="font-size: 0.85rem; color: #475569; margin-bottom: 0.4rem;">
-                    📍 {{ $dk->lopHoc->dia_chi_day }} • 💰 {{ number_format($dk->lopHoc->muc_hoc_phi) }} đ/buổi
+                    📍 {{ $dk->lopHoc->dia_chi_day }} • 💰 {{ $dk->lopHoc->hoc_phi_hien_thi }}
                 </div>
                 @if($dk->gioi_thieu_ban_than)
                 <div style="font-size: 0.8rem; color: #64748b; background: #f8fafc; padding: 0.4rem 0.8rem; border-radius: 6px;">

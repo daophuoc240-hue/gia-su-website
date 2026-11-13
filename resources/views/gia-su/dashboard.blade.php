@@ -314,7 +314,7 @@
             </div>
             <div style="font-size: 0.85rem; color: #475569; display: flex; gap: 1.2rem; flex-wrap: wrap;">
                 <span>📍 <strong>Địa chỉ:</strong> {{ $dk->lopHoc->dia_chi_day }}</span>
-                <span>💰 <strong>Học phí:</strong> {{ number_format($dk->lopHoc->muc_hoc_phi) }} đ/buổi</span>
+                <span>💰 <strong>Học phí:</strong> {{ $dk->lopHoc->hoc_phi_hien_thi }}</span>
                 <span>📅 <strong>Thời gian:</strong> {{ $dk->created_at->format('d/m/Y H:i') }}</span>
             </div>
         </div>
